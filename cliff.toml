@@ -1,0 +1,43 @@
+# Changelog CNIPAC — ADR-036.
+# Groupe par MODULE FONCTIONNEL et non par type technique : un archiviste des
+# ANC lisant la note de version doit y trouver « Module M4 — Gestion des
+# producteurs », pas « refactor ».
+[changelog]
+header = """
+# Journal des versions — CNIPAC
+
+Carte Numerique Interactive des Producteurs d'Archives au Cameroun.
+Versions conformes au SRS §14.8 : P1 = v0.1.0, P2 = v0.5.0, P3 = v1.0.0.
+
+"""
+body = """
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | upper_first }}
+{% for commit in commits %}
+- {{ commit.message | upper_first }}{% if commit.breaking %} **[RUPTURE DE COMPATIBILITE]**{% endif %}\
+{% endfor %}
+{% endfor %}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = false
+commit_parsers = [
+  { message = "^feat\\(m1\\)|^fix\\(m1\\)", group = "Module M1 — Ingestion KoboToolbox" },
+  { message = "^feat\\(m2\\)|^fix\\(m2\\)", group = "Module M2 — Visualisation cartographique" },
+  { message = "^feat\\(m3\\)|^fix\\(m3\\)", group = "Module M3 — Tableaux de bord" },
+  { message = "^feat\\(m4\\)|^fix\\(m4\\)", group = "Module M4 — Gestion des producteurs" },
+  { message = "^feat\\(m5\\)|^fix\\(m5\\)", group = "Module M5 — Crowdsourcing" },
+  { message = "^feat\\(m6\\)|^fix\\(m6\\)", group = "Module M6 — Administration et securite" },
+  { message = "^feat\\(m7\\)|^fix\\(m7\\)", group = "Module M7 — API et interoperabilite" },
+  { message = "^fix\\(security\\)|^feat\\(security\\)", group = "Securite" },
+  { message = "^feat", group = "Autres evolutions" },
+  { message = "^fix", group = "Corrections" },
+  { message = "^perf", group = "Performance" },
+  { message = "^docs", group = "Documentation" },
+  { message = "^(ci|build|chore)", skip = true },
+  { message = "^test", skip = true },
+]
+protect_breaking_commits = true
+tag_pattern = "v[0-9]*"

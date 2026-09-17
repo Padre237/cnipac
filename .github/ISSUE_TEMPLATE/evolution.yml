@@ -1,0 +1,29 @@
+name: Evolution
+description: Proposer une evolution fonctionnelle ou technique
+labels: [evolution, a-trier]
+body:
+  - type: textarea
+    id: besoin
+    attributes:
+      label: Besoin
+      description: Le besoin metier, pas la solution technique envisagee.
+    validations: { required: true }
+  - type: input
+    id: exigence
+    attributes:
+      label: Exigence de rattachement
+      description: |
+        Identifiant du registre docs/traceability/exigences.json.
+        Une evolution sans exigence de rattachement doit d'abord etre arbitree par le COPIL :
+        le perimetre du pilote est fixe par le SRS V2.0.
+  - type: dropdown
+    id: palier
+    attributes:
+      label: Palier de livraison vise
+      options: [P1 — avril 2026, P2 — aout 2026, P3 — decembre 2026, Phase 2 post-pilote]
+    validations: { required: true }
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact estime
+      placeholder: Modules touches, migration de donnees, effet sur les NFR, effet sur le calendrier.

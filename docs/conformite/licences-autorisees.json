@@ -1,0 +1,51 @@
+{
+  "$commentaire": [
+    "Allowlist de licences — ADR-025. Appliquee au PERIMETRE A uniquement :",
+    "les dependances de production liees au code livre (dependencies du backend",
+    "et du frontend). Les outils de developpement (perimetre B) et les services",
+    "d'infrastructure executes comme processus separes (perimetre C) ne sont pas",
+    "soumis a cette liste — ils sont inventories au SBOM sans blocage.",
+    "Fondement : NFR-C9-03 (stack open source) et NFR-C9-04 (propriete du code",
+    "par l'Etat du Cameroun, a proteger de toute contamination copyleft fort)."
+  ],
+  "perimetre_applique": "A — dependances de production",
+  "autorisees": [
+    "MIT", "MIT-0", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC",
+    "0BSD", "Unlicense", "CC0-1.0", "PostgreSQL", "Python-2.0",
+    "BlueOak-1.0.0", "MPL-2.0", "WTFPL", "Zlib", "CC-BY-4.0"
+  ],
+  "note_mpl": "MPL-2.0 est un copyleft par fichier : il n'entraine aucune obligation sur le projet tant que les fichiers concernes ne sont pas modifies. Autorisee sous cette reserve.",
+  "interdites": [
+    "GPL-2.0", "GPL-3.0", "AGPL-1.0", "AGPL-3.0",
+    "LGPL-2.1", "LGPL-3.0", "SSPL-1.0", "BUSL-1.1",
+    "Elastic-2.0", "CC-BY-NC-4.0", "CC-BY-SA-4.0",
+    "UNLICENSED", "UNKNOWN"
+  ],
+  "exceptions_documentees": [
+    {
+      "composant": "PostGIS",
+      "licence": "GPL-2.0",
+      "perimetre": "C",
+      "justification": "Extension PostgreSQL executee comme processus separe, appelee par le protocole reseau PostgreSQL. Aucune liaison au sens du droit d'auteur. Image officielle non modifiee."
+    },
+    {
+      "composant": "k6",
+      "licence": "AGPL-3.0",
+      "perimetre": "B",
+      "justification": "Outil de test de charge, jamais distribue avec le systeme et jamais lie au code livre."
+    },
+    {
+      "composant": "Grafana, Loki",
+      "licence": "AGPL-3.0",
+      "perimetre": "C",
+      "justification": "Services de supervision executes comme processus separes, images officielles non modifiees, sans integration au code applicatif."
+    },
+    {
+      "composant": "Renovate",
+      "licence": "AGPL-3.0",
+      "perimetre": "B",
+      "justification": "Application GitHub executee hors du systeme livre."
+    }
+  ],
+  "condition_imperative": "Le projet s'interdit de forker le code source des composants du perimetre C. Toute adaptation passe exclusivement par la configuration. Un fork declencherait les obligations de la licence du composant."
+}

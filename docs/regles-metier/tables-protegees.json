@@ -1,0 +1,53 @@
+{
+  "$commentaire": [
+    "Tables dont l'integrite est exigee par la loi ou par une regle de gestion.",
+    "Lu par scripts/gate-migrations.mjs (ADR-027). Le champ operations_interdites",
+    "contient des expressions regulieres ou {table} est substitue par le nom.",
+    "Toute modification de ce fichier requiert l'approbation d'un architecte",
+    "ET du referent metier ANC (cf. .github/CODEOWNERS)."
+  ],
+  "tables": [
+    {
+      "nom": "evenement_audit",
+      "fondement": "Article 32 de la Loi 2024/001 (immuabilite du journal d'audit), NFR-C3-05 (retention 5 ans sans purge anticipee), ADR-009 du SDD (append-only avec hash-chaining)",
+      "criticite": "maximale",
+      "operations_interdites": [
+        "DROP\\s+TABLE\\s+[\"']?{table}",
+        "ALTER\\s+TABLE\\s+[\"']?{table}[\"']?\\s+DROP\\s+COLUMN",
+        "ALTER\\s+TABLE\\s+[\"']?{table}[\"']?\\s+RENAME",
+        "ALTER\\s+TABLE\\s+[\"']?{table}[\"']?\\s+ALTER\\s+COLUMN\\s+\\S+\\s+TYPE",
+        "TRUNCATE\\s+(TABLE\\s+)?[\"']?{table}",
+        "DELETE\\s+FROM\\s+[\"']?{table}",
+        "UPDATE\\s+[\"']?{table}"
+      ],
+      "operations_autorisees": [
+        "ADD COLUMN nullable",
+        "CREATE INDEX CONCURRENTLY",
+        "ajout de contrainte NOT VALID puis VALIDATE"
+      ],
+      "note": "La colonne de hachage chaine chaque evenement au precedent. Toute modification d'une ligne existante rompt la chaine de maniere detectable et irreversible : la table n'est pas reconstructible par conception."
+    },
+    {
+      "nom": "soumission_kobo",
+      "fondement": "RG-M1-04 — la reference a la soumission KoboToolbox d'origine est conservee a vie et ne peut etre effacee, meme en cas de modification de la fiche (chaine de preuve depuis la collecte terrain)",
+      "criticite": "elevee",
+      "operations_interdites": [
+        "DROP\\s+TABLE\\s+[\"']?{table}",
+        "TRUNCATE\\s+(TABLE\\s+)?[\"']?{table}",
+        "DELETE\\s+FROM\\s+[\"']?{table}"
+      ],
+      "operations_autorisees": ["ADD COLUMN", "CREATE INDEX", "ALTER COLUMN pour elargir un type"]
+    },
+    {
+      "nom": "version_fiche",
+      "fondement": "ADR-006 du SDD (versionnage par table + JSONB), UC-M4-07 (consulter l'historique), UC-M4-08 (restaurer une version anterieure)",
+      "criticite": "elevee",
+      "operations_interdites": [
+        "DROP\\s+TABLE\\s+[\"']?{table}",
+        "TRUNCATE\\s+(TABLE\\s+)?[\"']?{table}",
+        "DELETE\\s+FROM\\s+[\"']?{table}"
+      ],
+      "operations_autorisees": ["ADD COLUMN", "CREATE INDEX"]
+    }
+  ]
+}

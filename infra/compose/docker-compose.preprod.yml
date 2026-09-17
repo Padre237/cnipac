@@ -1,0 +1,30 @@
+# Override PREPROD — SDD §8.1 : jeu de donnees realiste ANONYMISE.
+# Parite avec la production : meme topologie, memes versions, secrets distincts.
+services:
+  nginx:
+    ports: ['80:80', '443:443']
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/conf.d:/etc/nginx/conf.d:ro
+      - ../nginx/blue-green:/etc/nginx/blue-green:ro
+      - /srv/cnipac/certs:/etc/nginx/certs:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+
+  backend:
+    environment:
+      NODE_ENV: production
+      DATABASE_URL_FILE: /run/secrets/db_url
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+      KOBO_TOKEN_FILE: /run/secrets/kobo_token
+    secrets: [db_url, jwt_secret, kobo_token]
+
+  postgres:
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+
+secrets:
+  db_url:         { file: ./secrets/db_url.txt }
+  db_password:    { file: ./secrets/db_password.txt }
+  jwt_secret:     { file: ./secrets/jwt_secret.txt }
+  kobo_token:     { file: ./secrets/kobo_token.txt }

@@ -1,0 +1,210 @@
+# =============================================================================
+# SLO CNIPAC — ADR-038
+# Chaque regle porte le nom de l'exigence du SRS qu'elle verifie. Quand une
+# alerte se declenche, son nom renvoie directement a l'exigence contractuelle :
+# l'exploitant n'a pas a se demander si l'incident est grave.
+# =============================================================================
+groups:
+  # ---------------------------------------------------------------------------
+  - name: cnipac-nfr-c1-performance
+    interval: 30s
+    rules:
+      - record: cnipac:slo_api_p95
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route!~"/health.*",authentifie="true"}[7d])))
+
+      - alert: CnipacApiTropLente
+        expr: cnipac:slo_api_p95 > 0.8
+        for: 15m
+        labels: { severite: majeure, exigence: NFR-C1-02, equipe: cnipac }
+        annotations:
+          resume: "API au-dela du SLO : P95 = {{ $value | humanizeDuration }}"
+          description: >-
+            NFR-C1-02 exige un P95 inferieur ou egal a 800 ms sur les requetes API
+            authentifiees, mesure sur 7 jours glissants. Consulter pg_stat_statements
+            et les traces Loki correspondantes.
+          runbook: docs/runbooks/RB-06-astreinte-et-alertes.md#api-lente
+
+      - record: cnipac:slo_carte_p95
+        expr: histogram_quantile(0.95, sum by (le) (rate(cnipac_carte_chargement_seconds_bucket[1h])))
+
+      - alert: CnipacCarteTropLente
+        expr: cnipac:slo_carte_p95 > 5
+        for: 15m
+        labels: { severite: majeure, exigence: NFR-C1-01 }
+        annotations:
+          resume: "Chargement initial de la carte a {{ $value }} s (cible <= 5 s en 3G)"
+          description: >-
+            NFR-C1-01. La cible vise une connexion 3G de reference a 1 Mbit/s :
+            un depassement penalise d'abord les utilisateurs des regions mal couvertes.
+
+      - alert: CnipacBundleTropLourd
+        expr: cnipac_bundle_octets_gzip > 2097152
+        for: 5m
+        labels: { severite: majeure, exigence: NFR-C1-07 }
+        annotations:
+          resume: "Bundle a {{ $value | humanize1024 }}o gzip, plafond NFR-C1-07 a 2 Mo"
+
+  # ---------------------------------------------------------------------------
+  - name: cnipac-nfr-c2-disponibilite
+    interval: 1m
+    rules:
+      # NFR-C2-01 : heures ouvrees lundi-vendredi 07h-19h Africa/Douala (UTC+1),
+      # soit 06h-18h UTC. Le jour de la semaine est calcule en UTC.
+      - record: cnipac:heures_ouvrees
+        expr: (hour() >= 6 and hour() < 18) and (day_of_week() >= 1 and day_of_week() <= 5)
+
+      - record: cnipac:slo_dispo_ouvree
+        expr: avg_over_time((up{job="cnipac-backend"} and on() cnipac:heures_ouvrees)[30d:1m])
+
+      - alert: CnipacDisponibiliteOuvreeInsuffisante
+        expr: cnipac:slo_dispo_ouvree < 0.995
+        for: 1h
+        labels: { severite: critique, exigence: NFR-C2-01 }
+        annotations:
+          resume: "Disponibilite en heures ouvrees a {{ $value | humanizePercentage }} (cible 99,5 %)"
+
+      - record: cnipac:slo_dispo_globale
+        expr: avg_over_time(up{job="cnipac-backend"}[30d])
+
+      - alert: CnipacDisponibiliteGlobaleInsuffisante
+        expr: cnipac:slo_dispo_globale < 0.99
+        for: 1h
+        labels: { severite: critique, exigence: NFR-C2-02 }
+        annotations:
+          resume: "Disponibilite mensuelle a {{ $value | humanizePercentage }} (cible 99,0 %)"
+
+      # Budget d'erreur : 99,0 % mensuel autorise environ 7 h 18 min d'arret.
+      # Au-dela de 75 % consomme, les deploiements non critiques sont suspendus.
+      - record: cnipac:budget_erreur_consomme
+        expr: (1 - cnipac:slo_dispo_globale) / (1 - 0.99)
+
+      - alert: CnipacBudgetErreurPresqueEpuise
+        expr: cnipac:budget_erreur_consomme > 0.75
+        for: 10m
+        labels: { severite: avertissement, exigence: NFR-C2-02 }
+        annotations:
+          resume: "{{ $value | humanizePercentage }} du budget d'erreur mensuel consomme"
+          description: >-
+            Regle d'exploitation ADR-038 : au-dela de 75 %, les deploiements non
+            critiques sont suspendus jusqu'au mois suivant.
+
+  # ---------------------------------------------------------------------------
+  - name: cnipac-sauvegardes
+    interval: 1m
+    rules:
+      # SDD §27.4 — sauvegarde quotidienne pg_dump, chiffrement age, rsync.
+      - record: cnipac:age_derniere_sauvegarde_secondes
+        expr: time() - cnipac_derniere_sauvegarde_horodatage
+
+      - alert: CnipacSauvegardeObsolete
+        expr: cnipac:age_derniere_sauvegarde_secondes > 93600
+        for: 30m
+        labels: { severite: critique, exigence: NFR-C2-05 }
+        annotations:
+          resume: "Derniere sauvegarde reussie il y a plus de 26 heures"
+
+      - alert: CnipacExerciceRestaurationEnEchec
+        expr: cnipac_exercice_restauration_succes == 0
+        for: 1h
+        labels: { severite: critique, exigence: NFR-C2-05 }
+        annotations:
+          resume: "L'exercice hebdomadaire de restauration a echoue"
+          description: >-
+            La capacite de reprise n'est pas garantie. Une sauvegarde qui ne se
+            restaure pas n'est pas une sauvegarde (AC-P3-08).
+
+  # ---------------------------------------------------------------------------
+  - name: cnipac-securite-et-conformite
+    interval: 1m
+    rules:
+      # L'alerte la plus grave du systeme : elle signifie soit une corruption,
+      # soit une alteration du journal d'audit (art. 32 Loi 2024/001).
+      - alert: CnipacChaineAuditRompue
+        expr: cnipac_audit_chaine_intacte == 0
+        for: 0m
+        labels: { severite: maximale, exigence: NFR-C3-05, article_loi: "Art. 32" }
+        annotations:
+          resume: "RUPTURE DE LA CHAINE DE HACHAGE DU JOURNAL D'AUDIT"
+          description: >-
+            L'article 32 de la Loi 2024/001 impose l'immuabilite du journal d'audit.
+            Une rupture signifie soit une corruption de donnees, soit une alteration
+            deliberee. Declencher immediatement la procedure de reponse a incident
+            (SDD §23.12). Ne rien ecrire en base avant investigation.
+          runbook: docs/runbooks/RB-09-rupture-chaine-audit.md
+
+      - alert: CnipacForceBrute
+        expr: sum by (compte) (rate(cnipac_authentification_echecs_total[10m])) * 600 > 5
+        for: 1m
+        labels: { severite: majeure, exigence: NFR-C3-08 }
+        annotations:
+          resume: "Plus de 5 echecs d'authentification en 10 min sur le compte {{ $labels.compte }}"
+
+      - alert: CnipacRedisRevocationIndisponible
+        expr: cnipac_redis_base_revocation_disponible == 0
+        for: 2m
+        labels: { severite: critique, exigence: FR-M6-02 }
+        annotations:
+          resume: "La base Redis de revocation des jetons est indisponible"
+          description: >-
+            ADR-022 : sans cette base, les jetons revoques redeviennent valides.
+            Le repli sur PostgreSQL doit prendre le relais ; verifier qu'il est actif.
+
+      # NFR-C4-04 : toute extraction de plus de 100 fiches est tracee et notifiee.
+      - alert: CnipacExportVolumineux
+        expr: increase(cnipac_export_fiches_total{volume="superieur_100"}[5m]) > 0
+        for: 0m
+        labels: { severite: information, exigence: NFR-C4-04 }
+        annotations:
+          resume: "Extraction de plus de 100 fiches par {{ $labels.utilisateur }}"
+          description: "Notification a l'administrateur metier, conformement a NFR-C4-04."
+
+      - alert: CnipacCertificatTlsExpirant
+        expr: (cnipac_tls_certificat_expiration_horodatage - time()) < 1209600
+        for: 1h
+        labels: { severite: majeure, exigence: NFR-C3-01 }
+        annotations:
+          resume: "Certificat TLS expirant dans moins de 14 jours"
+
+  # ---------------------------------------------------------------------------
+  # Indicateurs METIER. Le delai median de validation est l'indicateur qui
+  # revele le plus tot un engorgement du processus ANC — principal risque
+  # operationnel identifie au SRS §13.4.3.
+  # ---------------------------------------------------------------------------
+  - name: cnipac-metier
+    interval: 5m
+    rules:
+      - alert: CnipacQuarantaineEngorgee
+        expr: cnipac_fiches_en_quarantaine > 200
+        for: 6h
+        labels: { severite: avertissement, module: M1 }
+        annotations:
+          resume: "{{ $value }} fiches en quarantaine depuis plus de 6 heures"
+          description: >-
+            RG-M1-01 impose le passage par la quarantaine avant publication.
+            Un engorgement signale un manque de capacite de validation cote ANC
+            (risque SRS §13.4.3, hypothese HYP-06 : 2 a 3 archivistes mobilisables).
+
+      - alert: CnipacDelaiValidationExcessif
+        expr: cnipac_delai_validation_median_heures > 72
+        for: 12h
+        labels: { severite: avertissement, module: M4 }
+        annotations:
+          resume: "Delai median de validation a {{ $value }} h"
+
+      - alert: CnipacSynchronisationKoboEnPanne
+        expr: (time() - cnipac_kobo_derniere_synchronisation_horodatage) > 3600
+        for: 15m
+        labels: { severite: majeure, module: M1, exigence: FR-M1-01 }
+        annotations:
+          resume: "Aucune synchronisation KoboToolbox depuis plus d'une heure"
+          description: >-
+            FR-M1-01 et AC-P1-01 : une soumission doit parvenir en quarantaine en
+            moins de 15 minutes. Verifier la disponibilite de l'API Kobo et la
+            validite du jeton (hypothese HYP-01 du SRS §2.5).
+
+      - alert: CnipacPropositionsCrowdsourcingEnAttente
+        expr: cnipac_propositions_crowdsourcing_en_attente > 50
+        for: 24h
+        labels: { severite: information, module: M5 }
+        annotations:
+          resume: "{{ $value }} propositions de points focaux en attente d'examen"

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Hooks locaux — SDD §4.5. Garde-fous RAPIDES uniquement : la barriere reelle
+# est la CI (un hook local se contourne avec --no-verify).
+npx lint-staged

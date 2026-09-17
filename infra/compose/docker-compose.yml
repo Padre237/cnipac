@@ -1,0 +1,92 @@
+# =============================================================================
+# Base commune — SDD §26.3.
+# « Trois fichiers Docker Compose distincts pilotent les trois environnements.
+#   Ils partagent une base commune (docker-compose.yml) et appliquent des
+#   overrides specifiques. »
+#
+# Conteneurisation integrale, base de donnees comprise, conformement au
+# SDD §26.1 et a l'arbitrage du tech lead.
+# =============================================================================
+name: cnipac
+
+services:
+  nginx:
+    image: nginx:1.27-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    depends_on: [backend, frontend]
+    restart: unless-stopped
+    networks: [cnipac]
+
+  backend:
+    image: cnipac-backend:${VERSION:-latest}
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3000
+      TZ: Africa/Douala                 # NFR-C8-03
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000/health']
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    networks: [cnipac]
+
+  frontend:
+    image: cnipac-frontend:${VERSION:-latest}
+    restart: unless-stopped
+    networks: [cnipac]
+
+  postgres:
+    image: postgis/postgis:16-3.4@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    environment:
+      POSTGRES_DB: cnipac
+      POSTGRES_USER: cnipac
+      POSTGRES_INITDB_ARGS: '--encoding=UTF8 --data-checksums'
+      TZ: Africa/Douala
+    # PostgreSQL utilise la memoire partagee pour les plans paralleles ; les
+    # vues materialisees du module M3 (SDD §12.10) en declenchent. Le defaut
+    # Docker (64 Mo) provoque des echecs intermittents sous charge.
+    shm_size: 1gb
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../postgres/conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ../postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cnipac']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks: [cnipac]
+
+  redis:
+    image: redis:7-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    # Redis porte la liste de revocation des JWT (SDD §4.2, ADR-003).
+    # La persistance evite qu'un redemarrage ne reactive des jetons revoques.
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory-policy noeviction
+      --databases 3
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      retries: 5
+    restart: unless-stopped
+    networks: [cnipac]
+
+volumes:
+  postgres_data: {}
+  redis_data: {}
+  frontend_dist: {}
+
+networks:
+  cnipac: { driver: bridge }

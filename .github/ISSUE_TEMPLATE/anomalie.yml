@@ -1,0 +1,63 @@
+name: Anomalie
+description: Signaler un defaut de fonctionnement
+labels: [anomalie, a-trier]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module concerne
+      options:
+        - M1 — Ingestion KoboToolbox
+        - M2 — Visualisation cartographique
+        - M3 — Tableaux de bord
+        - M4 — Gestion des producteurs
+        - M5 — Crowdsourcing
+        - M6 — Administration, securite, RBAC
+        - M7 — API et interoperabilite
+        - Transverse / inconnu
+    validations: { required: true }
+  - type: dropdown
+    id: environnement
+    attributes:
+      label: Environnement
+      options: [DEV, PREPROD, PRODUCTION]
+    validations: { required: true }
+  - type: dropdown
+    id: gravite
+    attributes:
+      label: Gravite
+      options:
+        - Bloquante — le systeme est inutilisable
+        - Majeure — une fonction essentielle est indisponible
+        - Mineure — contournement possible
+        - Cosmetique
+    validations: { required: true }
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Etapes de reproduction
+      placeholder: |
+        1. Se connecter avec le role R-03 (archiviste validateur)
+        2. Ouvrir la console de quarantaine
+        3. ...
+    validations: { required: true }
+  - type: textarea
+    id: attendu
+    attributes: { label: Comportement attendu }
+    validations: { required: true }
+  - type: textarea
+    id: observe
+    attributes: { label: Comportement observe }
+    validations: { required: true }
+  - type: input
+    id: exigence
+    attributes:
+      label: Exigence mise en defaut
+      description: Identifiant du registre, si connu (FR-, NFR-, RG-, AC-)
+  - type: checkboxes
+    id: donnees
+    attributes:
+      label: Donnees
+      options:
+        - label: Je confirme n'avoir inclus aucune donnee nominative reelle dans ce ticket (NFR-C4-01)
+          required: true

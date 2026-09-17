@@ -1,0 +1,2862 @@
+{
+  "$commentaire": [
+    "Registre unique des exigences CNIPAC — ADR-035.",
+    "SOURCE DE VERITE de la tracabilite. Genere initialement par extraction du",
+    "SRS V2.0 (Livrable 1.2) puis maintenu a la main dans le depot.",
+    "Toute exigence doit etre couverte par au moins un test portant son identifiant",
+    "dans son nom, ex. it('[RG-M1-02] le code unique n est jamais modifiable', ...).",
+    "Verifie par scripts/gate-tracabilite.mjs a chaque pull request."
+  ],
+  "version": "1.0",
+  "genere_le": "2026-09-17",
+  "sources": [
+    {
+      "document": "Livrable 1.2 — Cahier d'Analyse (SRS) V2.0",
+      "reference": "CNIPAC-RA-V2.0"
+    },
+    {
+      "document": "Livrable 1.3 — Cahier de Conception (SDD) V4.0"
+    },
+    {
+      "document": "Loi n 2024/001 du 24 juillet 2024 regissant les archives au Cameroun"
+    }
+  ],
+  "statistiques": {
+    "AC": 30,
+    "FR": 82,
+    "LOI": 12,
+    "NFR": 47,
+    "RG": 34,
+    "UC": 36,
+    "total": 241
+  },
+  "exigences": [
+    {
+      "id": "AC-P1-01",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Une soumission Kobo de test parvient en quarantaine CNIPAC en moins de 15 minutes.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-02",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Un archiviste validateur (R-03) peut valider la fiche, qui apparaît immédiatement sur la carte.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-03",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "La carte affiche 200 producteurs réels géolocalisés, regroupés en clusters au niveau national.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-04",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Les filtres réseau/région/ministère sont fonctionnels et croisables.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-05",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Le tableau de bord national affiche les 4 indicateurs clés à jour.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-06",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Le RBAC est opérationnel sur 8 rôles ; 5 comptes de test sont créés.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-07",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Le journal d'audit consigne toutes les opérations sensibles.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-08",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "La carte est utilisable sur connexion 3G simulée (≤ 5 s de chargement).",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-09",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Le code source est versionné sur GitHub institutionnel et bénéficie d'un pipeline CI/CD.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P1-10",
+      "type": "AC",
+      "palier": "P1",
+      "libelle": "Aucune vulnérabilité critique ou haute identifiée par scan automatisé OWASP ZAP.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-01",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "1 000 producteurs réels géolocalisés répartis sur 3 régions sont chargés.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-02",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "Au moins 10 points focaux désignés peuvent se connecter et proposer des mises à jour.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-03",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "L'application est utilisable hors ligne en mode PWA (dernière vue cartographique consultée).",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-04",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "L'API REST est documentée Swagger et propose les endpoints producteurs/statistiques/référentiels.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-05",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "Un export EAC-CPF valide est produit pour toute fiche validée.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-06",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "L'interface est disponible en français et en anglais.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-07",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "Le MFA est opérationnel pour les rôles administrateurs.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-08",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "Le pentest mené par un tiers ne révèle aucune vulnérabilité critique.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-09",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "Le système supporte 200 utilisateurs simultanés sans dégradation perceptible.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P2-10",
+      "type": "AC",
+      "palier": "P2",
+      "libelle": "L'audit d'accessibilité atteint 90% de critères WCAG 2.1 AA testés.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-01",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Le jeu de données complet collecté est intégré (≥ 80 % de la cible 12 000-15 000).",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette",
+      "articles_loi": [
+        "Art. 55"
+      ]
+    },
+    {
+      "id": "AC-P3-02",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Le portail open data est ouvert au public et propose des téléchargements directs.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-03",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "L'API publique est documentée, versionnée et accessible sans authentification sur les endpoints publics.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-04",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Le système est hébergé sur l'infrastructure de production définitive (CENADI).",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-05",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "L'audit de sécurité indépendant valide la conformité à C3 et C4 (sécurité, confidentialité).",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-06",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Le système tient une charge de 500 utilisateurs simultanés sans dégradation.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-07",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Au moins 100 points focaux sont actifs et au moins 50 propositions de mises à jour ont été traitées.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-08",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Les sauvegardes externalisées sont opérationnelles et un exercice de restauration est passant.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-09",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "La documentation utilisateur, administrateur et développeur est complète et accessible.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "AC-P3-10",
+      "type": "AC",
+      "palier": "P3",
+      "libelle": "Le rapport national annuel sur l'état des archives publiques est produit en démonstration.",
+      "source": "SRS V2.0 chap. 14",
+      "verification": "recette"
+    },
+    {
+      "id": "FR-M1-01",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT se connecter au serveur KoboToolbox via l'API OAuth2/Token sécurisée et récupérer périodiquement les nouvelles soumissions de tous les formulaires configurés.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-01"
+      ],
+      "critere_acceptation": "Une soumission Kobo créée à T+0 est présente dans la zone de quarantaine CNIPAC en moins de 15 minutes.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 21"
+      ]
+    },
+    {
+      "id": "FR-M1-02",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT permettre la configuration du ou des formulaires Kobo à synchroniser, ainsi que la fréquence de synchronisation (entre 5 minutes et 24 heures).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-01"
+      ],
+      "critere_acceptation": "L'administrateur métier peut ajouter, modifier ou désactiver une source Kobo via l'interface d'administration.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 21"
+      ]
+    },
+    {
+      "id": "FR-M1-03",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT valider chaque soumission entrante contre un schéma de données défini (champs obligatoires présents, types respectés, valeurs autorisées).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-02"
+      ],
+      "critere_acceptation": "Toute soumission non conforme est rejetée et tracée dans le journal des rejets avec motif détaillé.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-04",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT détecter et traiter les doublons potentiels (même structure soumise deux fois) à l'aide d'une stratégie déterministe (clé de déduplication composite : ministère + sigle structure + commune).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-02"
+      ],
+      "critere_acceptation": "En cas de doublon détecté, la soumission est placée en attente d'arbitrage par un archiviste validateur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-05",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT placer toute soumission valide en zone de QUARANTAINE jusqu'à validation explicite par un archiviste validateur (R-03) ou un administrateur métier (R-02).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-03"
+      ],
+      "critere_acceptation": "Aucune soumission non validée n'est visible dans la carte publique (M2) ni dans les tableaux de bord (M3).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-06",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT générer pour chaque soumission validée un identifiant unique normalisé (code producteur) selon le format CMR-<RÉSEAU>-<SIGLE_STRUCTURE>-<SIGLE_ENTITÉ>-<SEQ>.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-03"
+      ],
+      "critere_acceptation": "Le code est généré automatiquement, non éditable manuellement en P1, unique sur l'ensemble du référentiel.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-07",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT produire un journal d'ingestion exhaustif (soumissions reçues, validées, rejetées, mises en quarantaine, doublons détectés) consultable par les rôles R-01 et R-02.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-04"
+      ],
+      "critere_acceptation": "Le journal est consultable, filtrable par date / formulaire / statut, et exportable au format CSV.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-08",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT préserver une référence immuable vers la soumission Kobo d'origine (identifiant Kobo, instanceID, horodatage de soumission, identifiant de l'enquêteur).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-02"
+      ],
+      "critere_acceptation": "À partir d'une fiche producteur dans CNIPAC, un utilisateur autorisé peut accéder à la soumission Kobo source.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-09",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT gérer les échecs de synchronisation (timeout, erreur réseau, indisponibilité Kobo) par une stratégie de réessai exponentielle (3 tentatives, intervalle doublé à chaque échec).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-01"
+      ],
+      "critere_acceptation": "En cas d'échec persistant, une alerte est levée vers l'administrateur système (R-01) par e-mail.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-10",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT permettre à un administrateur métier (R-02) de lancer manuellement une synchronisation à la demande (« Synchroniser maintenant »).",
+      "priorite": "S",
+      "palier": "P1",
+      "uc": [
+        "UC-M1-01"
+      ],
+      "critere_acceptation": "Le déclenchement manuel produit un journal de synchronisation immédiatement consultable.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-11",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système PEUT proposer un mode de prévisualisation des soumissions en quarantaine avec un masquage des données sensibles (données nominatives) pour les rôles à droits limités.",
+      "priorite": "C",
+      "palier": "P2",
+      "uc": [
+        "UC-M1-03"
+      ],
+      "critere_acceptation": "Les champs sensibles sont masqués par défaut, désanonymisés sur action explicite tracée.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M1-12",
+      "type": "FR",
+      "module": "M1",
+      "libelle": "Le système DOIT gérer les mises à jour de fiches existantes par soumission Kobo (mise à jour incrémentale) en préservant l'historique des versions.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M1-02"
+      ],
+      "critere_acceptation": "Une mise à jour produit une nouvelle version de fiche, l'ancienne reste consultable dans l'historique.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-01",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT afficher une carte interactive du Cameroun basée sur OpenStreetMap, centrée sur le pays au chargement initial.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "La carte se charge en moins de 5 secondes sur une connexion 3G de référence (1 Mbit/s).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 22",
+        "Art. 26"
+      ]
+    },
+    {
+      "id": "FR-M2-02",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT afficher les producteurs d'archives sous forme de marqueurs ponctuels géolocalisés, avec une icône différenciée selon le réseau archivistique.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "Chaque marqueur est cliquable. Au survol ou au clic, une infobulle indique le nom et le sigle de la structure.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-03",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT regrouper visuellement les marqueurs en grappes (clusters) lorsque la densité dépasse un seuil configurable, avec animation de dégroupage au zoom.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "À zoom national, les marqueurs sont groupés ; à zoom communal, ils sont individualisés.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-04",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT permettre à l'utilisateur de filtrer les producteurs affichés sur la carte selon les critères suivants : réseau archivistique, ministère de tutelle, région, département, commune, statut administratif, niveau de maturité archivistique.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-02"
+      ],
+      "critere_acceptation": "L'application d'un filtre met à jour la carte en moins de 2 secondes. Le compteur de résultats est mis à jour.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-05",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT afficher au clic sur un marqueur une fiche synthétique du producteur (sigle, intitulé complet, sigles, coordonnées géographiques, adresse, ministère de tutelle, réseau, statut administratif, date de dernière mise à jour).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-03"
+      ],
+      "critere_acceptation": "La fiche s'affiche en moins de 1 seconde après le clic.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-06",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT proposer depuis la fiche synthétique un lien vers la fiche détaillée complète (vue complète des 7 sections du dictionnaire de données).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-03"
+      ],
+      "critere_acceptation": "Le lien est présent et fonctionnel pour les utilisateurs authentifiés disposant du droit P-M4-02.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-07",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT proposer un mode « recherche textuelle » permettant de retrouver un producteur par son nom, son sigle, ou un mot-clé.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-04"
+      ],
+      "critere_acceptation": "Une recherche par sigle (ex. « DGB ») retourne les résultats en moins de 1 seconde.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-08",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT proposer plusieurs fonds de carte : OpenStreetMap standard, image satellite (si disponible), carte simplifiée (mode économe en bande passante).",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "Le changement de fond de carte est instantané et persiste durant la session.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-09",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT proposer une couche d'affichage des limites administratives (régions, départements, communes) activable/désactivable.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "Les limites sont issues d'une source officielle (INS / BUCREP) et conformes au découpage administratif en vigueur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-10",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT être consultable sans authentification en mode lecture publique limitée (carte + fiche synthétique uniquement, sans données sensibles).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M2-01"
+      ],
+      "critere_acceptation": "Un utilisateur non connecté peut consulter la carte et les fiches synthétiques.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-11",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT être déployé sous forme de Progressive Web App (PWA) avec mise en cache des ressources statiques et de la dernière vue cartographique consultée.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M2-05"
+      ],
+      "critere_acceptation": "Après une première connexion, l'utilisateur peut rouvrir l'application hors ligne et accéder à la dernière vue chargée.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-12",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT permettre l'export de la sélection courante de producteurs au format CSV et GeoJSON, pour les utilisateurs disposant du droit P-M2-03.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M2-06"
+      ],
+      "critere_acceptation": "L'export contient exactement les producteurs filtrés visibles à l'écran.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-13",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système PEUT proposer une visualisation par carte choroplèthe (densité de producteurs par région ou par département).",
+      "priorite": "C",
+      "palier": "P3",
+      "uc": [
+        "UC-M2-07"
+      ],
+      "critere_acceptation": "La carte choroplèthe propose une légende lisible et une échelle de couleurs accessible (palette daltonien-compatible).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M2-14",
+      "type": "FR",
+      "module": "M2",
+      "libelle": "Le système DOIT respecter les standards d'accessibilité WCAG 2.1 niveau AA pour la navigation cartographique (alternatives clavier, contrastes, lecteur d'écran sur les fiches).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M2-08"
+      ],
+      "critere_acceptation": "Audit d'accessibilité passant à 95% des critères WCAG AA testés (outil Axe DevTools).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-01",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT afficher sur la page d'accueil authentifiée un tableau de bord national présentant au minimum : nombre total de producteurs identifiés, taux de couverture par région, répartition par réseau archivistique, indice global de maturité archivistique.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-01"
+      ],
+      "critere_acceptation": "Les 4 indicateurs sont visibles dès l'écran d'accueil et mis à jour quotidiennement.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 16"
+      ]
+    },
+    {
+      "id": "FR-M3-02",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT proposer un tableau de bord par réseau archivistique (les 9 réseaux du SND30) avec ses indicateurs propres (nombre de producteurs, structures dotées d'un service d'archives, points focaux désignés, etc.).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-02"
+      ],
+      "critere_acceptation": "Chaque réseau dispose d'un onglet ou d'une vue dédiée.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-03",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT proposer un tableau de bord par région et par département avec les mêmes indicateurs déclinés au territoire.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-02"
+      ],
+      "critere_acceptation": "Les 10 régions et leurs départements sont représentés. Le passage région → département est intuitif.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-04",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT proposer un indicateur composite de maturité archivistique (échelle de 0 à 100) calculé à partir des données de la section VI du questionnaire (présence d'un service d'archives, formation, locaux, plan de classement, etc.).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-03"
+      ],
+      "critere_acceptation": "La méthode de calcul est documentée et reproductible. La formule est exposée dans la documentation utilisateur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 14"
+      ]
+    },
+    {
+      "id": "FR-M3-05",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT permettre l'export des tableaux de bord au format PDF (rapport mis en forme) et Excel (données brutes) pour les utilisateurs disposant du droit P-M3-02.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-04"
+      ],
+      "critere_acceptation": "L'export PDF est conforme à la charte CENADI / ANC. L'export Excel respecte la structure du dictionnaire de données.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 13"
+      ]
+    },
+    {
+      "id": "FR-M3-06",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT proposer des tableaux croisés dynamiques permettant de croiser au minimum deux dimensions (par exemple : réseau × région ; ministère × niveau de maturité).",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M3-05"
+      ],
+      "critere_acceptation": "L'utilisateur peut sélectionner deux dimensions et le système produit un tableau croisé en moins de 3 secondes.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-07",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT archiver mensuellement un instantané de chaque tableau de bord national afin de permettre l'analyse de l'évolution dans le temps.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M3-06"
+      ],
+      "critere_acceptation": "L'historique des 12 derniers mois est consultable. Une comparaison N vs N-1 est possible.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-08",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système PEUT proposer des alertes automatiques lorsque des indicateurs franchissent un seuil défini (par exemple : couverture d'une région inférieure à 30%).",
+      "priorite": "C",
+      "palier": "P3",
+      "uc": [
+        "UC-M3-07"
+      ],
+      "critere_acceptation": "L'administrateur métier peut configurer des seuils et destinataires d'alertes.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 14",
+        "Art. 31"
+      ]
+    },
+    {
+      "id": "FR-M3-09",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT proposer une représentation graphique pour chaque indicateur clé (histogramme, secteurs, courbe de tendance) avec respect des bonnes pratiques de visualisation de données.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M3-01"
+      ],
+      "critere_acceptation": "Chaque indicateur dispose d'une représentation visuelle accessible (lisible, exportable, accessible WCAG AA).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M3-10",
+      "type": "FR",
+      "module": "M3",
+      "libelle": "Le système DOIT permettre la génération d'un « Rapport national annuel sur l'état des archives publiques » à partir des données disponibles, pour les utilisateurs disposant du droit P-M3-03.",
+      "priorite": "S",
+      "palier": "P3",
+      "uc": [
+        "UC-M3-08"
+      ],
+      "critere_acceptation": "Le rapport est produit en moins de 5 minutes, mis en forme, et reprend les indicateurs clés annotés.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 31"
+      ]
+    },
+    {
+      "id": "FR-M4-01",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT proposer une vue détaillée de chaque producteur structurée selon les sept (7) sections du questionnaire (identification, localisation, préarchivage, patrimoine, conservation, maturité, logistique).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M4-01"
+      ],
+      "critere_acceptation": "La fiche présente les 7 sections de manière hiérarchisée et lisible.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 16"
+      ]
+    },
+    {
+      "id": "FR-M4-02",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre à un archiviste validateur (R-03) ou un administrateur métier (R-02) de valider une fiche en quarantaine, avec horodatage et identifiant de l'utilisateur validateur.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M4-02"
+      ],
+      "critere_acceptation": "L'action de validation est tracée et la fiche passe à l'état « VALIDÉE » immédiatement.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-03",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre l'édition champ par champ d'une fiche validée par les rôles R-02 et R-03, avec génération automatique d'une nouvelle version.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M4-03"
+      ],
+      "critere_acceptation": "Toute modification produit une entrée dans l'historique des versions, consultable.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-04",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT préserver l'historique intégral des versions d'une fiche, avec la possibilité de comparer deux versions champ par champ.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-04"
+      ],
+      "critere_acceptation": "La vue comparative met en évidence les champs modifiés avec ancienne et nouvelle valeur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-05",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre la consultation de la fiche détaillée par tout utilisateur authentifié disposant du droit P-M4-02 (R-02, R-03, R-04, R-05 sur sa structure, R-06).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M4-01"
+      ],
+      "critere_acceptation": "Le contrôle d'accès empêche la consultation par un utilisateur non autorisé.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-06",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre à un point focal (R-05) de proposer une mise à jour de la fiche de SA structure uniquement, par soumission d'un formulaire structuré.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-05"
+      ],
+      "critere_acceptation": "La proposition est placée en attente de validation et n'est PAS appliquée immédiatement à la fiche publiée.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-07",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre à un archiviste validateur d'examiner, d'accepter, de modifier ou de rejeter chaque proposition de mise à jour issue du crowdsourcing (M5).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-06"
+      ],
+      "critere_acceptation": "L'archiviste dispose d'une vue comparant la valeur actuelle et la valeur proposée, avec motif de décision saisissable.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-08",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre l'archivage logique (statut « ARCHIVÉE ») d'une fiche obsolète (structure dissoute, fusionnée) sans suppression physique de la donnée.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-07"
+      ],
+      "critere_acceptation": "La fiche archivée disparaît des cartes et tableaux de bord par défaut, mais reste consultable via un filtre dédié.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-09",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre la fusion contrôlée de deux fiches détectées comme doublons, avec arbitrage champ par champ et conservation de la traçabilité des deux fiches d'origine.",
+      "priorite": "S",
+      "palier": "P3",
+      "uc": [
+        "UC-M4-08"
+      ],
+      "critere_acceptation": "La fusion produit une fiche unique, les deux fiches d'origine sont archivées avec mention de fusion.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 13"
+      ]
+    },
+    {
+      "id": "FR-M4-10",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre la SUPPRESSION PHYSIQUE d'une fiche uniquement par le super-administrateur (R-01), uniquement sur les fiches archivées depuis plus de 12 mois, et uniquement avec justification documentée.",
+      "priorite": "S",
+      "palier": "P3",
+      "uc": [
+        "UC-M4-09"
+      ],
+      "critere_acceptation": "La suppression physique est tracée dans un journal spécial non purgeable et nécessite une double confirmation.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-11",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT proposer une recherche avancée multicritères sur l'ensemble des fiches producteurs (recherche combinant plusieurs sections du dictionnaire de données).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-10"
+      ],
+      "critere_acceptation": "Une recherche combinant 3 critères retourne un résultat en moins de 2 secondes.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-12",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système PEUT proposer un module d'annotation collaborative permettant à plusieurs archivistes de laisser des notes internes sur une fiche.",
+      "priorite": "C",
+      "palier": "P3",
+      "uc": [
+        "UC-M4-11"
+      ],
+      "critere_acceptation": "Les annotations sont datées, attribuées, et ne sont pas visibles des utilisateurs externes (R-05, R-06).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-13",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT permettre l'attachement de pièces jointes documentaires à une fiche (organigramme, arrêté de création, photos du local d'archives, plan), dans la limite de 10 Mo par fichier et 50 Mo par fiche.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-12"
+      ],
+      "critere_acceptation": "Les types autorisés sont PDF, PNG, JPG. Un antivirus scanne chaque pièce avant validation.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M4-14",
+      "type": "FR",
+      "module": "M4",
+      "libelle": "Le système DOIT produire une notice d'autorité conforme à la norme ISAAR-CPF (forme autorisée du nom, types d'entité, dates d'existence, histoire administrative, fonctions, relations).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M4-13"
+      ],
+      "critere_acceptation": "La notice est exportable au format EAC-CPF (XML).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M5-01",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT permettre à un point focal désigné (R-05) de se connecter à un espace contributeur dédié, après authentification renforcée (mot de passe + vérification par e-mail).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-01"
+      ],
+      "critere_acceptation": "Le compte est rattaché à une et une seule structure productrice.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-02",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT afficher au point focal la fiche actuelle de SA structure uniquement, avec mise en évidence des champs périmés ou incomplets.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-02"
+      ],
+      "critere_acceptation": "Le point focal ne peut accéder à aucune fiche d'une autre structure.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-03",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT permettre au point focal de proposer des modifications champ par champ via un formulaire de mise à jour structuré.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-03"
+      ],
+      "critere_acceptation": "Le formulaire reprend les contrôles de validité du dictionnaire de données. Les champs invalides sont signalés.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-04",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT placer toute proposition de mise à jour en file d'attente de validation, sans l'appliquer immédiatement à la fiche publiée.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-04"
+      ],
+      "critere_acceptation": "Une proposition est visible dans la file d'attente des archivistes validateurs en moins de 1 minute.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-05",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT permettre au point focal de joindre des pièces justificatives à sa proposition (par exemple : arrêté nominatif récent, organigramme à jour).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-03"
+      ],
+      "critere_acceptation": "Les pièces sont stockées et accessibles à l'archiviste validateur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-06",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT notifier le point focal du statut de sa proposition (acceptée, refusée, demande de complément) par e-mail.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-05"
+      ],
+      "critere_acceptation": "La notification contient le motif si refus, et est envoyée en moins de 5 minutes après décision.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "FR-M5-07",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT permettre à un point focal de signaler une erreur ou un changement majeur affectant sa structure (changement de tutelle, dissolution, fusion) via un formulaire de signalement spécifique.",
+      "priorite": "M",
+      "palier": "P3",
+      "uc": [
+        "UC-M5-06"
+      ],
+      "critere_acceptation": "Le signalement est priorisé dans la file de validation et notifie un administrateur métier (R-02).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M5-08",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT limiter le débit de propositions par compte (par exemple : maximum 10 propositions par jour par point focal) pour éviter les abus.",
+      "priorite": "S",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-07"
+      ],
+      "critere_acceptation": "Le seuil de protection est configurable par un administrateur (R-01).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M5-09",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système PEUT proposer un mécanisme de réputation des points focaux (taux d'acceptation, qualité des propositions) afin d'identifier les contributeurs fiables.",
+      "priorite": "C",
+      "palier": "P3",
+      "uc": [
+        "UC-M5-08"
+      ],
+      "critere_acceptation": "Le score est visible des archivistes validateurs uniquement, jamais des autres points focaux.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M5-10",
+      "type": "FR",
+      "module": "M5",
+      "libelle": "Le système DOIT permettre la désignation officielle d'un point focal par un administrateur métier (R-02), sur la base d'une lettre de désignation jointe à l'ouverture de compte.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M5-09"
+      ],
+      "critere_acceptation": "Pas de point focal sans lettre de désignation enregistrée dans le système.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-01",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT proposer une interface d'administration des comptes utilisateurs réservée aux rôles R-01 et R-02 (création, modification, désactivation, réactivation).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-01"
+      ],
+      "critere_acceptation": "L'interface permet la gestion de plusieurs centaines de comptes sans dégradation des performances.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-02",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT permettre l'attribution et la révocation de rôles à un utilisateur. L'attribution multiple est autorisée dans la limite des règles de séparation des tâches.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-02"
+      ],
+      "critere_acceptation": "L'attribution est tracée et prend effet immédiatement (invalidation des sessions actives).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-03",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT imposer une politique de mot de passe robuste : minimum 12 caractères, au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial, pas de mot de passe parmi les 10 000 plus courants.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-03"
+      ],
+      "critere_acceptation": "L'utilisateur reçoit une erreur claire si le mot de passe ne respecte pas la politique.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-04",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT proposer une authentification à double facteur (MFA) par TOTP ou e-mail pour les rôles R-01, R-02 et R-03, et la rendre OBLIGATOIRE pour R-01.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M6-04"
+      ],
+      "critere_acceptation": "Un super-administrateur ne peut se connecter sans MFA.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-05",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT verrouiller un compte après 5 tentatives infructueuses de connexion en 10 minutes, et notifier le titulaire par e-mail.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-05"
+      ],
+      "critere_acceptation": "Le déverrouillage automatique survient après 30 minutes, ou manuel par un administrateur.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-06",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT produire un journal d'audit exhaustif consignant : connexions (réussies/échouées), créations/modifications/suppressions de comptes, attributions/révocations de rôles, validations/refus de soumissions, modifications de fiches, exports de données.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-06"
+      ],
+      "critere_acceptation": "Chaque événement journalisé contient : timestamp UTC, identifiant utilisateur, rôle utilisé, action, ressource, IP source, identifiant de session.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-07",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT garantir l'intégrité du journal d'audit (non modifiable, non purgeable par les utilisateurs, conservation minimale de 5 ans).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-06"
+      ],
+      "critere_acceptation": "Aucun rôle (R-01 inclus) ne peut éditer ou supprimer une entrée du journal.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-08",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT proposer un tableau de bord de supervision technique pour le rôle R-01 : état des services, charge, file d'attente d'ingestion, derniers événements de sécurité.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M6-07"
+      ],
+      "critere_acceptation": "Les indicateurs sont rafraîchis toutes les minutes.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 58"
+      ]
+    },
+    {
+      "id": "FR-M6-09",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT permettre la configuration centralisée des paramètres métier : seuils d'alerte, périodicité de synchronisation, formats d'export, valeurs autorisées des listes contrôlées.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-08"
+      ],
+      "critere_acceptation": "Les modifications sont prises en compte sans redémarrage du système.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 32"
+      ]
+    },
+    {
+      "id": "FR-M6-10",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT proposer une fonction d'export du journal d'audit au format CSV, restreinte aux rôles R-01 et R-02, et tracer chaque export dans le journal lui-même.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-06"
+      ],
+      "critere_acceptation": "L'export du journal est lui-même un événement journalisé (méta-audit).",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 32"
+      ]
+    },
+    {
+      "id": "FR-M6-11",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT chiffrer en transit (TLS 1.3) toute communication entre le client et le serveur, et entre les services internes.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-09"
+      ],
+      "critere_acceptation": "Tout protocole non TLS est refusé. Les certificats sont renouvelés automatiquement.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-12",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT chiffrer au repos les données sensibles (données nominatives, journaux d'audit, pièces jointes) selon AES-256.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-09"
+      ],
+      "critere_acceptation": "Les sauvegardes contiennent uniquement des données chiffrées.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-13",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT mettre en œuvre une protection contre les attaques applicatives courantes : injection SQL, XSS, CSRF, SSRF, déni de service applicatif (rate limiting).",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-10"
+      ],
+      "critere_acceptation": "Un test d'intrusion mené avant la mise en production ne révèle aucune vulnérabilité de criticité haute ou critique.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M6-14",
+      "type": "FR",
+      "module": "M6",
+      "libelle": "Le système DOIT permettre l'expiration et le renouvellement périodique des jetons d'authentification (JWT) : durée de vie d'accès courte (15 min), refresh token de durée maximale 8 heures.",
+      "priorite": "M",
+      "palier": "P1",
+      "uc": [
+        "UC-M6-04"
+      ],
+      "critere_acceptation": "Au-delà de 8 heures d'inactivité, l'utilisateur est invité à se reconnecter.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-01",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT exposer ses fonctionnalités sous forme d'une API RESTful documentée (OpenAPI 3.x), couvrant a minima : liste des producteurs (filtrage, pagination), fiche détaillée, statistiques agrégées, listes contrôlées (réseaux, statuts).",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M7-01"
+      ],
+      "critere_acceptation": "La spécification OpenAPI est navigable via Swagger UI. Tous les endpoints sont documentés avec exemples.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 22",
+        "Art. 26"
+      ]
+    },
+    {
+      "id": "FR-M7-02",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT authentifier les appels API via des clés API ou des jetons OAuth2 selon le profil du consommateur, avec quotas configurables.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M7-02"
+      ],
+      "critere_acceptation": "Les rôles R-06 (décideur) et R-07 (chercheur) disposent de profils d'accès API distincts avec quotas adaptés.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-03",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT exposer les données ouvertes (non sensibles) au format JSON, GeoJSON et CSV, en conformité avec la philosophie « open data » et le Plan Stratégique National pour le Développement Numérique.",
+      "priorite": "M",
+      "palier": "P3",
+      "uc": [
+        "UC-M7-03"
+      ],
+      "critere_acceptation": "Un téléchargement direct du référentiel public est possible depuis une page dédiée, sans authentification.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test",
+      "articles_loi": [
+        "Art. 26"
+      ]
+    },
+    {
+      "id": "FR-M7-04",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT exporter les notices d'autorité au format EAC-CPF (XML), conformément à la norme ISAAR-CPF.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M7-04"
+      ],
+      "critere_acceptation": "Un export EAC-CPF valide est produit pour toute fiche validée.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-05",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT exposer un endpoint de statistiques agrégées (par réseau, par région) sans authentification, en respectant l'anonymisation et le seuil de données minimum.",
+      "priorite": "S",
+      "palier": "P3",
+      "uc": [
+        "UC-M7-05"
+      ],
+      "critere_acceptation": "Les statistiques nationales sont consultables en open data.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-06",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT publier un identifiant pérenne (URI) pour chaque producteur, sous la forme https://cnipac.cm/producteurs/<code_producteur>.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M7-01"
+      ],
+      "critere_acceptation": "L'URI est stable : un producteur conserve son URI tout au long de son existence.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-07",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système PEUT proposer une interface GraphQL en complément de l'API REST, pour les besoins de requêtes complexes (interrogation multidimensionnelle).",
+      "priorite": "C",
+      "palier": "P3",
+      "uc": [
+        "UC-M7-06"
+      ],
+      "critere_acceptation": "L'interface GraphQL est documentée et bénéficie des mêmes contrôles d'accès.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "FR-M7-08",
+      "type": "FR",
+      "module": "M7",
+      "libelle": "Le système DOIT versionner son API (préfixe /v1/, /v2/) et garantir une rétrocompatibilité de 24 mois minimum pour toute API en version stable.",
+      "priorite": "M",
+      "palier": "P2",
+      "uc": [
+        "UC-M7-07"
+      ],
+      "critere_acceptation": "Une dépréciation d'API est annoncée 12 mois avant retrait effectif, avec mécanisme de remontée d'avertissement.",
+      "source": "SRS V2.0 chap. 9",
+      "verification": "test"
+    },
+    {
+      "id": "LOI-ART13",
+      "type": "LOI",
+      "article": "Art. 13",
+      "libelle": "Duree de conservation selon la valeur des archives",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "NFR-C4-03",
+        "FR-M3-05",
+        "FR-M4-09"
+      ]
+    },
+    {
+      "id": "LOI-ART14",
+      "type": "LOI",
+      "article": "Art. 14",
+      "libelle": "Obligations des producteurs d'archives",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M3-08",
+        "FR-M3-04"
+      ]
+    },
+    {
+      "id": "LOI-ART16",
+      "type": "LOI",
+      "article": "Art. 16",
+      "libelle": "Role des Archives Nationales du Cameroun",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M3-01",
+        "FR-M4-01"
+      ]
+    },
+    {
+      "id": "LOI-ART19",
+      "type": "LOI",
+      "article": "Art. 19",
+      "libelle": "Correspondants archives et leurs missions",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M5-01",
+        "FR-M5-02",
+        "FR-M5-03",
+        "FR-M5-04",
+        "FR-M5-05",
+        "FR-M5-06",
+        "RG-M5-03"
+      ]
+    },
+    {
+      "id": "LOI-ART21",
+      "type": "LOI",
+      "article": "Art. 21",
+      "libelle": "Collecte et pre-archivage",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M1-01",
+        "FR-M1-02",
+        "RG-M1-01"
+      ]
+    },
+    {
+      "id": "LOI-ART22",
+      "type": "LOI",
+      "article": "Art. 22",
+      "libelle": "Communication des archives au public",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "NFR-C4-01",
+        "RG-M7-01",
+        "FR-M2-01",
+        "FR-M7-01"
+      ]
+    },
+    {
+      "id": "LOI-ART26",
+      "type": "LOI",
+      "article": "Art. 26",
+      "libelle": "Fichier unique et accessible des producteurs d'archives publiques",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M7-01",
+        "FR-M7-03",
+        "FR-M2-01",
+        "RG-M2-01"
+      ]
+    },
+    {
+      "id": "LOI-ART31",
+      "type": "LOI",
+      "article": "Art. 31",
+      "libelle": "Controle archivistique",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "FR-M3-08",
+        "FR-M3-10"
+      ]
+    },
+    {
+      "id": "LOI-ART32",
+      "type": "LOI",
+      "article": "Art. 32",
+      "libelle": "Journal d'audit immuable / controle par inspecteurs assermentes",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "NFR-C3-05",
+        "FR-M6-09",
+        "FR-M6-10",
+        "RG-M6-03"
+      ]
+    },
+    {
+      "id": "LOI-ART4",
+      "type": "LOI",
+      "article": "Art. 4",
+      "libelle": "Archives publiques : bien inalienable et imprescriptible",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "RG-TR-02",
+        "RG-TR-01"
+      ]
+    },
+    {
+      "id": "LOI-ART55",
+      "type": "LOI",
+      "article": "Art. 55",
+      "libelle": "Delai de 18 mois pour la mise en conformite",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "AC-P3-01"
+      ]
+    },
+    {
+      "id": "LOI-ART58",
+      "type": "LOI",
+      "article": "Art. 58",
+      "libelle": "Publication au Journal Officiel en francais et en anglais",
+      "source": "Loi n 2024/001 du 24 juillet 2024",
+      "verification": "conformite",
+      "exigences_de_couverture": [
+        "NFR-C8-01",
+        "FR-M6-08"
+      ]
+    },
+    {
+      "id": "NFR-C1-01",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT afficher la carte initiale (vue Cameroun) en moins de 5 secondes sur une connexion 3G de référence (1 Mbit/s, 100 ms latence).",
+      "cible": "≤ 5 s P95",
+      "methode_verification": "Test de charge avec outil k6 sous profil réseau 3G simulé",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-02",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT répondre à toute requête API authentifiée standard en moins de 800 ms en P95.",
+      "cible": "≤ 800 ms P95",
+      "methode_verification": "Métriques Prometheus, agrégation 7 jours glissants",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-03",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT supporter 200 utilisateurs simultanés sans dégradation perceptible des performances (temps de réponse < +20 %).",
+      "cible": "200 utilisateurs concurrents",
+      "methode_verification": "Test de charge JMeter / k6 en environnement de préproduction",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-04",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT gérer un référentiel d'au moins 15 000 producteurs sans dégradation de la navigation cartographique.",
+      "cible": "15 000 producteurs",
+      "methode_verification": "Jeu de données de stress test fourni en recette",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-05",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT permettre l'export d'un fichier de 10 000 producteurs au format CSV en moins de 30 secondes.",
+      "cible": "≤ 30 s pour 10 000 lignes",
+      "methode_verification": "Test de performance dédié",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-06",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "L'application PWA DOIT consommer moins de 5 Mo de données pour un parcours utilisateur type (carte + 10 fiches).",
+      "cible": "≤ 5 Mo par session type",
+      "methode_verification": "Inspection réseau Chrome DevTools",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C1-07",
+      "type": "NFR",
+      "categorie": "C1",
+      "libelle": "Le système DOIT charger l'application initiale (bundle JS+CSS) en moins de 2 Mo compressé.",
+      "cible": "≤ 2 Mo gzip",
+      "methode_verification": "Analyse bundle webpack/vite",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-01",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Le système DOIT être disponible 99,5 % du temps en heures ouvrées (lundi-vendredi 07h-19h Yaoundé).",
+      "cible": "99,5 % uptime heures ouvrées",
+      "methode_verification": "Sonde de disponibilité (uptime monitoring) externe",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-02",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Le système DOIT être disponible 99,0 % du temps sur 24h/24, 7j/7, en moyenne mensuelle.",
+      "cible": "99,0 % uptime mensuel global",
+      "methode_verification": "Sonde de disponibilité externe, rapport mensuel",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-03",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Le système DOIT être restauré dans un délai maximum de 4 heures après un incident majeur (RTO).",
+      "cible": "RTO ≤ 4 h",
+      "methode_verification": "Exercices de restauration semestriels documentés",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-04",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Le système DOIT garantir une perte de données maximale de 1 heure en cas d'incident majeur (RPO).",
+      "cible": "RPO ≤ 1 h",
+      "methode_verification": "Procédure de sauvegarde validée par audit",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-05",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Les sauvegardes DOIVENT être effectuées au minimum toutes les 24 heures, conservées 30 jours en local et 12 mois en externalisé.",
+      "cible": "Backup quotidien, rétention 30j/12m",
+      "methode_verification": "Journal de sauvegarde, test de restauration trimestriel",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C2-06",
+      "type": "NFR",
+      "categorie": "C2",
+      "libelle": "Le système DOIT tolérer la perte d'un nœud applicatif sans interruption de service (architecture redondée à partir de P3).",
+      "cible": "Tolérance N-1",
+      "methode_verification": "Test de bascule en préproduction",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-01",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Toutes les communications externes DOIVENT utiliser TLS 1.3 ou supérieur.",
+      "cible": "TLS ≥ 1.3",
+      "methode_verification": "Scan SSL Labs notation A ou supérieure",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-02",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Les données nominatives et journaux d'audit DOIVENT être chiffrés au repos selon AES-256.",
+      "cible": "AES-256 at rest",
+      "methode_verification": "Audit de la base de données et du stockage de fichiers",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-03",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Le système DOIT être soumis à un test d'intrusion avant chaque mise en production majeure (P1, P2, P3) et au moins une fois par an en exploitation.",
+      "cible": "Pentest annuel + à chaque release",
+      "methode_verification": "Rapport de test d'intrusion par tiers compétent",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-04",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Aucune vulnérabilité de criticité CRITIQUE ou HAUTE (CVSS ≥ 7) ne DOIT subsister à la mise en production.",
+      "cible": "0 vulnérabilité critique/haute",
+      "methode_verification": "Rapport de test d'intrusion",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-05",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Le journal d'audit DOIT être conservé pendant au moins 5 ans, sans possibilité de modification ou de purge anticipée.",
+      "cible": "Rétention ≥ 5 ans, intégrité",
+      "methode_verification": "Inspection technique et procédure d'archivage",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure",
+      "articles_loi": [
+        "Art. 32"
+      ]
+    },
+    {
+      "id": "NFR-C3-06",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Les mots de passe DOIVENT être stockés selon l'algorithme Argon2id ou bcrypt avec coût ≥ 12.",
+      "cible": "Argon2id / bcrypt(≥12)",
+      "methode_verification": "Audit de code",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-07",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Le système DOIT mettre en œuvre une politique de durcissement des en-têtes HTTP (CSP, HSTS, X-Content-Type-Options, X-Frame-Options).",
+      "cible": "En-têtes durcis conformes OWASP",
+      "methode_verification": "Scan automatisé OWASP ZAP",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C3-08",
+      "type": "NFR",
+      "categorie": "C3",
+      "libelle": "Le système DOIT être protégé contre les attaques de force brute par rate limiting (5 tentatives/10 minutes par IP et par compte).",
+      "cible": "Rate limiting opérationnel",
+      "methode_verification": "Test fonctionnel automatisé",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C4-01",
+      "type": "NFR",
+      "categorie": "C4",
+      "libelle": "Les données nominatives (noms, prénoms, téléphones, e-mails des correspondants) NE DOIVENT PAS être exposées publiquement dans la carte ou l'API non authentifiée.",
+      "cible": "Anonymisation des données publiques",
+      "methode_verification": "Audit de l'API publique et de la carte non authentifiée",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure",
+      "articles_loi": [
+        "Art. 22"
+      ]
+    },
+    {
+      "id": "NFR-C4-02",
+      "type": "NFR",
+      "categorie": "C4",
+      "libelle": "Le système DOIT proposer une fonction d'export anonymisé pour les usages de recherche (suppression des données nominatives, généralisation des adresses).",
+      "cible": "Export anonymisé disponible",
+      "methode_verification": "Test fonctionnel",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C4-03",
+      "type": "NFR",
+      "categorie": "C4",
+      "libelle": "Les données collectées DOIVENT être conservées tant que le producteur existe et 5 ans après sa dissolution, conformément à l'article 13 de la Loi 2024/001.",
+      "cible": "Politique de rétention documentée",
+      "methode_verification": "Procédure interne ANC validée",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure",
+      "articles_loi": [
+        "Art. 13"
+      ]
+    },
+    {
+      "id": "NFR-C4-04",
+      "type": "NFR",
+      "categorie": "C4",
+      "libelle": "Toute extraction massive de données (> 100 fiches) DOIT être tracée nominativement et notifiée à l'administrateur métier.",
+      "cible": "Traçabilité des exports massifs",
+      "methode_verification": "Audit du journal d'extraction",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C5-01",
+      "type": "NFR",
+      "categorie": "C5",
+      "libelle": "Le système DOIT respecter les standards ouverts : OpenAPI 3.x, GeoJSON, CSV (RFC 4180), JSON, XML, EAC-CPF.",
+      "cible": "Conformité standards",
+      "methode_verification": "Validation par outils standards (validateurs OpenAPI, GeoJSON, XML)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C5-02",
+      "type": "NFR",
+      "categorie": "C5",
+      "libelle": "Le système DOIT fonctionner sur les principaux navigateurs récents : Chrome, Firefox, Edge, Safari (2 dernières versions majeures).",
+      "cible": "Compatibilité 4 navigateurs / 2 versions",
+      "methode_verification": "Tests automatisés multi-navigateurs",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C5-03",
+      "type": "NFR",
+      "categorie": "C5",
+      "libelle": "Le système DOIT être déployable sur infrastructure Linux standard (Ubuntu LTS, Debian) via conteneurs Docker.",
+      "cible": "Déploiement Docker reproductible",
+      "methode_verification": "Recette du déploiement en environnement neuf",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C5-04",
+      "type": "NFR",
+      "categorie": "C5",
+      "libelle": "Les données géographiques DOIVENT être stockées dans le système de coordonnées de référence WGS84 (EPSG:4326).",
+      "cible": "EPSG:4326",
+      "methode_verification": "Audit base PostGIS",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C5-05",
+      "type": "NFR",
+      "categorie": "C5",
+      "libelle": "Le système DOIT pouvoir être réinstallé intégralement à partir des seuls dépôts de code source et des sauvegardes (pas de dépendance binaire propriétaire).",
+      "cible": "Reproductibilité du déploiement",
+      "methode_verification": "Exercice de reconstruction documenté",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-01",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Le code source DOIT respecter une couverture de tests automatisés d'au moins 70 % sur les modules métier.",
+      "cible": "Couverture ≥ 70 %",
+      "methode_verification": "Rapport de couverture (Jest, Vitest)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-02",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Le code source DOIT être versionné dans un dépôt Git (GitHub) hébergé sous le compte institutionnel CENADI/ANC, accessible aux équipes désignées.",
+      "cible": "Dépôt Git institutionnel",
+      "methode_verification": "Audit du dépôt et des droits d'accès",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-03",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Le système DOIT disposer d'un pipeline d'intégration continue (CI/CD) automatisant : lint, tests unitaires, scan de dépendances, build, déploiement préproduction.",
+      "cible": "Pipeline CI/CD opérationnel",
+      "methode_verification": "GitHub Actions configuré et exécuté à chaque push",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-04",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Le code DOIT respecter les conventions de nommage et style définies dans le guide de code (ESLint, Prettier en frontend ; règles équivalentes en backend).",
+      "cible": "0 erreur lint",
+      "methode_verification": "Job CI obligatoire",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-05",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Chaque module fonctionnel DOIT être documenté : description, dépendances, configuration, points d'extension.",
+      "cible": "Documentation par module",
+      "methode_verification": "Audit documentaire",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C6-06",
+      "type": "NFR",
+      "categorie": "C6",
+      "libelle": "Le système DOIT pouvoir être étendu à 50 000 producteurs sans réingénierie majeure (montée en charge linéaire prouvée).",
+      "cible": "Capacité 50 000 producteurs",
+      "methode_verification": "Test de charge en préproduction",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C7-01",
+      "type": "NFR",
+      "categorie": "C7",
+      "libelle": "Le système DOIT respecter les standards d'accessibilité WCAG 2.1 niveau AA.",
+      "cible": "Conformité WCAG 2.1 AA",
+      "methode_verification": "Audit Axe DevTools, Lighthouse Accessibility",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C7-02",
+      "type": "NFR",
+      "categorie": "C7",
+      "libelle": "Le système DOIT être utilisable au clavier seul (navigation, formulaires, carte).",
+      "cible": "Navigation clavier complète",
+      "methode_verification": "Test manuel et automatisé",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C7-03",
+      "type": "NFR",
+      "categorie": "C7",
+      "libelle": "Le système DOIT respecter un contraste minimum de 4,5:1 pour le texte normal et 3:1 pour le texte large.",
+      "cible": "Contraste WCAG AA",
+      "methode_verification": "Audit Lighthouse",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C7-04",
+      "type": "NFR",
+      "categorie": "C7",
+      "libelle": "Le système DOIT être responsive et utilisable sur smartphones, tablettes et postes fixes (résolution mini supportée 360×640).",
+      "cible": "Responsive 360×640 mini",
+      "methode_verification": "Tests multi-résolutions",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C8-01",
+      "type": "NFR",
+      "categorie": "C8",
+      "libelle": "Le système DOIT proposer une interface en français en P1, et en anglais à partir de P2 — les deux langues officielles du Cameroun.",
+      "cible": "FR (P1) + EN (P2)",
+      "methode_verification": "Test fonctionnel bilingue",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure",
+      "articles_loi": [
+        "Art. 58"
+      ]
+    },
+    {
+      "id": "NFR-C8-02",
+      "type": "NFR",
+      "categorie": "C8",
+      "libelle": "Le système DOIT gérer correctement les caractères Unicode (UTF-8) y compris les caractères diacritiques utilisés dans les langues nationales.",
+      "cible": "Unicode UTF-8 partout",
+      "methode_verification": "Test de saisie et restitution",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C8-03",
+      "type": "NFR",
+      "categorie": "C8",
+      "libelle": "Les dates et horaires DOIVENT être affichés au format Cameroun (jj/mm/aaaa, fuseau Africa/Douala = UTC+1).",
+      "cible": "Format CM, UTC+1",
+      "methode_verification": "Inspection visuelle",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C9-01",
+      "type": "NFR",
+      "categorie": "C9",
+      "libelle": "Les données du système CNIPAC DOIVENT être hébergées sur une infrastructure située au Cameroun, opérée par une administration publique (CENADI prioritairement) ou un partenaire souverain agréé.",
+      "cible": "Hébergement souverain",
+      "methode_verification": "Vérification contractuelle et physique",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C9-02",
+      "type": "NFR",
+      "categorie": "C9",
+      "libelle": "Aucune donnée nominative ou journal d'audit NE DOIT être transmis ou répliqué hors du territoire national, sauf dérogation expresse validée par MINFI et MINAC.",
+      "cible": "Pas de réplication hors-territoire",
+      "methode_verification": "Audit des flux réseau",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C9-03",
+      "type": "NFR",
+      "categorie": "C9",
+      "libelle": "L'ensemble des technologies utilisées DOIT être open source ou libre de redevance, conformément aux orientations de souveraineté numérique du Cameroun.",
+      "cible": "Stack 100 % open source",
+      "methode_verification": "Inventaire des dépendances et licences",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "NFR-C9-04",
+      "type": "NFR",
+      "categorie": "C9",
+      "libelle": "Le code source DOIT appartenir intégralement à l'État du Cameroun (CENADI mandataire), avec cession explicite par tous les contributeurs externes.",
+      "cible": "Propriété intellectuelle souveraine",
+      "methode_verification": "Clauses contractuelles, audit des contributions",
+      "palier": null,
+      "source": "SRS V2.0 chap. 10",
+      "verification": "mesure"
+    },
+    {
+      "id": "RG-M1-01",
+      "type": "RG",
+      "module": "M1",
+      "libelle": "Toute soumission KoboToolbox passe obligatoirement par la zone de QUARANTAINE avant publication dans CNIPAC.",
+      "justification_metier": "Garantir la qualité des données publiées et éviter qu'une erreur de saisie terrain ne se propage immédiatement dans le référentiel exposé.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 21"
+      ]
+    },
+    {
+      "id": "RG-M1-02",
+      "type": "RG",
+      "module": "M1",
+      "libelle": "Le code unique du producteur (CMR-<RÉSEAU>-<MIN>-<STRUCT>-<SEQ>) est généré automatiquement par le système au moment de la validation, et n'est JAMAIS modifiable.",
+      "justification_metier": "Garantir l'identifiant pérenne et la non-rupture des références dans le temps. Empêcher les conflits manuels.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M1-03",
+      "type": "RG",
+      "module": "M1",
+      "libelle": "Deux soumissions sont considérées comme doublons potentiels si elles partagent le même triplet (sigle structure, ministère de tutelle, commune).",
+      "justification_metier": "Réduire les fiches dupliquées sans bloquer faussement des cas légitimes (par exemple, services déconcentrés).",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M1-04",
+      "type": "RG",
+      "module": "M1",
+      "libelle": "La référence à la soumission KoboToolbox d'origine est conservée à vie ; elle ne peut être effacée même en cas de modification de la fiche.",
+      "justification_metier": "Garantir la chaîne de preuve depuis la collecte terrain.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M1-05",
+      "type": "RG",
+      "module": "M1",
+      "libelle": "Le statut d'une fiche évolue selon un automate : NOUVELLE → QUARANTAINE → VALIDÉE → (ÉDITÉE)* → (ARCHIVÉE). Aucune transition arrière n'est autorisée sans intervention d'un super-administrateur tracée.",
+      "justification_metier": "Garantir un cycle de vie déterministe et auditable.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M2-01",
+      "type": "RG",
+      "module": "M2",
+      "libelle": "Seuls les producteurs au statut VALIDÉE ou ÉDITÉE sont affichés sur la carte. Les fiches en quarantaine, archivées ou rejetées n'apparaissent pas dans la vue cartographique par défaut.",
+      "justification_metier": "Garantir que le public voit uniquement des données validées.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 26"
+      ]
+    },
+    {
+      "id": "RG-M2-02",
+      "type": "RG",
+      "module": "M2",
+      "libelle": "La carte publique non authentifiée n'affiche que les champs non sensibles d'une fiche producteur (sigle, intitulé, coordonnées géographiques, ministère, réseau, statut). Les coordonnées des points focaux et données nominatives sont masquées.",
+      "justification_metier": "Conformité à la protection des données nominatives et à l'article 13 de la Loi 2024/001.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M2-03",
+      "type": "RG",
+      "module": "M2",
+      "libelle": "Les producteurs sans coordonnées géographiques valides (latitude/longitude absentes ou hors enveloppe Cameroun) ne sont PAS affichés sur la carte, mais sont consultables via la liste des producteurs.",
+      "justification_metier": "Éviter d'afficher des marqueurs aberrants. Préserver l'accès à la fiche.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M2-04",
+      "type": "RG",
+      "module": "M2",
+      "libelle": "Le réseau archivistique d'un producteur est calculé automatiquement à partir de son ministère de tutelle et de son statut administratif, selon le tableau de mapping de référence (annexe E).",
+      "justification_metier": "Garantir la cohérence du référentiel et alléger la charge de saisie.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M3-01",
+      "type": "RG",
+      "module": "M3",
+      "libelle": "L'indice de maturité archivistique est calculé selon la formule pondérée définie en annexe F (présence d'un service d'archives 25%, formation 15%, locaux 20%, plan de classement 20%, calendrier de conservation 10%, instruments de recherche 10%). Toute évolution de cette formule fait l'objet d'une note officielle ANC.",
+      "justification_metier": "Garantir la reproductibilité et la transparence des indicateurs.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M3-02",
+      "type": "RG",
+      "module": "M3",
+      "libelle": "Les tableaux de bord publics n'agrègent que des données ; aucun enregistrement individuel n'est exposé. Le seuil minimal d'agrégation est de 5 producteurs (pas de statistique sur un échantillon < 5).",
+      "justification_metier": "Protection des données et prévention de la ré-identification.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M3-03",
+      "type": "RG",
+      "module": "M3",
+      "libelle": "Les indicateurs nationaux sont rafraîchis quotidiennement à 03h00 UTC+1. Les utilisateurs voient toujours un horodatage de dernière mise à jour.",
+      "justification_metier": "Donner une lecture claire de la fraîcheur des données.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M4-01",
+      "type": "RG",
+      "module": "M4",
+      "libelle": "Toute modification d'une fiche validée produit automatiquement une nouvelle version. La version précédente est conservée, accessible aux rôles R-02, R-03, R-04.",
+      "justification_metier": "Garantir l'historicité et la réversibilité documentaire.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M4-02",
+      "type": "RG",
+      "module": "M4",
+      "libelle": "Une fiche ne peut être supprimée physiquement qu'après archivage logique depuis au moins 12 mois, et uniquement par le super-administrateur (R-01) avec justification documentée.",
+      "justification_metier": "Sauvegarder l'historique en cas d'erreur ou de remise en service d'une structure.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M4-03",
+      "type": "RG",
+      "module": "M4",
+      "libelle": "La fusion de deux fiches doublons est nominative : l'archiviste validateur choisit champ par champ la valeur retenue. Les deux fiches d'origine deviennent ARCHIVÉE-FUSIONNÉE et conservent un lien vers la fiche cible.",
+      "justification_metier": "Préserver la traçabilité de la fusion pour les audits futurs.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M4-04",
+      "type": "RG",
+      "module": "M4",
+      "libelle": "Une notice d'autorité ISAAR-CPF est produite pour tout producteur validé. La forme autorisée du nom respecte les conventions ANC (intitulé complet en majuscules + sigle entre parenthèses).",
+      "justification_metier": "Conformité à la norme ICA ISAAR-CPF et harmonisation des références.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M4-05",
+      "type": "RG",
+      "module": "M4",
+      "libelle": "Les modifications de champs structurants (ministère de tutelle, dénomination officielle, statut administratif) requièrent une PIÈCE JUSTIFICATIVE obligatoire (arrêté, décret, loi).",
+      "justification_metier": "Empêcher les modifications structurantes sans fondement juridique.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M5-01",
+      "type": "RG",
+      "module": "M5",
+      "libelle": "Un point focal archives est rattaché à UNE ET UNE SEULE structure productrice. Il ne peut consulter ni modifier les données d'une autre structure.",
+      "justification_metier": "Cloisonnement strict des périmètres ; respect du principe de moindre privilège.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M5-02",
+      "type": "RG",
+      "module": "M5",
+      "libelle": "Toute proposition de mise à jour d'un point focal NE MODIFIE PAS la fiche publiée tant qu'elle n'a pas été validée par un archiviste validateur (R-03) ou un administrateur métier (R-02).",
+      "justification_metier": "Garantir le contrôle qualité métier sur les contributions externes.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M5-03",
+      "type": "RG",
+      "module": "M5",
+      "libelle": "L'ouverture d'un compte point focal est conditionnée à la réception d'une lettre officielle de désignation signée par le responsable hiérarchique de la structure.",
+      "justification_metier": "Garantir la légitimité du contributeur conformément à l'article 19 de la Loi 2024/001.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 19"
+      ]
+    },
+    {
+      "id": "RG-M5-04",
+      "type": "RG",
+      "module": "M5",
+      "libelle": "Un point focal qui n'a pas connecté son compte depuis 12 mois est automatiquement désactivé. Sa réactivation requiert une nouvelle confirmation hiérarchique.",
+      "justification_metier": "Hygiène des comptes et désactivation des accès dormants.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M5-05",
+      "type": "RG",
+      "module": "M5",
+      "libelle": "Une proposition de mise à jour reste en file d'attente au maximum 30 jours. Au-delà, elle est automatiquement archivée comme NON TRAITÉE et notifiée au point focal et à l'administrateur métier.",
+      "justification_metier": "Empêcher les propositions en suspens éternel ; signaler les goulots d'étranglement.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M6-01",
+      "type": "RG",
+      "module": "M6",
+      "libelle": "Un utilisateur peut cumuler PLUSIEURS rôles, sauf dans les cas de conflit (par exemple : le rôle R-01 super-administrateur est exclusif des rôles métier R-02, R-03 sur le même compte).",
+      "justification_metier": "Garantir la séparation des tâches sur les opérations sensibles.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M6-02",
+      "type": "RG",
+      "module": "M6",
+      "libelle": "L'attribution d'un rôle est une action sensible : elle est tracée dans le journal d'audit, et notifiée à l'utilisateur concerné par e-mail.",
+      "justification_metier": "Transparence et contrôle des attributions.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M6-03",
+      "type": "RG",
+      "module": "M6",
+      "libelle": "Le journal d'audit est immuable : aucun rôle (y compris R-01) ne peut éditer ou supprimer une entrée. La rotation se fait uniquement par archivage des entrées de plus de 5 ans vers un stockage froid.",
+      "justification_metier": "Garantir l'intégrité de la chaîne d'audit, exigence de conformité Loi 2024/001 et bonne pratique de sécurité.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 32"
+      ]
+    },
+    {
+      "id": "RG-M6-04",
+      "type": "RG",
+      "module": "M6",
+      "libelle": "Le super-administrateur (R-01) est restreint à un nombre maximal de 3 comptes nominatifs (chef DEL, chef DEP, suppléant désigné). Aucun compte « partagé » n'est autorisé.",
+      "justification_metier": "Limiter le risque d'usurpation et garantir la traçabilité nominative.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M7-01",
+      "type": "RG",
+      "module": "M7",
+      "libelle": "L'API publique n'expose JAMAIS de données nominatives. Toute donnée nominative est filtrée à la couche API publique.",
+      "justification_metier": "Protection des données et conformité Loi 2024/001.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 22"
+      ]
+    },
+    {
+      "id": "RG-M7-02",
+      "type": "RG",
+      "module": "M7",
+      "libelle": "L'API authentifiée applique les mêmes contrôles d'accès que l'interface web (RBAC homogène). Aucun endpoint API ne dispose de droits supérieurs à ceux de l'interface.",
+      "justification_metier": "Cohérence des contrôles et impossibilité de contournement.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M7-03",
+      "type": "RG",
+      "module": "M7",
+      "libelle": "Chaque consommateur API est identifié par une clé ou un jeton ; les appels anonymes sont autorisés uniquement sur les endpoints explicitement marqués comme publics.",
+      "justification_metier": "Traçabilité des consommations et lutte contre l'abus.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-M7-04",
+      "type": "RG",
+      "module": "M7",
+      "libelle": "Une dépréciation d'API est annoncée au moins 12 mois avant retrait. Pendant la période, des en-têtes de dépréciation signalent l'obsolescence aux consommateurs.",
+      "justification_metier": "Respect du contrat d'usage avec les partenaires consommateurs.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-TR-01",
+      "type": "RG",
+      "module": "TR",
+      "libelle": "Tous les horodatages stockés dans le système sont en UTC. L'affichage s'effectue au fuseau Africa/Douala (UTC+1).",
+      "justification_metier": "Cohérence technique et lisibilité utilisateur.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 4"
+      ]
+    },
+    {
+      "id": "RG-TR-02",
+      "type": "RG",
+      "module": "TR",
+      "libelle": "Les données du système CNIPAC sont la propriété de l'État du Cameroun, représenté par le CENADI et les Archives Nationales.",
+      "justification_metier": "Conformité Loi 2024/001 et orientations de souveraineté numérique.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire",
+      "articles_loi": [
+        "Art. 4"
+      ]
+    },
+    {
+      "id": "RG-TR-03",
+      "type": "RG",
+      "module": "TR",
+      "libelle": "Toute opération qui modifie l'état du système (création, modification, suppression, attribution de rôle, validation) génère un événement d'audit.",
+      "justification_metier": "Auditabilité intégrale.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "RG-TR-04",
+      "type": "RG",
+      "module": "TR",
+      "libelle": "Le système s'aligne sur le calendrier administratif camerounais : exercices budgétaires annuels (1er janvier - 31 décembre), jours fériés nationaux, langues officielles français et anglais.",
+      "justification_metier": "Adéquation au contexte institutionnel.",
+      "palier": null,
+      "source": "SRS V2.0 chap. 11",
+      "verification": "test_unitaire_obligatoire"
+    },
+    {
+      "id": "UC-M1-01",
+      "type": "UC",
+      "module": "M1",
+      "libelle": "Configurer la connexion à KoboToolbox",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M1-02",
+      "type": "UC",
+      "module": "M1",
+      "libelle": "Synchroniser les soumissions depuis KoboToolbox",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M1-03",
+      "type": "UC",
+      "module": "M1",
+      "libelle": "Importer manuellement un fichier CSV/Excel",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M1-04",
+      "type": "UC",
+      "module": "M1",
+      "libelle": "Consulter le journal d'ingestion",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M2-01",
+      "type": "UC",
+      "module": "M2",
+      "libelle": "Consulter la carte des producteurs (public)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M2-02",
+      "type": "UC",
+      "module": "M2",
+      "libelle": "Filtrer dynamiquement la carte",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M2-03",
+      "type": "UC",
+      "module": "M2",
+      "libelle": "Activer / désactiver une couche cartographique",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M2-04",
+      "type": "UC",
+      "module": "M2",
+      "libelle": "Rechercher un producteur par nom, sigle ou code",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M2-05",
+      "type": "UC",
+      "module": "M2",
+      "libelle": "Exporter la vue cartographique",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M3-01",
+      "type": "UC",
+      "module": "M3",
+      "libelle": "Consulter le tableau de bord opérationnel",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M3-02",
+      "type": "UC",
+      "module": "M3",
+      "libelle": "Consulter le tableau de bord stratégique",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M3-03",
+      "type": "UC",
+      "module": "M3",
+      "libelle": "Exporter le tableau de bord",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M3-04",
+      "type": "UC",
+      "module": "M3",
+      "libelle": "Personnaliser son tableau de bord",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-01",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Consulter la file d'attente de validation",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-02",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Valider une soumission",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-03",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Rejeter une soumission",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-04",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Fusionner deux fiches (doublons)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-05",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Modifier une fiche validée",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-06",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Consulter une fiche détaillée",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-07",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Consulter l'historique des modifications",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-08",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Restaurer une version antérieure",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M4-09",
+      "type": "UC",
+      "module": "M4",
+      "libelle": "Archivage logique d'une fiche",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M5-01",
+      "type": "UC",
+      "module": "M5",
+      "libelle": "Authentification d'un point focal archives",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M5-02",
+      "type": "UC",
+      "module": "M5",
+      "libelle": "Consulter la fiche de sa structure",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M5-03",
+      "type": "UC",
+      "module": "M5",
+      "libelle": "Soumettre une proposition de modification",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M5-04",
+      "type": "UC",
+      "module": "M5",
+      "libelle": "Examiner et valider/refuser une proposition (ANC)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M5-05",
+      "type": "UC",
+      "module": "M5",
+      "libelle": "Gérer les comptes points focaux",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M6-01",
+      "type": "UC",
+      "module": "M6",
+      "libelle": "Créer un compte utilisateur",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M6-02",
+      "type": "UC",
+      "module": "M6",
+      "libelle": "Désactiver un compte utilisateur",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M6-03",
+      "type": "UC",
+      "module": "M6",
+      "libelle": "Consulter les journaux d'audit",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M6-04",
+      "type": "UC",
+      "module": "M6",
+      "libelle": "Configurer le système (paramètres techniques)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M6-05",
+      "type": "UC",
+      "module": "M6",
+      "libelle": "Restauration depuis une sauvegarde",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M7-01",
+      "type": "UC",
+      "module": "M7",
+      "libelle": "Consommer l'API publique (anonyme)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M7-02",
+      "type": "UC",
+      "module": "M7",
+      "libelle": "Consommer l'API chercheur (authentifié)",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M7-03",
+      "type": "UC",
+      "module": "M7",
+      "libelle": "Exporter un dump volumétrique",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    },
+    {
+      "id": "UC-M7-04",
+      "type": "UC",
+      "module": "M7",
+      "libelle": "Consulter la documentation OpenAPI",
+      "palier": null,
+      "source": "SRS V2.0 chap. 8",
+      "verification": "test_e2e"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Installation reproductible de la chaine Node — SDD §4.2 et §26.4.
+name: 'Setup Node'
+description: "Installe la version de Node declaree dans .nvmrc et les dependances du lockfile"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+
+    - name: Installer les dependances (SDD §26.4)
+      shell: bash
+      run: npm ci

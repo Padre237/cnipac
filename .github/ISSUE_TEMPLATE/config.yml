@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question metier archivistique
+    url: https://archivesnationales.cm
+    about: Pour toute question relevant de la doctrine archivistique, contacter les ANC.
+  - name: Incident de production
+    url: https://github.com/cenadi-cm/cnipac/blob/main/docs/runbooks/RB-06-astreinte-et-alertes.md
+    about: Un incident de production ne se declare pas par ticket. Suivre le runbook d'astreinte.

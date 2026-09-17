@@ -1,0 +1,150 @@
+# =============================================================================
+# Securite CNIPAC — SCA, secrets, licences, conformite de la chaine
+# Exigences : NFR-C3-04 (0 vuln HIGH/CRITICAL), NFR-C9-03 (stack open source),
+#             NFR-C9-04 (propriete du code), AC-P1-10
+# ADR : 014 (affectation runners), 024 (SBOM), 025 (licences), 033 (secrets)
+# =============================================================================
+name: Securite
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 3 * * 1'     # lundi 03h00 UTC — scan complet hebdomadaire
+  workflow_dispatch:
+
+concurrency:
+  group: securite-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Controle d'architecture : aucun job touchant a un environnement reel ne
+  # doit s'executer sur un runner heberge hors du territoire (ADR-014).
+  # ---------------------------------------------------------------------------
+  regle-affectation-runners:
+    name: Regle d'affectation des runners (NFR-C9-02)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/gate-affectation-runners.mjs
+
+  # ---------------------------------------------------------------------------
+  # Detection de secrets — diff en PR, historique complet en planifie (ADR-033).
+  # ---------------------------------------------------------------------------
+  detection-secrets:
+    name: Detection de secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ github.event_name == 'schedule' && 0 || 1 }}
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+      - name: Aucun secret lu depuis une variable d'environnement (ADR-033)
+        run: node scripts/gate-secrets.mjs
+
+  # ---------------------------------------------------------------------------
+  # Analyse de composition logicielle (SCA).
+  # ---------------------------------------------------------------------------
+  sca-dependances:
+    name: Vulnerabilites des dependances
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: npm audit (bloquant a partir de HIGH — NFR-C3-04)
+        run: npm audit --audit-level=high --omit=dev
+      - name: Trivy — systeme de fichiers
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
+          format: sarif
+          output: trivy-fs.sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with: { sarif_file: trivy-fs.sarif, category: trivy-fs }
+
+  # ---------------------------------------------------------------------------
+  # Conformite des licences — perimetre A uniquement (ADR-025).
+  # ---------------------------------------------------------------------------
+  conformite-licences:
+    name: Conformite des licences (NFR-C9-03)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: Allowlist sur les dependances de production
+        run: node scripts/gate-licences.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: rapport-licences, path: reports/licences.json, retention-days: 90 }
+
+  # ---------------------------------------------------------------------------
+  # Analyse statique de securite du code (SAST).
+  # ---------------------------------------------------------------------------
+  sast-codeql:
+    name: SAST CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      matrix:
+        langage: ['javascript-typescript']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.langage }}
+          queries: security-extended
+      - uses: ./.github/actions/setup-node
+      - run: npm run build
+      - uses: github/codeql-action/analyze@v3
+        with: { category: '/language:${{ matrix.langage }}' }
+
+  # ---------------------------------------------------------------------------
+  # Durcissement des en-tetes HTTP — NFR-C3-07, niveau 1 d'ADR-031.
+  # Rapide par construction : teste la configuration, pas le site.
+  # ---------------------------------------------------------------------------
+  entetes-securite:
+    name: En-tetes de securite (NFR-C3-07)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: Demarrer le backend en conteneur ephemere
+        run: docker compose -f infra/compose/compose.ci.yml up -d --wait
+      - name: Verifier CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy
+        run: node scripts/gate-entetes-securite.mjs --url=http://localhost:3000
+      - if: always()
+        run: docker compose -f infra/compose/compose.ci.yml down -v
+
+  # ---------------------------------------------------------------------------
+  # Aucune donnee reelle dans les jeux de test versionnes (ADR-034).
+  # ---------------------------------------------------------------------------
+  verification-donnees-test:
+    name: Absence de donnees reelles dans les jeux de test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/gate-donnees-test.mjs

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# ADR-036 — Conventional Commits.
+npx commitlint --edit "$1"

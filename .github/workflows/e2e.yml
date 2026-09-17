@@ -1,0 +1,91 @@
+# =============================================================================
+# Tests de bout en bout — Playwright (SDD §25.4, ADR-007 du SDD)
+# Les 14 scenarios du SDD §25.4 et les 5 parcours detailles du §25.9.
+# =============================================================================
+name: Tests E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'tests/e2e/**'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'Filtre de scenario (grep Playwright)'
+        required: false
+        default: ''
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: E2E — ${{ matrix.navigateur }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        # NFR-C5-02 : Chrome, Firefox, Edge, Safari. Webkit couvre Safari.
+        navigateur: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+
+      - name: Demarrer la pile applicative complete
+        run: docker compose -f infra/compose/compose.ci.yml up -d --wait
+
+      - name: Charger le jeu de donnees synthetique PREPROD (ADR-034)
+        run: npm run exec -w @cnipac/backend prisma db seed -- --jeu=preprod
+
+      - name: Installer les navigateurs
+        run: npx playwright install --with-deps ${{ matrix.navigateur }}
+
+      - name: Executer les scenarios
+        run: npm run test:e2e --project=${{ matrix.navigateur }} ${{ inputs.scenario && format('--grep "{0}"', inputs.scenario) || '' }}
+        env:
+          CNIPAC_BASE_URL: http://localhost:8080
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-${{ matrix.navigateur }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+
+      - name: Journaux de la pile en cas d'echec
+        if: failure()
+        run: docker compose -f infra/compose/compose.ci.yml logs --no-color > reports/logs-pile.txt || true
+
+      - if: always()
+        run: docker compose -f infra/compose/compose.ci.yml down -v
+
+  # Tests RBAC dedies : un role ne doit acceder qu'a ce qui lui est autorise
+  # (SDD §25.6). 8 roles x les points d'entree sensibles.
+  rbac:
+    name: Matrice RBAC (8 roles — SRS §6.4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - run: docker compose -f infra/compose/compose.ci.yml up -d --wait
+      - run: npm run exec -w @cnipac/backend prisma db seed -- --jeu=preprod --avec-comptes-test
+      - name: Verifier la matrice role x permission
+        run: npm run test:e2e --grep "@rbac"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: rapport-rbac, path: reports/rbac/, retention-days: 90 }
+      - if: always()
+        run: docker compose -f infra/compose/compose.ci.yml down -v

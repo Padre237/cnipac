@@ -1,0 +1,91 @@
+# =============================================================================
+# Portes de qualite CNIPAC — accessibilite, budget de bundle, contrats d'API
+# Exigences : NFR-C7-01 a C7-04 (WCAG 2.1 AA), NFR-C1-07 (bundle), FR-M7-08
+# ADR : 029 (budget bundle), 030 (a11y bloquante), 037 (contrat d'API)
+# =============================================================================
+name: Portes de qualite
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: qualite-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  accessibilite:
+    name: Accessibilite WCAG 2.1 AA
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+
+      # Niveau 1 — composant. Bloquant des le premier composant (ADR-030).
+      - name: Tests d'accessibilite des composants (vitest-axe)
+        run: npm run test:a11y -w @cnipac/frontend
+
+      # Contrastes verifies sur les jetons de design, en amont de leur usage.
+      - name: Contrastes du design system (NFR-C7-03)
+        run: node scripts/gate-contrastes.mjs
+
+      # Niveau 2 — page. En avertissement jusqu'au Sprint 8 (regime transitoire).
+      - name: Audit axe des ecrans structurants
+        id: axe-pages
+        continue-on-error: ${{ vars.CNIPAC_A11Y_PAGES_BLOQUANT != 'true' }}
+        run: npm run test:a11y
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: rapport-accessibilite, path: reports/a11y/, retention-days: 30 }
+
+  budget-bundle:
+    name: Budget de bundle (NFR-C1-07)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup-node
+      - run: npm run build -w @cnipac/frontend
+      - name: Budgets par chunk et absence de code admin dans l'entree
+        run: node scripts/gate-bundle-budget.mjs --commentaire-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  contrat-api:
+    name: Non-regression du contrat d'API (FR-M7-08)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup-node
+      - name: Generer la specification OpenAPI courante
+        run: npm run run -w @cnipac/backend openapi:generate
+      - name: Comparer a la specification de reference
+        run: node scripts/gate-api-contrat.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: openapi, path: docs/api/openapi.json, retention-days: 90 }
+
+  performance-lighthouse:
+    name: Performance percue (NFR-C1-01)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true   # indicatif en PR ; la mesure contractuelle est k6 en PREPROD
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - run: npm run build -w @cnipac/frontend
+      - name: Lighthouse sous profil 3G (1 Mbit/s, 100 ms) — SRS §2.4.2
+        run: node scripts/lighthouse-3g.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: rapport-lighthouse, path: reports/lighthouse/, retention-days: 30 }

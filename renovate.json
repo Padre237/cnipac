@@ -1,0 +1,71 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "timezone": "Africa/Douala",
+  "schedule": ["before 6am on monday"],
+  "labels": ["deps"],
+  "commitMessagePrefix": "chore(deps): ",
+  "prConcurrentLimit": 5,
+  "rangeStrategy": "pin",
+  "lockFileMaintenance": { "enabled": true, "schedule": ["before 6am on the first day of the month"] },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"],
+    "labels": ["deps", "securite", "priorite-haute"],
+    "prPriority": 10
+  },
+  "packageRules": [
+    {
+      "description": "ADR-023 — correctifs et mineures npm regroupes, fusion auto si CI verte",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "dependances npm (patch et minor)",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Majeures npm : une PR chacune, revue humaine obligatoire",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["deps", "revue-requise"]
+    },
+    {
+      "description": "ADR-017 — Node reste sur la majeure 24 LTS ; le changement passe par un ADR",
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "ADR-020 — PostgreSQL et PostGIS : jamais de majeure automatique",
+      "matchPackageNames": ["postgis/postgis", "postgres"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "ADR-023 — images Docker epinglees par digest, revue humaine",
+      "matchManagers": ["dockerfile", "docker-compose"],
+      "automerge": false,
+      "pinDigests": true,
+      "labels": ["deps", "infra", "revue-requise"]
+    },
+    {
+      "description": "ADR-023 — actions GitHub epinglees par SHA (chaine d'approvisionnement)",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "schedule": ["before 6am on the first day of the month"],
+      "automerge": false
+    },
+    {
+      "description": "Prisma : back et front alignes, jamais separement",
+      "matchPackageNames": ["prisma", "@prisma/client"],
+      "groupName": "prisma"
+    }
+  ],
+  "ignorePaths": ["**/node_modules/**", "docs/design/**"],
+  "prBodyNotes": [
+    "Verifier avant fusion : conformite des licences (ADR-025) et absence de rupture du contrat d'API (ADR-037).",
+    "Gel Renovate en vigueur dans les 10 jours precedant un atelier de restitution (ADR-023)."
+  ]
+}

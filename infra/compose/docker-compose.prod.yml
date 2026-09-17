@@ -1,0 +1,63 @@
+# =============================================================================
+# Override PRODUCTION — transcription du SDD §26.3.
+# Secrets Docker (SDD ADR-010), TLS termine par Nginx, redemarrage automatique.
+# =============================================================================
+services:
+  nginx:
+    ports: ['443:443', '80:80']
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/conf.d:/etc/nginx/conf.d:ro
+      - ../nginx/blue-green:/etc/nginx/blue-green:ro
+      - /srv/cnipac/certs:/etc/nginx/certs:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+  backend:
+    image: ${CNIPAC_REGISTRY:-registry.cenadi.cm}/cnipac-backend:${VERSION}
+    environment:
+      NODE_ENV: production
+      DATABASE_URL_FILE: /run/secrets/db_url
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+      REDIS_URL: redis://redis:6379
+      KOBO_TOKEN_FILE: /run/secrets/kobo_token
+    secrets: [db_url, jwt_secret, kobo_token]
+    restart: unless-stopped
+    # Durcissement du conteneur — NFR-C3, defense en profondeur.
+    read_only: true
+    tmpfs: ['/tmp:size=64m']
+    security_opt: ['no-new-privileges:true']
+    cap_drop: [ALL]
+
+  frontend:
+    image: ${CNIPAC_REGISTRY:-registry.cenadi.cm}/cnipac-frontend:${VERSION}
+    restart: unless-stopped
+
+  postgres:
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../postgres/conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ../postgres/init:/docker-entrypoint-initdb.d:ro
+      - /srv/cnipac/sauvegardes:/sauvegardes        # cible de pg_dump (SDD §27.4)
+    restart: unless-stopped
+
+  redis:
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory-policy noeviction
+      --databases 3
+      --requirepass-file /run/secrets/redis_password
+    secrets: [redis_password]
+    restart: unless-stopped
+
+secrets:
+  db_url:         { file: ./secrets/db_url.txt }
+  db_password:    { file: ./secrets/db_password.txt }
+  jwt_secret:     { file: ./secrets/jwt_secret.txt }
+  redis_password: { file: ./secrets/redis_password.txt }
+  kobo_token:     { file: ./secrets/kobo_token.txt }

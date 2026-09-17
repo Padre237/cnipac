@@ -1,0 +1,70 @@
+# =============================================================================
+# Image backend CNIPAC — NestJS
+# Base SDD §26.2, avec les corrections d'ADR-017 (Node 24 LTS), ADR-018 (pnpm),
+# ADR-015 (reproductibilite) et durcissement complementaire.
+# =============================================================================
+ARG NODE_IMAGE=node:22-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000
+
+# ---------- Etape 1 : dependances -------------------------------------------
+FROM ${NODE_IMAGE} AS deps
+WORKDIR /app
+RUN 
+COPY package.json package-lock.json ./
+COPY apps/backend/package.json ./apps/backend/
+COPY packages/shared-types/package.json ./packages/shared-types/
+COPY packages/tsconfig/package.json ./packages/tsconfig/
+# npm ci : installation deterministe depuis le lockfile (SDD §26.4, NFR-C5-05).
+RUN npm ci --workspace @cnipac/backend --include-workspace-root
+
+# ---------- Etape 2 : construction ------------------------------------------
+FROM deps AS builder
+WORKDIR /app
+COPY tsconfig.json ./
+COPY packages/ ./packages/
+COPY apps/backend/ ./apps/backend/
+RUN npm run build -w @cnipac/shared-types \
+ && npx -w @cnipac/backend prisma generate \
+ && npm run build -w @cnipac/backend
+# Elagage des dependances de developpement (SDD §26.2 : image runtime minimale).
+RUN npm prune --omit=dev
+
+# ---------- Etape 3 : execution ---------------------------------------------
+FROM ${NODE_IMAGE} AS runtime
+WORKDIR /app
+
+ARG VERSION=dev
+ARG COMMIT=inconnu
+ARG SOURCE_DATE_EPOCH=0
+
+LABEL org.opencontainers.image.title="CNIPAC Backend" \
+      org.opencontainers.image.description="API NestJS — Carte Numerique Interactive des Producteurs d'Archives au Cameroun" \
+      org.opencontainers.image.vendor="CENADI — Republique du Cameroun" \
+      org.opencontainers.image.licenses="Propriete de l'Etat du Cameroun (NFR-C9-04)" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${COMMIT}"
+
+# Utilisateur non privilegie. UID fixe : les droits du volume en dependent.
+RUN addgroup -g 10001 -S cnipac && adduser -u 10001 -S cnipac -G cnipac
+
+ENV NODE_ENV=production \
+    PORT=3000 \
+    TZ=Africa/Douala \
+    NODE_OPTIONS="--max-old-space-size=1024"
+
+COPY --from=builder --chown=cnipac:cnipac /app/apps/backend/dist ./dist
+COPY --from=builder --chown=cnipac:cnipac /app/node_modules ./node_modules
+COPY --from=builder --chown=cnipac:cnipac /app/package.json ./
+COPY --from=builder --chown=cnipac:cnipac /app/apps/backend/prisma ./prisma
+
+# Horodatages figes : construction reproductible a l'identique (NFR-C5-05).
+RUN find /app -newermt "@${SOURCE_DATE_EPOCH}" -writable -print0 \
+    | xargs -0r touch --date="@${SOURCE_DATE_EPOCH}" --no-dereference 2>/dev/null || true
+
+USER cnipac
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+
+# Pas de npm/pnpm au demarrage : un processus de moins, arret plus propre.
+CMD ["node", "dist/main.js"]

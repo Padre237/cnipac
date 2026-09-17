@@ -1,0 +1,72 @@
+# =============================================================================
+# Hygiene du depot — conventions, duree de la CI, branches longues
+# ADR : 016 (72 h max par branche), 019 (seuil de 12 min), 028 (paliers),
+#       036 (Conventional Commits)
+# =============================================================================
+name: Hygiene
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  schedule:
+    - cron: '0 6 * * 1'   # lundi matin : bilan hebdomadaire
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  titre-pr:
+    name: Titre de PR conforme (ADR-036)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      # La fusion est en squash : le titre de la PR devient le message de commit.
+      - name: Valider le titre avec commitlint
+        run: echo "${{ github.event.pull_request.title }}" | npx commitlint
+
+  taille-pr:
+    name: Taille de la PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Signaler les PR volumineuses
+        run: |
+          lignes=$(git diff --shortstat origin/${{ github.base_ref }}...HEAD -- ':!package-lock.json' ':!docs/design' \
+                   | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
+          echo "Lignes ajoutees (hors lockfile et maquettes) : $lignes"
+          if [ "$lignes" -gt 800 ]; then
+            echo "::warning::PR de $lignes lignes ajoutees. Au-dela de 800 lignes, la revue perd en efficacite (ADR-016)."
+          fi
+
+  bilan-hebdomadaire:
+    name: Bilan hebdomadaire du depot
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: ./.github/actions/setup-node
+
+      - name: Branches de plus de 72 heures (ADR-016)
+        run: node scripts/bilan-branches.mjs --age-max-heures=72
+
+      - name: "Duree moyenne de la CI (seuil de reexamen ADR-019 : 12 min)"
+        run: node scripts/bilan-duree-ci.mjs --seuil-minutes=12
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rappel de palier si un jalon approche (ADR-028)
+        run: node scripts/bilan-palier.mjs
+
+      - name: Derogations COPIL encore en attente de validation
+        run: node scripts/bilan-derogations.mjs

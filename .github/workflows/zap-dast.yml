@@ -1,0 +1,103 @@
+# =============================================================================
+# DAST OWASP ZAP — trois niveaux (ADR-031)
+# Exigences : NFR-C3-04, NFR-C3-07, AC-P1-10, AC-P2-08, AC-P3-05
+# Execute sur runner self-hosted : la cible est un environnement CENADI.
+# =============================================================================
+name: DAST OWASP ZAP
+
+on:
+  workflow_dispatch:
+    inputs:
+      niveau:
+        type: choice
+        options: [baseline, full]
+        default: baseline
+      cible:
+        type: choice
+        options: [preprod, prod]
+        default: preprod
+  schedule:
+    - cron: '0 2 * * 0'   # dimanche 02h00 UTC — scan complet hebdomadaire
+
+permissions:
+  contents: read
+  issues: write
+  security-events: write
+
+jobs:
+  zap:
+    name: Scan ${{ inputs.niveau || 'full' }} sur ${{ inputs.cible || 'preprod' }}
+    runs-on: [self-hosted, cnipac, cenadi]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determiner l'URL cible
+        id: cible
+        run: |
+          cas="${{ inputs.cible || 'preprod' }}"
+          if [ "$cas" = "prod" ]; then
+            echo "url=https://cnipac.cm" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=https://preprod.cnipac.cm" >> "$GITHUB_OUTPUT"
+          fi
+
+      # L'exploration est guidee par la specification OpenAPI (SDD §24.2) :
+      # couverture superieure a une exploration par decouverte (ADR-031).
+      - name: Recuperer la specification OpenAPI de la cible
+        run: curl -fsSL "${{ steps.cible.outputs.url }}/api/docs-json" -o openapi-cible.json
+
+      - name: Scan baseline (passif, 5-8 min)
+        if: ${{ (inputs.niveau || 'full') == 'baseline' }}
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: ${{ steps.cible.outputs.url }}
+          rules_file_name: tests/security/zap-rules.tsv
+          cmd_options: '-a -j -z "-config replacer.full_list(0).description=auth"'
+          fail_action: true
+
+      - name: Scan complet authentifie (actif, 30-45 min)
+        if: ${{ (inputs.niveau || 'full') == 'full' }}
+        uses: zaproxy/action-full-scan@v0.12.0
+        with:
+          target: ${{ steps.cible.outputs.url }}
+          rules_file_name: tests/security/zap-rules.tsv
+          cmd_options: >-
+            -a -j
+            -n tests/security/zap-auth.context
+            -z "-config api.disablekey=true"
+          fail_action: true
+
+      - name: Scan de l'API guide par OpenAPI
+        run: |
+          docker run --rm -v "$PWD:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py \
+            -t /zap/wrk/openapi-cible.json -f openapi \
+            -c /zap/wrk/tests/security/zap-rules.tsv \
+            -r /zap/wrk/reports/zap-api.html -J /zap/wrk/reports/zap-api.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rapport-zap-${{ inputs.niveau || 'full' }}-${{ github.run_number }}
+          path: reports/
+          retention-days: 365   # piece de conformite AC-P1-10 / AC-P2-08
+
+      - name: Ouvrir un ticket en cas de vulnerabilite HIGH ou CRITICAL
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: `[SECURITE] Vulnerabilite detectee par ZAP — ${new Date().toISOString().slice(0,10)}`,
+              labels: ['securite', 'priorite-haute', 'NFR-C3-04'],
+              body: [
+                'Le scan DAST a detecte une ou plusieurs vulnerabilites de criticite HIGH ou CRITICAL.',
+                '',
+                `Execution : ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                '',
+                'NFR-C3-04 : aucune vulnerabilite CVSS >= 7 ne doit subsister a la mise en production.',
+                'Procedure de traitement : docs/runbooks/RB-08-traitement-vulnerabilites.md',
+              ].join('\n'),
+            });

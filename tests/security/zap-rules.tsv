@@ -1,0 +1,14 @@
+# Règles OWASP ZAP — ADR-031.
+# Chaque exclusion porte une justification et une date de dernière revue.
+# Toute exclusion est revue au trimestre : une exclusion oubliée devient une
+# vulnérabilité invisible.
+# Format : ID<TAB>ACTION<TAB>commentaire     (IGNORE | WARN | FAIL)
+#
+# ---------------------------------------------------------------------------
+# Aucune exclusion n'est active au Palier 0.
+# Les faux positifs seront ajoutés ici au fur et à mesure, JAMAIS en désactivant
+# une règle globalement.
+# ---------------------------------------------------------------------------
+#
+# Exemple de forme attendue :
+# 10096	IGNORE	Horodatage détecté dans un identifiant de corrélation, pas une donnée sensible. Revu le 2026-09-17 par le RSSI.

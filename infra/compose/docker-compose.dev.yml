@@ -1,0 +1,29 @@
+# Override DEV — SDD §8.1 : donnees factices, jeu de test 50 producteurs.
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.backend
+      target: runtime
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cnipac:cnipac_dev@postgres:5432/cnipac
+      JWT_SECRET: secret-de-developpement-local
+    ports: ['3000:3000']
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.frontend
+    ports: ['8080:80']
+
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: cnipac_dev
+    ports: ['5432:5432']
+
+  redis:
+    ports: ['6379:6379']
+
+  nginx:
+    profiles: [complet]     # en DEV, on attaque le front et l'API directement

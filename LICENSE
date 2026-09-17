@@ -1,0 +1,21 @@
+LICENCE DU CODE SOURCE — PROJET CNIPAC
+
+Copyright (c) 2026 REPUBLIQUE DU CAMEROUN
+Ministere des Finances — Centre National de Developpement de l'Informatique (CENADI)
+Ministere des Arts et de la Culture — Archives Nationales du Cameroun (ANC)
+
+Conformement a l'exigence NFR-C9-04 du Cahier d'Analyse V2.0, l'integralite du code
+source du systeme CNIPAC est la propriete de l'Etat du Cameroun, le CENADI agissant
+en qualite de mandataire.
+
+Toute contribution externe au present depot emporte cession expresse et irrevocable
+des droits patrimoniaux d'auteur a l'Etat du Cameroun, conformement aux clauses
+contractuelles du marche. Cette cession est materialisee par la signature du
+document docs/conventions/CESSION-DROITS.md prealablement a toute contribution.
+
+Les dependances tierces utilisees par le systeme demeurent soumises a leurs licences
+respectives, inventoriees automatiquement dans le SBOM produit a chaque release
+(cf. ADR-024 et ADR-025).
+
+Le regime de diffusion publique eventuelle du present code (open source) releve d'une
+decision du Comite de Pilotage et n'est pas acquis a la date de redaction.

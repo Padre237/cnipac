@@ -1,0 +1,11 @@
+# ADR-023 : Renovate assure les mises a jour applicatives (renovate.json).
+# Dependabot est conserve uniquement pour les alertes de securite GitHub,
+# qui court-circuitent la cadence hebdomadaire de Renovate.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 3
+    labels: [deps, ci, securite]
+    commit-message: { prefix: 'ci(deps)' }

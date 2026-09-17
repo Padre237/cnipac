@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Deux controles instantanes, qui evitent la plupart des CI rouges.
+npm run typecheck && node scripts/gate-tracabilite.mjs

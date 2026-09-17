@@ -1,0 +1,19 @@
+# Instance PostgreSQL ephemere et isolee, pour l'exercice de restauration.
+# NFR-C2-05 impose un test de restauration trimestriel ; il est ici automatise.
+# Aucun lien avec les volumes de production : tout vit en memoire.
+name: cnipac-restore-drill
+
+services:
+  postgres-drill:
+    image: postgis/postgis:16-3.4@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    shm_size: 1gb
+    environment:
+      POSTGRES_DB: cnipac_drill
+      POSTGRES_USER: cnipac_drill
+      POSTGRES_PASSWORD: drill_jetable
+    tmpfs: ['/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cnipac_drill']
+      interval: 5s
+      retries: 20
+    ports: ['55432:5432']

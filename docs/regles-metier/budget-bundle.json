@@ -1,0 +1,28 @@
+{
+  "$commentaire": [
+    "Budgets de poids appliques par scripts/gate-bundle-budget.mjs (ADR-029).",
+    "Exigence NFR-C1-07 : 2 Mo gzip. Budget applique : 1,6 Mo, soit 20 % de marge",
+    "d'exploitation. Contexte : SRS §2.4.2, connexion 3G de reference a 1 Mbit/s.",
+    "Toute derogation exige une justification ecrite et la validation du tech lead."
+  ],
+  "unite": "octets_gzip",
+  "budgets": {
+    "entree_totale":        { "max": 1677721, "alerte": 1468006, "exigence": "NFR-C1-07", "note": "1,6 Mo bloquant / 1,4 Mo alerte pour une exigence a 2 Mo" },
+    "chunk_cartography":    { "max": 614400, "exigence": "FR-M2-01", "note": "Leaflet + markercluster" },
+    "chunk_dashboard":      { "max": 409600, "exigence": "FR-M3-01", "note": "Recharts" },
+    "chunk_admin":          { "max": 307200, "exigence": "FR-M6-01" },
+    "chunk_ingestion":      { "max": 307200, "exigence": "FR-M1-01" },
+    "chunk_crowdsourcing":  { "max": 307200, "exigence": "FR-M5-01" },
+    "chunk_producer":       { "max": 307200, "exigence": "FR-M4-06" },
+    "chunk_auth":           { "max": 204800, "exigence": "FR-M6-01" },
+    "css_total":            { "max": 102400 },
+    "polices_total":        { "max": 153600, "note": "sous-ensemble latin uniquement" },
+    "image_unitaire":       { "max": 204800, "note": "WebP obligatoire" }
+  },
+  "interdits_dans_entree": {
+    "$commentaire": "SDD §20.3 — un utilisateur anonyme consultant la carte ne doit jamais telecharger le code d'administration.",
+    "modules": ["features/admin", "features/crowdsourcing", "features/ingestion"],
+    "exigence": "NFR-C1-06"
+  },
+  "derogations": []
+}

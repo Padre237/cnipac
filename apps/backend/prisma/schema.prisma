@@ -1,0 +1,74 @@
+// =============================================================================
+// Schema Prisma CNIPAC — Palier 0.
+// Le modele complet est defini au SDD V4.0 chapitre 12 (dictionnaire de donnees).
+// Le present fichier pose les fondations et les contraintes NON NEGOCIABLES.
+//
+// AVERTISSEMENT — ADR-027 : les tables `evenement_audit`, `soumission_kobo` et
+// `version_fiche` sont PROTEGEES. Toute migration comportant une operation
+// destructive sur l'une d'elles est refusee par la CI. Fondement : article 32
+// de la Loi n 2024/001 et regle de gestion RG-M1-04.
+// =============================================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis, pg_trgm, unaccent, uuidOssp(map: "uuid-ossp")]
+}
+
+// --- Enumerations : miroir de packages/shared-types/src/enumerations.ts ------
+// La coherence entre les deux est verifiee par un test unitaire dedie.
+
+enum StatutFiche {
+  NOUVELLE
+  QUARANTAINE
+  VALIDEE
+  EDITEE
+  REJETEE
+  ARCHIVEE
+}
+
+enum CodeRole {
+  R_01
+  R_02
+  R_03
+  R_04
+  R_05
+  R_06
+  R_07
+  R_08
+}
+
+// =============================================================================
+// TABLE PROTEGEE — art. 32 Loi 2024/001, NFR-C3-05, ADR-009 du SDD.
+// Append-only avec chainage par hachage : chaque evenement porte le hachage du
+// precedent, ce qui rend toute alteration detectable. Conservation 5 ans, sans
+// possibilite de purge anticipee.
+// AUCUNE suppression, AUCUNE modification, AUCUN changement de type de colonne.
+// =============================================================================
+model EvenementAudit {
+  id              BigInt   @id @default(autoincrement())
+  horodatage      DateTime @default(now()) @db.Timestamptz(3)
+  acteurId        String?  @map("acteur_id")
+  acteurRole      CodeRole? @map("acteur_role")
+  action          String   @db.VarChar(100)
+  typeRessource   String   @map("type_ressource") @db.VarChar(60)
+  ressourceId     String?  @map("ressource_id")
+  adresseIp       String?  @map("adresse_ip") @db.Inet
+  agentUtilisateur String? @map("agent_utilisateur") @db.VarChar(500)
+  details         Json?
+
+  /// Hachage du present evenement, calcule sur ses champs et sur hachagePrecedent.
+  hachage         String   @db.Char(64)
+  /// Hachage de l'evenement precedent. NULL pour le tout premier uniquement.
+  hachagePrecedent String? @map("hachage_precedent") @db.Char(64)
+
+  @@index([horodatage])
+  @@index([acteurId, horodatage])
+  @@index([typeRessource, ressourceId])
+  @@map("evenement_audit")
+}

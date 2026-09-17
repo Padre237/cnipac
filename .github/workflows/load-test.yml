@@ -1,0 +1,68 @@
+# =============================================================================
+# Tests de charge k6 — NFR-C1 (SDD §25.5 et §25.10)
+# Executes en PREPROD sur jeu de 15 000 producteurs synthetiques (ADR-034).
+# =============================================================================
+name: Tests de charge
+
+on:
+  workflow_dispatch:
+    inputs:
+      profil:
+        type: choice
+        options: [p1-50-users, p2-200-users, p3-500-users, tous]
+        default: p2-200-users
+  schedule:
+    - cron: '0 1 * * 6'   # samedi 01h00 UTC, hors heures ouvrees Yaounde
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  charge:
+    name: k6 — ${{ inputs.profil || 'p2-200-users' }}
+    runs-on: [self-hosted, cnipac, cenadi, preprod]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Charger le jeu de donnees de charge (15 000 producteurs — NFR-C1-04)
+        run: ./scripts/charger-jeu-de-donnees.sh --env=preprod --jeu=charge
+
+      # Scenarios du SDD §25.5, un fichier k6 par ligne du tableau.
+      - name: Chargement initial de la carte (NFR-C1-01, P95 <= 5 s en 3G)
+        run: k6 run tests/load/01-carte-initiale.js --out json=reports/k6-carte.json
+        env:
+          K6_PROFIL: ${{ inputs.profil || 'p2-200-users' }}
+
+      - name: Fiche synthetique producteur (NFR-C1-02, P95 <= 2 s)
+        run: k6 run tests/load/02-fiche-producteur.js --out json=reports/k6-fiche.json
+
+      - name: Tableau de bord national (P95 <= 800 ms)
+        run: k6 run tests/load/03-tableau-de-bord.js --out json=reports/k6-dashboard.json
+
+      - name: Ingestion Kobo de 500 soumissions (FR-M1-01, < 10 min)
+        run: k6 run tests/load/04-ingestion-kobo.js --out json=reports/k6-ingestion.json
+
+      - name: Pic d'authentifications (300 logins/min, P95 <= 1 s)
+        run: k6 run tests/load/05-authentification.js --out json=reports/k6-auth.json
+
+      - name: API publique open data (60 req/s, P95 <= 1 s, erreurs < 1 %)
+        run: k6 run tests/load/06-api-publique.js --out json=reports/k6-api.json
+
+      - name: Export CSV de 10 000 producteurs (NFR-C1-05, <= 30 s)
+        run: k6 run tests/load/07-export-csv.js --out json=reports/k6-export.json
+
+      - name: Comparer aux seuils NFR-C1 et publier la synthese
+        run: node scripts/analyser-resultats-charge.mjs --sortie=reports/synthese-charge.md
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultats-charge-${{ github.run_number }}
+          path: reports/
+          retention-days: 365   # piece de conformite AC-P2-09 / AC-P3-06
+
+      - name: Restaurer le jeu PREPROD nominal
+        if: always()
+        run: ./scripts/charger-jeu-de-donnees.sh --env=preprod --jeu=preprod

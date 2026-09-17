@@ -1,0 +1,42 @@
+# CODEOWNERS — CNIPAC
+# ADR-016 : la protection de branche exige 2 approbations, dont au moins un CODEOWNER.
+# Remplacer les equipes par les identifiants reels a la creation de l'organisation
+# (procedure : docs/runbooks/RB-01-configuration-depot.md).
+
+# Defaut
+*                               @cenadi-cm/cnipac-tech-leads
+
+# ---------------------------------------------------------------------------
+# Zones a revue renforcee. Un changement ici engage la conformite legale
+# ou la securite du systeme : l'architecte ou le RSSI est requis.
+# ---------------------------------------------------------------------------
+
+# Schema et migrations — art. 32 Loi 2024/001, ADR-027.
+apps/backend/prisma/           @cenadi-cm/cnipac-architectes @cenadi-cm/cnipac-dba
+
+# Module M6 : RBAC, authentification, journal d'audit.
+apps/backend/src/modules/m6-admin/   @cenadi-cm/cnipac-architectes @cenadi-cm/cnipac-rssi
+
+# Module M7 : API publique — contrat opposable a des tiers (ADR-037).
+apps/backend/src/modules/m7-public-api/  @cenadi-cm/cnipac-architectes
+
+# Regles de gestion partagees : une modification change le comportement metier
+# des deux applications simultanement.
+packages/shared-types/         @cenadi-cm/cnipac-architectes @cenadi-cm/cnipac-metier-anc
+
+# Infrastructure, pipeline, portes de qualite.
+infra/                         @cenadi-cm/cnipac-architectes @cenadi-cm/cnipac-exploitation
+.github/workflows/             @cenadi-cm/cnipac-architectes
+scripts/                       @cenadi-cm/cnipac-architectes
+
+# Decisions d'architecture et derogations contractuelles.
+docs/adr/                      @cenadi-cm/cnipac-architectes
+docs/DEROGATIONS.md            @cenadi-cm/cnipac-architectes @cenadi-cm/cnipac-chef-de-projet
+
+# Regles metier et registre des exigences — co-propriete ANC.
+docs/regles-metier/            @cenadi-cm/cnipac-metier-anc @cenadi-cm/cnipac-architectes
+docs/traceability/exigences.json  @cenadi-cm/cnipac-metier-anc @cenadi-cm/cnipac-chef-de-projet
+
+# Licence et propriete intellectuelle — NFR-C9-04.
+LICENSE                        @cenadi-cm/cnipac-chef-de-projet
+docs/conformite/               @cenadi-cm/cnipac-rssi @cenadi-cm/cnipac-chef-de-projet

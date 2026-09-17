@@ -1,0 +1,46 @@
+# Detection de secrets — ADR-033.
+# La detection porte sur l'historique complet en execution planifiee : un secret
+# committe puis retire reste dans l'historique Git.
+title = "CNIPAC — configuration gitleaks"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "cnipac-jeton-kobotoolbox"
+description = "Jeton d'API KoboToolbox (connecteur M1)"
+regex = '''(?i)(kobo[_-]?(token|api[_-]?key)|KOBO_TOKEN)['"\s:=]{1,10}([a-f0-9]{40})'''
+tags = ["cnipac", "m1", "kobo"]
+
+[[rules]]
+id = "cnipac-secret-jwt"
+description = "Secret de signature JWT (M6)"
+regex = '''(?i)(jwt[_-]?secret|JWT_SECRET)['"\s:=]{1,10}([A-Za-z0-9+/=_-]{24,})'''
+tags = ["cnipac", "m6", "auth"]
+
+[[rules]]
+id = "cnipac-url-base-avec-mdp"
+description = "Chaine de connexion PostgreSQL contenant un mot de passe"
+regex = '''postgres(ql)?://[^:\s]+:[^@\s]{4,}@'''
+tags = ["cnipac", "db"]
+
+[[rules]]
+id = "cnipac-cle-cosign"
+description = "Cle privee cosign (ADR-024)"
+regex = '''-----BEGIN ENCRYPTED SIGSTORE PRIVATE KEY-----'''
+tags = ["cnipac", "signature"]
+
+[allowlist]
+description = "Faux positifs connus, revus au trimestre"
+paths = [
+  '''\.gitleaks\.toml$''',
+  '''^docs/reference/''',          # documents contractuels Word
+  '''^docs/design/''',             # maquettes Stitch
+  '''^\.env\.example$''',
+  '''^infra/compose/secrets/\.gitkeep$''',
+]
+regexes = [
+  '''cnipac_test''',               # identifiants de la base ephemere de CI
+  '''changeme-en-local''',         # valeurs factices de .env.example
+  '''EXEMPLE_[A-Z_]+''',
+]

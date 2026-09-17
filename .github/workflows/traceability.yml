@@ -1,0 +1,42 @@
+# =============================================================================
+# Regeneration de la matrice de tracabilite (ADR-035)
+# La matrice est derivee du code, jamais ecrite a la main.
+# =============================================================================
+name: Matrice de tracabilite
+
+on:
+  push:
+    branches: [main]
+    paths: ['apps/**', 'packages/**', 'tests/**', 'docs/traceability/exigences.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regenerer:
+    name: Regenerer MATRICE.md
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+
+      - name: Construire la matrice depuis le registre et les tests
+        run: node scripts/generer-matrice-tracabilite.mjs
+
+      - name: Couverture des exigences par palier
+        run: node scripts/gate-tracabilite.mjs --rapport
+
+      - name: Committer la matrice si elle a change
+        run: |
+          set -euo pipefail
+          if git diff --quiet docs/traceability/MATRICE.md; then
+            echo "Matrice inchangee."
+            exit 0
+          fi
+          git config user.name "cnipac-ci"
+          git config user.email "ci@cnipac.cm"
+          git add docs/traceability/MATRICE.md docs/traceability/couverture.json
+          git commit -m "docs(docs): regenerer la matrice de tracabilite [skip ci]"
+          git push

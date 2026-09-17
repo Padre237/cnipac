@@ -1,0 +1,73 @@
+# =============================================================================
+# Deploiement PREPROD — automatique apres CI verte sur main
+# ADR-032 (Blue-Green automatise), ADR-014 (runner self-hosted : donnees reelles
+# interdites mais hote CENADI atteint), ADR-024 (verification de signature)
+# =============================================================================
+name: CD PREPROD
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version a deployer (defaut : sha du dernier commit de main)"
+        required: false
+
+concurrency:
+  group: deploiement-preprod
+  cancel-in-progress: false   # on n'interrompt jamais un deploiement en cours
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deployer:
+    name: Deployer en PREPROD
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: [self-hosted, cnipac, cenadi, preprod]
+    environment:
+      name: preprod
+      url: https://preprod.cnipac.cm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verifier la signature de l'image (ADR-024)
+        run: cosign verify --key infra/cosign.pub "${IMAGE}"
+        env:
+          IMAGE: ${{ vars.CNIPAC_REGISTRY }}/${{ vars.CNIPAC_IMAGE_PREFIX }}-backend:sha-${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Sauvegarde prealable (SDD §26.5 etape 2)
+        run: ./scripts/sauvegarde-prealable.sh --env=preprod
+
+      - name: Migrations Prisma
+        run: ./scripts/migrer.sh --env=preprod
+
+      - name: Bascule Blue-Green
+        run: ./scripts/deploy.sh --env=preprod --version=sha-${{ github.event.workflow_run.head_sha || github.sha }} --strategie=blue-green
+
+      - name: Tests de fumee (SDD §26.5 etape 6)
+        run: ./scripts/tests-de-fumee.sh --url=https://preprod.cnipac.cm
+
+      - name: Bascule arriere automatique en cas d'echec
+        if: failure()
+        run: ./scripts/rollback.sh --env=preprod --mode=bascule-nginx
+
+  # Apres deploiement, scan DAST de niveau 2 (ADR-031).
+  dast-apres-deploiement:
+    name: Declencher le scan DAST
+    needs: deployer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner, repo: context.repo.repo,
+              workflow_id: 'zap-dast.yml', ref: 'main',
+              inputs: { niveau: 'baseline', cible: 'preprod' },
+            });

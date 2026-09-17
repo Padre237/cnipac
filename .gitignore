@@ -1,0 +1,55 @@
+# Dependances
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Tests
+playwright-report/
+test-results/
+blob-report/
+.nyc_output/
+
+# Environnement
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# ===========================================================================
+# SECRETS — ADR-033. Aucun secret ne doit JAMAIS etre versionne.
+# Les fichiers de secrets Docker sont generes sur l'hote par scripts/bootstrap-secrets.sh
+# ===========================================================================
+infra/compose/secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+cosign.key
+!cosign.pub
+
+# Donnees — NFR-C9-02 / ADR-034 : aucun dump de PROD dans le depot
+*.dump
+*.sql.gz
+*.backup
+infra/postgres/data/
+dumps/
+
+# Artefacts generes
+sbom/
+reports/
+*.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json

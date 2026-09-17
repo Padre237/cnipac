@@ -1,0 +1,140 @@
+# =============================================================================
+# Deploiement PRODUCTION — declenche par un tag signe, sous approbation humaine
+# Exigences : NFR-C2-03 (RTO <= 4 h), SDD §26.5, §26.6, §26.8
+# ADR : 032 (Blue-Green automatise + approbation), 024 (signature), 021 (PITR)
+#
+# GOUVERNANCE — la decision de deployer reste humaine. L'environnement GitHub
+# `production` exige 2 approbateurs. Le script n'execute la sequence qu'apres.
+# =============================================================================
+name: CD PRODUCTION
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version a deployer (ex. v0.1.0)'
+        required: true
+      strategie:
+        description: 'Strategie de deploiement'
+        type: choice
+        options: [blue-green, canary, manuel]
+        default: blue-green
+      motif:
+        description: "Motif du deploiement (trace au journal de deploiement)"
+        required: true
+
+concurrency:
+  group: deploiement-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Controles prealables, avant de solliciter les approbateurs.
+  # ---------------------------------------------------------------------------
+  pre-vol:
+    name: Controles pre-vol
+    runs-on: [self-hosted, cnipac, cenadi, prod]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+
+      - name: La version existe et son tag est signe
+        run: git tag -v "${{ inputs.version }}"
+
+      - name: Les images sont signees par la cle CNIPAC (ADR-024)
+        run: |
+          for composant in backend frontend; do
+            cosign verify --key infra/cosign.pub \
+              "${{ vars.CNIPAC_REGISTRY }}/${{ vars.CNIPAC_IMAGE_PREFIX }}-${composant}:${{ inputs.version }}#v"
+          done
+
+      - name: La version a ete deployee en PREPROD et y a passe les tests de fumee
+        run: ./scripts/verifier-passage-preprod.sh --version=${{ inputs.version }}
+
+      - name: Budget d'erreur mensuel non epuise (ADR-038)
+        run: ./scripts/verifier-budget-erreur.sh --seuil=75
+
+      - name: Capacite de l'hote suffisante pour Blue + Green (ADR-032)
+        run: ./scripts/verifier-capacite-hote.sh --mode=blue-green
+
+      - name: Les migrations de cette version sont retrocompatibles
+        run: node scripts/gate-migrations.mjs --retrocompatibilite --depuis=$(./scripts/version-en-prod.sh)
+
+  # ---------------------------------------------------------------------------
+  # PORTE D'APPROBATION — 2 approbateurs configures sur l'environnement.
+  # ---------------------------------------------------------------------------
+  deployer:
+    name: Deployer en PRODUCTION
+    needs: pre-vol
+    runs-on: [self-hosted, cnipac, cenadi, prod]
+    environment:
+      name: production           # <- exige 2 approbations (SRS §14.8, SDD §26.4)
+      url: https://cnipac.cm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+
+      - name: Journaliser l'intention de deploiement
+        run: ./scripts/journal-deploiement.sh --debut --version=${{ inputs.version }} --motif="${{ inputs.motif }}" --operateur="${{ github.actor }}"
+
+      # SDD §26.5 etape 2 — sauvegarde verifiee AVANT tout changement.
+      - name: Sauvegarde complete verifiee (ADR-021)
+        run: ./scripts/sauvegarde-prealable.sh --env=prod --verifier
+
+      - name: Migrations Prisma
+        run: ./scripts/migrer.sh --env=prod
+
+      - name: Demarrer Green sans trafic
+        run: ./scripts/deploy.sh --env=prod --version=${{ inputs.version }} --strategie=${{ inputs.strategie }} --etape=demarrer-green
+
+      - name: Tests de fumee sur Green (SDD §26.5 etape 6)
+        run: ./scripts/tests-de-fumee.sh --cible=green --strict
+
+      - name: Basculer le trafic vers Green
+        run: ./scripts/deploy.sh --env=prod --etape=basculer
+
+      # SDD §26.6.3 — observation avant de declarer le succes.
+      - name: Observation 10 minutes (5xx, latence P95, saturation)
+        run: ./scripts/observer-apres-bascule.sh --duree=600 --seuil-erreur=1 --seuil-p95=800
+
+      - name: Bascule arriere automatique si les seuils sont depasses
+        if: failure()
+        run: |
+          ./scripts/rollback.sh --env=prod --mode=bascule-nginx
+          ./scripts/journal-deploiement.sh --rollback --version=${{ inputs.version }} --motif="seuils depasses en observation"
+
+      - name: Conserver Blue 24 h puis l'arreter (rollback instantane pendant ce delai)
+        run: ./scripts/deploy.sh --env=prod --etape=planifier-arret-blue --delai=24h
+
+      - name: Journaliser le succes
+        if: success()
+        run: ./scripts/journal-deploiement.sh --fin --version=${{ inputs.version }} --statut=succes
+
+      - name: Notifier l'equipe et les utilisateurs (SDD §26.5 etape 7)
+        if: always()
+        run: ./scripts/notifier.sh --canal=exploitation --statut=${{ job.status }} --version=${{ inputs.version }}
+
+  # ---------------------------------------------------------------------------
+  # Verification post-deploiement, 30 minutes plus tard.
+  # ---------------------------------------------------------------------------
+  verification-differee:
+    name: Verification differee (T+30 min)
+    needs: deployer
+    runs-on: [self-hosted, cnipac, cenadi, prod]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attendre 30 minutes
+        run: sleep 1800
+      - name: Verifier les SLO NFR-C1 et NFR-C2 (ADR-038)
+        run: ./scripts/verifier-slo.sh --fenetre=30m
+      - name: Verifier l'integrite de la chaine du journal d'audit (art. 32)
+        run: ./scripts/verifier-chaine-audit.sh
