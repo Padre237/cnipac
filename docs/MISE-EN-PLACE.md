@@ -37,10 +37,10 @@ De zéro à un système déployé. Durée : **une demi-journée** pour les parti
 
 | Élément | Spécification (SDD §8.3) | Bloquant pour |
 |---|---|---|
-| Hôte **H1** applicatif | 4 vCPU, 8 Go, 100 Go SSD, Ubuntu LTS | déploiement PREPROD/PROD |
-| Hôte **H2** données | 4 vCPU, 16 Go, 500 Go SSD | idem |
+| nnées | 4 vCPU, 16 Go, 500 Go SSD | idem |
 | Hôte **H3** supervision | 2 vCPU, 4 Go, 1 To | supervision, sauvegardes |
-| Site de reprise | 2 To, accès SSH | externalisation des sauvegardes |
+| SiteHôte **H1** applicatif | 4 vCPU, 8 Go, 100 Go SSD, Ubuntu LTS | déploiement PREPROD/PROD |
+| Hôte **H2** do de reprise | 2 To, accès SSH | externalisation des sauvegardes |
 | Accès SSH, utilisateur dédié, clé publique déposée | — | déploiement automatisé |
 | IP publique fixe + FQDN | `cnipac.cm`, `preprod.cnipac.cm` | TLS, recette |
 | Certificats TLS | Let's Encrypt ou PKI souveraine | HTTPS (NFR-C3-01) |

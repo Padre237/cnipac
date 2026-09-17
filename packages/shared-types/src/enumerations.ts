@@ -92,7 +92,7 @@ export type CodeRegion = (typeof REGIONS)[number]['code'];
 // Systeme de coordonnees : WGS84 / EPSG:4326 (NFR-C5-04).
 // ---------------------------------------------------------------------------
 export const ENVELOPPE_CAMEROUN = Object.freeze({
-  longitudeMin: 8.4,
+  longitudeMin: 8.5,
   latitudeMin: 1.6,
   longitudeMax: 16.2,
   latitudeMax: 13.1,
