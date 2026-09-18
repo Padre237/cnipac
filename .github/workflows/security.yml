@@ -76,16 +76,19 @@ jobs:
         run: |
           set -euo pipefail
           VERSION=0.58.2
+          mkdir -p "$RUNNER_TEMP/trivy"
           curl -fsSL "https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz" \
-            | tar -xz -C /usr/local/bin trivy
-          trivy --version
+            -o "$RUNNER_TEMP/trivy.tar.gz"
+          tar -xzf "$RUNNER_TEMP/trivy.tar.gz" -C "$RUNNER_TEMP/trivy" trivy
+          echo "$RUNNER_TEMP/trivy" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/trivy/trivy" --version
 
       - name: Trivy — systeme de fichiers
         run: |
           trivy fs . --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed \
             --format sarif --output trivy-fs.sarif --scanners vuln,misconfig
       - uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && hashFiles('trivy-fs.sarif') != ''
         with: { sarif_file: trivy-fs.sarif, category: trivy-fs }
 
   # ---------------------------------------------------------------------------

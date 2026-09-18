@@ -12,17 +12,50 @@ description = "Jeton d'API KoboToolbox (connecteur M1)"
 regex = '''(?i)(kobo[_-]?(token|api[_-]?key)|KOBO_TOKEN)['"\s:=]{1,10}([a-f0-9]{40})'''
 tags = ["cnipac", "m1", "kobo"]
 
+  [rules.allowlist]
+  description = "Valeurs de developpement et de CI. La production monte ses secrets en fichiers (ADR-033)."
+  paths = [
+    '''^infra/compose/docker-compose\.dev\.yml$''',
+    '''^infra/compose/compose\.ci\.yml$''',
+    '''^infra/compose/docker-compose\.restore-drill\.yml$''',
+    '''^\.github/workflows/.*\.yml$''',
+    '''^\.env\.example$''',
+    '''^infra/postgres/tests/.*$''',
+  ]
+
 [[rules]]
 id = "cnipac-secret-jwt"
 description = "Secret de signature JWT (M6)"
 regex = '''(?i)(jwt[_-]?secret|JWT_SECRET)['"\s:=]{1,10}([A-Za-z0-9+/=_-]{24,})'''
 tags = ["cnipac", "m6", "auth"]
 
+  [rules.allowlist]
+  description = "Valeurs de developpement et de CI. La production monte ses secrets en fichiers (ADR-033)."
+  paths = [
+    '''^infra/compose/docker-compose\.dev\.yml$''',
+    '''^infra/compose/compose\.ci\.yml$''',
+    '''^infra/compose/docker-compose\.restore-drill\.yml$''',
+    '''^\.github/workflows/.*\.yml$''',
+    '''^\.env\.example$''',
+    '''^infra/postgres/tests/.*$''',
+  ]
+
 [[rules]]
 id = "cnipac-url-base-avec-mdp"
 description = "Chaine de connexion PostgreSQL contenant un mot de passe"
 regex = '''postgres(ql)?://[^:\s]+:[^@\s]{4,}@'''
 tags = ["cnipac", "db"]
+
+  [rules.allowlist]
+  description = "Valeurs de developpement et de CI. La production monte ses secrets en fichiers (ADR-033)."
+  paths = [
+    '''^infra/compose/docker-compose\.dev\.yml$''',
+    '''^infra/compose/compose\.ci\.yml$''',
+    '''^infra/compose/docker-compose\.restore-drill\.yml$''',
+    '''^\.github/workflows/.*\.yml$''',
+    '''^\.env\.example$''',
+    '''^infra/postgres/tests/.*$''',
+  ]
 
 [[rules]]
 id = "cnipac-cle-cosign"

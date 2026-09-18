@@ -37,6 +37,6 @@ jobs:
           fi
           git config user.name "cnipac-ci"
           git config user.email "ci@cnipac.cm"
-          git add docs/traceability/MATRICE.md docs/traceability/couverture.json
+          git add docs/traceability/MATRICE.md
           git commit -m "docs(docs): regenerer la matrice de tracabilite [skip ci]"
           git push
