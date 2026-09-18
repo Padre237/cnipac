@@ -13,3 +13,11 @@ runs:
     - name: Installer les dependances (SDD §26.4)
       shell: bash
       run: npm ci
+
+    # @cnipac/shared-types expose ses types depuis dist/, qui n'est pas versionne.
+    # Sans cette construction, le lint et le typage de ses dependants echouent
+    # sur des types « impossibles a resoudre ». C'est un prerequis de TOUS les
+    # jobs, d'ou sa place dans l'action commune plutot que dans chaque workflow.
+    - name: Construire les paquets partages
+      shell: bash
+      run: npm run build -w @cnipac/shared-types

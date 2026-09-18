@@ -40,7 +40,15 @@ paths = [
   '''^infra/compose/secrets/\.gitkeep$''',
 ]
 regexes = [
-  '''cnipac_test''',               # identifiants de la base ephemere de CI
-  '''changeme-en-local''',         # valeurs factices de .env.example
+  # Valeurs factices deliberees des environnements de developpement et de CI.
+  # Elles sont listees une par une, plutot que par exclusion de fichiers
+  # entiers : ces fichiers restent ainsi analyses pour de vrais secrets.
+  '''cnipac_test''',                        # base ephemere de CI
+  '''cnipac_dev''',                         # base de developpement local
+  '''drill_jetable''',                      # exercice de restauration
+  '''changeme-en-local''',                  # .env.example
+  '''secret-de-developpement-local''',      # docker-compose.dev.yml
+  '''secret-de-ci-jetable-non-sensible''',  # compose.ci.yml
+  '''\$argon2id\$factice''',                # assertions de validation du schema
   '''EXEMPLE_[A-Z_]+''',
 ]

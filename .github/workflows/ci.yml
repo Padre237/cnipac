@@ -44,6 +44,7 @@ jobs:
       migrations: ${{ steps.filtre.outputs.migrations }}
       infra: ${{ steps.filtre.outputs.infra }}
       docs_only: ${{ steps.filtre.outputs.docs_only }}
+      migrations_existent: ${{ steps.migrations.outputs.existent }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -69,6 +70,16 @@ jobs:
             docs_only:
               - 'docs/**'
               - '**/*.md'
+
+      - name: Les migrations Prisma existent-elles ?
+        id: migrations
+        run: |
+          if [ -d apps/backend/prisma/migrations ]; then
+            echo "existent=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "existent=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Migrations Prisma absentes — tests d'integration reportes au Sprint 2."
+          fi
 
   # ---------------------------------------------------------------------------
   # Coherence des versions declarees (ADR-017, ADR-023).
@@ -148,7 +159,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: [perimetre, qualite-statique]
-    if: needs.perimetre.outputs.backend == 'true'
+    # Les migrations Prisma n'existent qu'a partir du Sprint 2 : avant cela,
+    # ce job n'a rien a exercer et s'annonce saute.
+    if: needs.perimetre.outputs.backend == 'true' && needs.perimetre.outputs.migrations_existent == 'true'
     services:
       postgres:
         image: postgis/postgis:16-3.4@sha256:0f0b0b0000000000000000000000000000000000000000000000000000000000
@@ -174,9 +187,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
       - name: Migrations Prisma
-        run: npm run exec -w @cnipac/backend prisma migrate deploy
+        run: npm exec -w @cnipac/backend -- prisma migrate deploy
       - name: Jeu de donnees synthetique DEV (50 producteurs — ADR-034)
-        run: npm run exec -w @cnipac/backend prisma db seed
+        run: npm exec -w @cnipac/backend -- prisma db seed
       - name: Tests d'integration
         run: npm run test:integration
       - uses: actions/upload-artifact@v4
