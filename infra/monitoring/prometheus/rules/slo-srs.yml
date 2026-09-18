@@ -17,7 +17,7 @@ groups:
         for: 15m
         labels: { severite: majeure, exigence: NFR-C1-02, equipe: cnipac }
         annotations:
-          resume: "API au-dela du SLO : P95 = {{ $value | humanizeDuration }}"
+          resume: 'API au-dela du SLO : P95 = {{ $value | humanizeDuration }}'
           description: >-
             NFR-C1-02 exige un P95 inferieur ou egal a 800 ms sur les requetes API
             authentifiees, mesure sur 7 jours glissants. Consulter pg_stat_statements
@@ -32,7 +32,7 @@ groups:
         for: 15m
         labels: { severite: majeure, exigence: NFR-C1-01 }
         annotations:
-          resume: "Chargement initial de la carte a {{ $value }} s (cible <= 5 s en 3G)"
+          resume: 'Chargement initial de la carte a {{ $value }} s (cible <= 5 s en 3G)'
           description: >-
             NFR-C1-01. La cible vise une connexion 3G de reference a 1 Mbit/s :
             un depassement penalise d'abord les utilisateurs des regions mal couvertes.
@@ -42,7 +42,7 @@ groups:
         for: 5m
         labels: { severite: majeure, exigence: NFR-C1-07 }
         annotations:
-          resume: "Bundle a {{ $value | humanize1024 }}o gzip, plafond NFR-C1-07 a 2 Mo"
+          resume: 'Bundle a {{ $value | humanize1024 }}o gzip, plafond NFR-C1-07 a 2 Mo'
 
   # ---------------------------------------------------------------------------
   - name: cnipac-nfr-c2-disponibilite
@@ -61,7 +61,7 @@ groups:
         for: 1h
         labels: { severite: critique, exigence: NFR-C2-01 }
         annotations:
-          resume: "Disponibilite en heures ouvrees a {{ $value | humanizePercentage }} (cible 99,5 %)"
+          resume: 'Disponibilite en heures ouvrees a {{ $value | humanizePercentage }} (cible 99,5 %)'
 
       - record: cnipac:slo_dispo_globale
         expr: avg_over_time(up{job="cnipac-backend"}[30d])
@@ -71,7 +71,7 @@ groups:
         for: 1h
         labels: { severite: critique, exigence: NFR-C2-02 }
         annotations:
-          resume: "Disponibilite mensuelle a {{ $value | humanizePercentage }} (cible 99,0 %)"
+          resume: 'Disponibilite mensuelle a {{ $value | humanizePercentage }} (cible 99,0 %)'
 
       # Budget d'erreur : 99,0 % mensuel autorise environ 7 h 18 min d'arret.
       # Au-dela de 75 % consomme, les deploiements non critiques sont suspendus.
@@ -101,7 +101,7 @@ groups:
         for: 30m
         labels: { severite: critique, exigence: NFR-C2-05 }
         annotations:
-          resume: "Derniere sauvegarde reussie il y a plus de 26 heures"
+          resume: 'Derniere sauvegarde reussie il y a plus de 26 heures'
 
       - alert: CnipacExerciceRestaurationEnEchec
         expr: cnipac_exercice_restauration_succes == 0
@@ -122,7 +122,7 @@ groups:
       - alert: CnipacChaineAuditRompue
         expr: cnipac_audit_chaine_intacte == 0
         for: 0m
-        labels: { severite: maximale, exigence: NFR-C3-05, article_loi: "Art. 32" }
+        labels: { severite: maximale, exigence: NFR-C3-05, article_loi: 'Art. 32' }
         annotations:
           resume: "RUPTURE DE LA CHAINE DE HACHAGE DU JOURNAL D'AUDIT"
           description: >-
@@ -144,7 +144,7 @@ groups:
         for: 2m
         labels: { severite: critique, exigence: FR-M6-02 }
         annotations:
-          resume: "La base Redis de revocation des jetons est indisponible"
+          resume: 'La base Redis de revocation des jetons est indisponible'
           description: >-
             ADR-022 : sans cette base, les jetons revoques redeviennent valides.
             Le repli sur PostgreSQL doit prendre le relais ; verifier qu'il est actif.
@@ -155,7 +155,7 @@ groups:
         for: 0m
         labels: { severite: information, exigence: NFR-C4-04 }
         annotations:
-          resume: "Extraction de plus de 100 fiches par {{ $labels.utilisateur }}"
+          resume: 'Extraction de plus de 100 fiches par {{ $labels.utilisateur }}'
           description: "Notification a l'administrateur metier, conformement a NFR-C4-04."
 
       - alert: CnipacCertificatTlsExpirant
@@ -163,7 +163,7 @@ groups:
         for: 1h
         labels: { severite: majeure, exigence: NFR-C3-01 }
         annotations:
-          resume: "Certificat TLS expirant dans moins de 14 jours"
+          resume: 'Certificat TLS expirant dans moins de 14 jours'
 
   # ---------------------------------------------------------------------------
   # Indicateurs METIER. Le delai median de validation est l'indicateur qui
@@ -178,7 +178,7 @@ groups:
         for: 6h
         labels: { severite: avertissement, module: M1 }
         annotations:
-          resume: "{{ $value }} fiches en quarantaine depuis plus de 6 heures"
+          resume: '{{ $value }} fiches en quarantaine depuis plus de 6 heures'
           description: >-
             RG-M1-01 impose le passage par la quarantaine avant publication.
             Un engorgement signale un manque de capacite de validation cote ANC
@@ -189,7 +189,7 @@ groups:
         for: 12h
         labels: { severite: avertissement, module: M4 }
         annotations:
-          resume: "Delai median de validation a {{ $value }} h"
+          resume: 'Delai median de validation a {{ $value }} h'
 
       - alert: CnipacSynchronisationKoboEnPanne
         expr: (time() - cnipac_kobo_derniere_synchronisation_horodatage) > 3600

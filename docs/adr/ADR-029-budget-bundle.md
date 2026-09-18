@@ -28,14 +28,14 @@ l'exigence ne soit dépassée de 60 %.
 `scripts/gate-bundle-budget.mjs`, execute apres chaque construction du frontend, bloquant en
 PR.
 
-| Metrique | Budget | Fondement |
-|---|---|---|
-| Bundle initial (entree + chunks critiques), gzip | **1,6 Mo** | NFR-C1-07 (2 Mo) avec 20 % de marge d'exploitation |
-| **Seuil d'alerte** | 1,4 Mo | Avertissement non bloquant : le probleme est signale avant d'etre bloquant |
-| Chunk de la carte (`features/cartography`), gzip | 600 ko | Leaflet + clustering |
-| Chunk d'un module admin, gzip | 300 ko | Chargement paresseux par route (SDD §20.3) |
-| Toute image statique | 200 ko | WebP obligatoire |
-| Total des polices | 150 ko | Sous-ensemble latin uniquement |
+| Metrique                                         | Budget     | Fondement                                                                  |
+| ------------------------------------------------ | ---------- | -------------------------------------------------------------------------- |
+| Bundle initial (entree + chunks critiques), gzip | **1,6 Mo** | NFR-C1-07 (2 Mo) avec 20 % de marge d'exploitation                         |
+| **Seuil d'alerte**                               | 1,4 Mo     | Avertissement non bloquant : le probleme est signale avant d'etre bloquant |
+| Chunk de la carte (`features/cartography`), gzip | 600 ko     | Leaflet + clustering                                                       |
+| Chunk d'un module admin, gzip                    | 300 ko     | Chargement paresseux par route (SDD §20.3)                                 |
+| Toute image statique                             | 200 ko     | WebP obligatoire                                                           |
+| Total des polices                                | 150 ko     | Sous-ensemble latin uniquement                                             |
 
 **Marge de 20 %** : le budget d'exigence est a 2 Mo, le budget applique a 1,6 Mo. Le systeme
 doit avoir de la marge en production, pas frôler la limite.
@@ -66,11 +66,11 @@ une minute.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Verification manuelle en recette | Trop tard : le poids est deja integre et sa reduction devient un chantier. |
-| Lighthouse CI seul | Mesure la performance percue, pas le poids par chunk. Complementaire (ADR-030), non substituable. |
-| Budget a 2 Mo sans marge | Aucune marge d'exploitation. Le premier depassement viole directement l'exigence contractuelle. |
+| Alternative                      | Raison du rejet                                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Verification manuelle en recette | Trop tard : le poids est deja integre et sa reduction devient un chantier.                        |
+| Lighthouse CI seul               | Mesure la performance percue, pas le poids par chunk. Complementaire (ADR-030), non substituable. |
+| Budget a 2 Mo sans marge         | Aucune marge d'exploitation. Le premier depassement viole directement l'exigence contractuelle.   |
 
 ## Mise en oeuvre
 

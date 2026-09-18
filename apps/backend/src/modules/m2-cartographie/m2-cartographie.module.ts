@@ -19,4 +19,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class Um2UcartographieModule {}
+export class M2CartographieModule {}

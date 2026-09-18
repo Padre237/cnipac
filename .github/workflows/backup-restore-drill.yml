@@ -11,7 +11,7 @@ name: Exercice de restauration
 
 on:
   schedule:
-    - cron: '0 4 * * 2'   # mardi 04h00 UTC
+    - cron: '0 4 * * 2' # mardi 04h00 UTC
   workflow_dispatch:
     inputs:
 
@@ -78,7 +78,7 @@ jobs:
         with:
           name: exercice-restauration-${{ github.run_number }}
           path: reports/restauration/
-          retention-days: 400   # > 12 mois : couvre l'audit annuel
+          retention-days: 400 # > 12 mois : couvre l'audit annuel
 
       - if: always()
         run: docker compose -f infra/compose/docker-compose.restore-drill.yml down -v

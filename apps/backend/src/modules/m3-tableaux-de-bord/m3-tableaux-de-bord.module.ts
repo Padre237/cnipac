@@ -19,4 +19,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class Um3UtableauxUdeUbordModule {}
+export class M3TableauxDeBordModule {}

@@ -4,10 +4,16 @@
   "private": true,
   "description": "CNIPAC — Carte Numerique Interactive des Producteurs d'Archives au Cameroun",
   "license": "SEE LICENSE IN LICENSE",
-  "workspaces": ["apps/*", "packages/*"],
-  "engines": { "node": ">=22.0.0 <23", "npm": ">=10.0.0" },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.0.0 <23",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
-    "prepare": "husky",
+    "prepare": "husky || true",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
@@ -27,9 +33,11 @@
     "sbom": "node scripts/generate-sbom.mjs"
   },
   "devDependencies": {
+    "@cnipac/eslint-config": "*",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@playwright/test": "^1.48.0",
+    "eslint": "^9.39.5",
     "husky": "^9.1.6",
     "license-checker-rseidelsohn": "^4.4.2",
     "lint-staged": "^15.2.10",
@@ -37,7 +45,12 @@
     "typescript": "^5.6.3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["eslint --fix --max-warnings=0", "prettier --write"],
-    "*.{json,md,yml,yaml}": ["prettier --write"]
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix --max-warnings=0 --no-warn-ignored"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }

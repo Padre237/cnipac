@@ -62,10 +62,10 @@ l'application des le premier commit.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Aucune convention | Contraire au SDD §4.5. Rend la generation du changelog impossible. |
-| Convention sans application automatique | Une convention non verifiee n'est pas appliquee au-dela du deuxieme sprint. |
+| Alternative                                  | Raison du rejet                                                                                                                                          |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Aucune convention                            | Contraire au SDD §4.5. Rend la generation du changelog impossible.                                                                                       |
+| Convention sans application automatique      | Une convention non verifiee n'est pas appliquee au-dela du deuxieme sprint.                                                                              |
 | `semantic-release` (versionnage automatique) | Retire a l'equipe la maitrise du numero de version, alors que le SRS §14.8 impose des versions liees aux jalons (P1 = v0.1.0, P2 = v0.5.0, P3 = v1.0.0). |
 
 ## Mise en oeuvre

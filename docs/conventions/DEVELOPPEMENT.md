@@ -24,12 +24,12 @@ npm run dev -w @cnipac/frontend        # http://localhost:5173
 
 Si vous venez de npm, les commandes usuelles sont homonymes.
 
-| npm | pnpm |
-|---|---|
-| `npm install` | `npm install` |
-| `npm run build` | `npm run build` |
+| npm                               | pnpm                                 |
+| --------------------------------- | ------------------------------------ |
+| `npm install`                     | `npm install`                        |
+| `npm run build`                   | `npm run build`                      |
 | `npm install -w apps/backend pkg` | `npm run add -w @cnipac/backend pkg` |
-| `npm ci` | `npm install --frozen-lockfile` |
+| `npm ci`                          | `npm install --frozen-lockfile`      |
 
 La différence qui compte : **pnpm refuse d'importer un paquet non déclaré**. Si
 une importation échoue alors qu'elle « marchait avant », c'est une dépendance
@@ -62,13 +62,13 @@ reste donc vraie sans que personne ne la maintienne (ADR-035).
 
 ## Où mettre quoi
 
-| Nature | Emplacement | Pourquoi |
-|---|---|---|
-| Énumération ou seuil métier | `packages/shared-types` | Source de vérité unique, consommée par le back et le front |
-| Règle de gestion pure | `packages/shared-types/src/regles-metier.ts` | Testable unitairement, 100 % de couverture exigée |
-| Logique d'un module | `apps/backend/src/modules/mX-*/` | Découpage du SRS chapitre 5 |
-| Composant utilisé par une seule fonctionnalité | `src/features/<f>/components/` | SDD §20.2 |
-| Composant utilisé par deux fonctionnalités ou plus | `src/shared/components/` | Il « monte » à la deuxième utilisation |
+| Nature                                             | Emplacement                                  | Pourquoi                                                   |
+| -------------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------- |
+| Énumération ou seuil métier                        | `packages/shared-types`                      | Source de vérité unique, consommée par le back et le front |
+| Règle de gestion pure                              | `packages/shared-types/src/regles-metier.ts` | Testable unitairement, 100 % de couverture exigée          |
+| Logique d'un module                                | `apps/backend/src/modules/mX-*/`             | Découpage du SRS chapitre 5                                |
+| Composant utilisé par une seule fonctionnalité     | `src/features/<f>/components/`               | SDD §20.2                                                  |
+| Composant utilisé par deux fonctionnalités ou plus | `src/shared/components/`                     | Il « monte » à la deuxième utilisation                     |
 
 ## Erreurs qui coûtent cher
 

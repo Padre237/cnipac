@@ -13,12 +13,12 @@ test('[FR-M6-03] un rôle R-04 ne peut pas valider une soumission @rbac', async 
 
 ## Étiquettes
 
-| Étiquette | Exécution |
-|---|---|
-| `@e2e` | Suite complète, à chaque PR |
-| `@a11y` | Porte d'accessibilité (ADR-030) |
-| `@rbac` | Matrice des 8 rôles × points d'entrée sensibles (SDD §25.6) |
-| `@smoke` | Tests de fumée post-déploiement |
+| Étiquette | Exécution                                                   |
+| --------- | ----------------------------------------------------------- |
+| `@e2e`    | Suite complète, à chaque PR                                 |
+| `@a11y`   | Porte d'accessibilité (ADR-030)                             |
+| `@rbac`   | Matrice des 8 rôles × points d'entrée sensibles (SDD §25.6) |
+| `@smoke`  | Tests de fumée post-déploiement                             |
 
 ## Les quatorze scénarios du SDD §25.4
 

@@ -10,41 +10,41 @@ De zéro à un système déployé. Durée : **une demi-journée** pour les parti
 
 ## A.1 — Sur votre poste, maintenant
 
-| Outil | Version | Vérifier | Installer (macOS) |
-|---|---|---|---|
-| Node.js | **22 LTS** | `node -v` | `brew install node@22` |
-| npm | ≥ 10 | `npm -v` | fourni avec Node |
-| Docker Desktop | ≥ 24 | `docker -v` | `brew install --cask docker` |
-| Docker Compose | v2 | `docker compose version` | fourni avec Docker Desktop |
-| Git | ≥ 2.40 | `git --version` | `brew install git` |
-| GitHub CLI | ≥ 2.40 | `gh --version` | `brew install gh` |
-| cosign | ≥ 2.0 | `cosign version` | `brew install cosign` |
-| age | ≥ 1.1 | `age --version` | `brew install age` |
-| syft *(optionnel)* | ≥ 1.0 | `syft version` | `brew install syft` |
+| Outil              | Version    | Vérifier                 | Installer (macOS)            |
+| ------------------ | ---------- | ------------------------ | ---------------------------- |
+| Node.js            | **22 LTS** | `node -v`                | `brew install node@22`       |
+| npm                | ≥ 10       | `npm -v`                 | fourni avec Node             |
+| Docker Desktop     | ≥ 24       | `docker -v`              | `brew install --cask docker` |
+| Docker Compose     | v2         | `docker compose version` | fourni avec Docker Desktop   |
+| Git                | ≥ 2.40     | `git --version`          | `brew install git`           |
+| GitHub CLI         | ≥ 2.40     | `gh --version`           | `brew install gh`            |
+| cosign             | ≥ 2.0      | `cosign version`         | `brew install cosign`        |
+| age                | ≥ 1.1      | `age --version`          | `brew install age`           |
+| syft _(optionnel)_ | ≥ 1.0      | `syft version`           | `brew install syft`          |
 
 `cosign` et `age` ne servent qu'au déploiement : vous pouvez démarrer sans eux.
 
 ## A.2 — Comptes et accès
 
-| Élément | Qui le fournit | Bloquant pour |
-|---|---|---|
-| Organisation GitHub `cenadi-cm` + droits admin | DSI / CENADI | tout (partie B) |
-| Plan GitHub Team ou Enterprise | CENADI | environnements avec approbateurs |
-| Compte Codecov relié au dépôt | vous (gratuit) | job `couverture` de la CI (SDD §26.4) |
-| Compte Docker Hub *(optionnel)* | vous | éviter la limite de tirage anonyme |
+| Élément                                        | Qui le fournit | Bloquant pour                         |
+| ---------------------------------------------- | -------------- | ------------------------------------- |
+| Organisation GitHub `cenadi-cm` + droits admin | DSI / CENADI   | tout (partie B)                       |
+| Plan GitHub Team ou Enterprise                 | CENADI         | environnements avec approbateurs      |
+| Compte Codecov relié au dépôt                  | vous (gratuit) | job `couverture` de la CI (SDD §26.4) |
+| Compte Docker Hub _(optionnel)_                | vous           | éviter la limite de tirage anonyme    |
 
 ## A.3 — Infrastructure CENADI
 
-| Élément | Spécification (SDD §8.3) | Bloquant pour |
-|---|---|---|
-| nnées | 4 vCPU, 16 Go, 500 Go SSD | idem |
-| Hôte **H3** supervision | 2 vCPU, 4 Go, 1 To | supervision, sauvegardes |
-| SiteHôte **H1** applicatif | 4 vCPU, 8 Go, 100 Go SSD, Ubuntu LTS | déploiement PREPROD/PROD |
-| Hôte **H2** do de reprise | 2 To, accès SSH | externalisation des sauvegardes |
-| Accès SSH, utilisateur dédié, clé publique déposée | — | déploiement automatisé |
-| IP publique fixe + FQDN | `cnipac.cm`, `preprod.cnipac.cm` | TLS, recette |
-| Certificats TLS | Let's Encrypt ou PKI souveraine | HTTPS (NFR-C3-01) |
-| Ports 80 et 443 ouverts en entrée sur H1 uniquement | SDD §8.4 | accès public |
+| Élément                                             | Spécification (SDD §8.3)             | Bloquant pour                   |
+| --------------------------------------------------- | ------------------------------------ | ------------------------------- |
+| nnées                                               | 4 vCPU, 16 Go, 500 Go SSD            | idem                            |
+| Hôte **H3** supervision                             | 2 vCPU, 4 Go, 1 To                   | supervision, sauvegardes        |
+| SiteHôte **H1** applicatif                          | 4 vCPU, 8 Go, 100 Go SSD, Ubuntu LTS | déploiement PREPROD/PROD        |
+| Hôte **H2** do de reprise                           | 2 To, accès SSH                      | externalisation des sauvegardes |
+| Accès SSH, utilisateur dédié, clé publique déposée  | —                                    | déploiement automatisé          |
+| IP publique fixe + FQDN                             | `cnipac.cm`, `preprod.cnipac.cm`     | TLS, recette                    |
+| Certificats TLS                                     | Let's Encrypt ou PKI souveraine      | HTTPS (NFR-C3-01)               |
+| Ports 80 et 443 ouverts en entrée sur H1 uniquement | SDD §8.4                             | accès public                    |
 
 > **En attendant, rien ne bloque.** Le SDD §29.7.3 prévoit explicitement
 > « un environnement de DEV temporaire sur poste local ». C'est la partie C
@@ -52,23 +52,23 @@ De zéro à un système déployé. Durée : **une demi-journée** pour les parti
 
 ## A.4 — Métier
 
-| Élément | Qui | Bloquant pour |
-|---|---|---|
-| Instance KoboToolbox + `asset_uid` du formulaire | ANC | module M1 |
-| Jeton API Kobo d'un projet **de test** | ANC | ingestion en DEV et PREPROD |
-| Jeton API Kobo de production | ANC | ingestion en PROD |
-| Liste des 200 producteurs géolocalisés | ANC / agent de collecte | **AC-P1-03** |
-| Référents nommés pour les 7 équipes GitHub | chef de projet | CODEOWNERS, revues |
+| Élément                                          | Qui                     | Bloquant pour               |
+| ------------------------------------------------ | ----------------------- | --------------------------- |
+| Instance KoboToolbox + `asset_uid` du formulaire | ANC                     | module M1                   |
+| Jeton API Kobo d'un projet **de test**           | ANC                     | ingestion en DEV et PREPROD |
+| Jeton API Kobo de production                     | ANC                     | ingestion en PROD           |
+| Liste des 200 producteurs géolocalisés           | ANC / agent de collecte | **AC-P1-03**                |
+| Référents nommés pour les 7 équipes GitHub       | chef de projet          | CODEOWNERS, revues          |
 
 ## A.5 — Secrets à produire
 
-| Secret | Production | Où |
-|---|---|---|
-| `db_password`, `redis_password`, `jwt_secret` | `scripts/bootstrap-secrets.sh` | `/srv/cnipac/secrets/` |
-| Paire de clés `age` (sauvegardes) | `age-keygen -o cle_privee` | clé privée **hors de l'hôte sauvegardé** |
-| Paire de clés `cosign` | `cosign generate-key-pair` | privée → secret GitHub ; publique → `infra/cosign.pub` |
-| Clés SSH de déploiement | `ssh-keygen -t ed25519` | privée → secret GitHub ; publique → `authorized_keys` |
-| `CODECOV_TOKEN` | interface Codecov | secret GitHub |
+| Secret                                        | Production                     | Où                                                     |
+| --------------------------------------------- | ------------------------------ | ------------------------------------------------------ |
+| `db_password`, `redis_password`, `jwt_secret` | `scripts/bootstrap-secrets.sh` | `/srv/cnipac/secrets/`                                 |
+| Paire de clés `age` (sauvegardes)             | `age-keygen -o cle_privee`     | clé privée **hors de l'hôte sauvegardé**               |
+| Paire de clés `cosign`                        | `cosign generate-key-pair`     | privée → secret GitHub ; publique → `infra/cosign.pub` |
+| Clés SSH de déploiement                       | `ssh-keygen -t ed25519`        | privée → secret GitHub ; publique → `authorized_keys`  |
+| `CODECOV_TOKEN`                               | interface Codecov              | secret GitHub                                          |
 
 ---
 
@@ -105,7 +105,7 @@ s'appliquent pas.
 Interface GitHub → Settings → Branches → Add rule sur `main` :
 
 - ☑ Require a pull request before merging
-  - ☑ **Require approvals : 2** *(SRS §14.8)*
+  - ☑ **Require approvals : 2** _(SRS §14.8)_
   - ☑ Dismiss stale pull request approvals when new commits are pushed
   - ☑ Require review from Code Owners
 - ☑ Require status checks to pass before merging
@@ -145,6 +145,7 @@ Settings → Environments.
 **`preprod`** : aucun approbateur, branche de déploiement `main` uniquement.
 
 **`production`** :
+
 - ☑ **Required reviewers : 2** — c'est la porte d'approbation du SDD §26.4
 - Deployment branches : **Protected tags only**, motif `v*`
 
@@ -226,13 +227,13 @@ gh pr checks --watch
 
 **Ce que vous devez observer** :
 
-| Workflow | Attendu |
-|---|---|
-| `CI` | vert — lint, typage, tests, couverture, traçabilité, build |
-| `Securite` | vert — gitleaks, npm audit, Trivy, CodeQL, licences |
-| `Portes de qualite` | vert — a11y, budget de bundle, contrat d'API |
-| `Tests E2E` | vert ou sauté tant qu'il n'y a pas d'écrans |
-| `Hygiene` | vert — titre de PR conforme |
+| Workflow            | Attendu                                                    |
+| ------------------- | ---------------------------------------------------------- |
+| `CI`                | vert — lint, typage, tests, couverture, traçabilité, build |
+| `Securite`          | vert — gitleaks, npm audit, Trivy, CodeQL, licences        |
+| `Portes de qualite` | vert — a11y, budget de bundle, contrat d'API               |
+| `Tests E2E`         | vert ou sauté tant qu'il n'y a pas d'écrans                |
+| `Hygiene`           | vert — titre de PR conforme                                |
 
 Puis **tenter de fusionner sans approbation** : GitHub doit refuser. Une
 protection qu'on n'a jamais vue refuser une fusion n'est pas une protection
@@ -333,15 +334,15 @@ En mode dégradé (GitHub Actions indisponible) :
 
 # Partie G — Ordre de bataille
 
-| Priorité | Action | Bloqué par | Quand |
-|---|---|---|---|
-| 1 | **Escalader la demande d'hôtes H1/H2/H3** | rien | aujourd'hui |
-| 2 | **Lancer le chantier des 200 producteurs** | rien | aujourd'hui |
-| 3 | **Demander le jeton Kobo de test aux ANC** | rien | aujourd'hui |
-| 4 | Parties B, C, D | rien | aujourd'hui |
-| 5 | Schéma Prisma + chaîne d'audit | partie C | J+1 à J+3 |
-| 6 | Partie E | accès SSH | dès réception |
-| 7 | Partie F | parties E et 5 | semaine 4 |
+| Priorité | Action                                     | Bloqué par     | Quand         |
+| -------- | ------------------------------------------ | -------------- | ------------- |
+| 1        | **Escalader la demande d'hôtes H1/H2/H3**  | rien           | aujourd'hui   |
+| 2        | **Lancer le chantier des 200 producteurs** | rien           | aujourd'hui   |
+| 3        | **Demander le jeton Kobo de test aux ANC** | rien           | aujourd'hui   |
+| 4        | Parties B, C, D                            | rien           | aujourd'hui   |
+| 5        | Schéma Prisma + chaîne d'audit             | partie C       | J+1 à J+3     |
+| 6        | Partie E                                   | accès SSH      | dès réception |
+| 7        | Partie F                                   | parties E et 5 | semaine 4     |
 
 Les trois premières lignes ne coûtent qu'un courriel chacune et conditionnent
 tout le reste. **Les envoyer avant d'écrire la première ligne de code.**

@@ -14,10 +14,10 @@ import { lazy } from 'react';
  * cote serveur, via les gardes RBAC de NestJS (SDD §18.3.1). Un contournement
  * du garde client se heurte immediatement a un 403.
  */
-export const Cartographie  = lazy(() => import('./features/cartography/index.js'));
-export const Producteur    = lazy(() => import('./features/producer/index.js'));
+export const Cartographie = lazy(() => import('./features/cartography/index.js'));
+export const Producteur = lazy(() => import('./features/producer/index.js'));
 export const TableauDeBord = lazy(() => import('./features/dashboard/index.js'));
-export const Ingestion     = lazy(() => import('./features/ingestion/index.js'));
+export const Ingestion = lazy(() => import('./features/ingestion/index.js'));
 export const Crowdsourcing = lazy(() => import('./features/crowdsourcing/index.js'));
-export const Admin         = lazy(() => import('./features/admin/index.js'));
+export const Admin = lazy(() => import('./features/admin/index.js'));
 export const Authentification = lazy(() => import('./features/auth/index.js'));

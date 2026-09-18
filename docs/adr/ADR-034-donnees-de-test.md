@@ -30,11 +30,11 @@ pgBackRest portent une etiquette d'environnement verifiee avant restauration.
 
 **2. Trois jeux de donnees synthetiques**, versionnes dans `infra/postgres/seed/` :
 
-| Jeu | Volume | Usage | Source |
-|---|---|---|---|
-| `dev` | 50 producteurs | Developpement local, tests d'integration | Genere, coordonnees reelles des ministeres (donnees publiques du TDR) |
-| `preprod` | 1 000 producteurs | Recette, demonstrations, ateliers A1/A2 | Genere ; 200 reels publics + 800 synthetiques |
-| `charge` | 15 000 producteurs | Tests k6 (NFR-C1-04) et extensibilite (NFR-C6-06, 50 000) | Entierement genere |
+| Jeu       | Volume             | Usage                                                     | Source                                                                |
+| --------- | ------------------ | --------------------------------------------------------- | --------------------------------------------------------------------- |
+| `dev`     | 50 producteurs     | Developpement local, tests d'integration                  | Genere, coordonnees reelles des ministeres (donnees publiques du TDR) |
+| `preprod` | 1 000 producteurs  | Recette, demonstrations, ateliers A1/A2                   | Genere ; 200 reels publics + 800 synthetiques                         |
+| `charge`  | 15 000 producteurs | Tests k6 (NFR-C1-04) et extensibilite (NFR-C6-06, 50 000) | Entierement genere                                                    |
 
 **3. Le socle public est legitime.** Les coordonnees des ministeres, conseils regionaux et
 etablissements publics figurent dans le TDR (§7) et dans `infra/postgres/seed/01_admin_points.sql`.
@@ -81,11 +81,11 @@ s'investiguent alors en production, ce qui est plus contraignant mais correct.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                       | Raison du rejet                                                                                                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Dump de PROD anonymise a la volee | L'anonymisation par script laisse regulierement des residus (commentaires libres, pieces jointes, journaux d'audit). Risque non nul sur donnees protegees par la Loi 2024/001. |
-| Donnees entierement aleatoires | Ne testent aucune regle de gestion. Rendent les demonstrations peu credibles devant les ANC. |
-| Aucun jeu de donnees, base vide | Rend impossibles les tests de charge (NFR-C1-04) et les ateliers de validation. |
+| Donnees entierement aleatoires    | Ne testent aucune regle de gestion. Rendent les demonstrations peu credibles devant les ANC.                                                                                   |
+| Aucun jeu de donnees, base vide   | Rend impossibles les tests de charge (NFR-C1-04) et les ateliers de validation.                                                                                                |
 
 ## Mise en oeuvre
 

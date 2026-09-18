@@ -8,12 +8,12 @@ sont structurels et imposent de reprendre les composants.
 
 ## Les quatre exigences
 
-| Exigence | Contenu | Comment c'est vérifié |
-|---|---|---|
-| NFR-C7-01 | WCAG 2.1 niveau AA | axe-core (composant + page), audit manuel trimestriel |
-| NFR-C7-02 | Utilisable au clavier seul, **carte comprise** | Tests Playwright dédiés |
-| NFR-C7-03 | Contraste 4,5:1 (normal), 3:1 (large) | `scripts/gate-contrastes.mjs` sur les jetons |
-| NFR-C7-04 | Responsive dès 360×640 | Tests multi-résolutions |
+| Exigence  | Contenu                                        | Comment c'est vérifié                                 |
+| --------- | ---------------------------------------------- | ----------------------------------------------------- |
+| NFR-C7-01 | WCAG 2.1 niveau AA                             | axe-core (composant + page), audit manuel trimestriel |
+| NFR-C7-02 | Utilisable au clavier seul, **carte comprise** | Tests Playwright dédiés                               |
+| NFR-C7-03 | Contraste 4,5:1 (normal), 3:1 (large)          | `scripts/gate-contrastes.mjs` sur les jetons          |
+| NFR-C7-04 | Responsive dès 360×640                         | Tests multi-résolutions                               |
 
 ## Le point difficile : la carte
 

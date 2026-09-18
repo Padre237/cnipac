@@ -33,7 +33,7 @@
 
 ---
 
-*Le texte qui suit est conserve a titre de trace de l'analyse initiale.*
+_Le texte qui suit est conserve a titre de trace de l'analyse initiale._
 
 ## Contexte
 
@@ -59,11 +59,11 @@ operationnelle : elle est juridique.
 Dispositif de sauvegarde a **deux etages**, gere par **pgBackRest** (licence MIT) execute
 en conteneur dedie dans la pile `compose.data.yml`.
 
-| Etage | Mecanisme | Frequence | Retention | RPO atteint |
-|---|---|---|---|---|
-| 1 | Sauvegarde complete pgBackRest | hebdomadaire, dimanche 02h00 | 12 mois (site DR) | — |
-| 1 bis | Sauvegarde differentielle | quotidienne, 02h00 | 30 jours (local) | — |
-| 2 | **Archivage WAL continu** | continu, `archive_timeout = 300` | 30 jours | **<= 5 minutes** |
+| Etage | Mecanisme                      | Frequence                        | Retention         | RPO atteint      |
+| ----- | ------------------------------ | -------------------------------- | ----------------- | ---------------- |
+| 1     | Sauvegarde complete pgBackRest | hebdomadaire, dimanche 02h00     | 12 mois (site DR) | —                |
+| 1 bis | Sauvegarde differentielle      | quotidienne, 02h00               | 30 jours (local)  | —                |
+| 2     | **Archivage WAL continu**      | continu, `archive_timeout = 300` | 30 jours          | **<= 5 minutes** |
 
 Parametres PostgreSQL : `wal_level = replica`, `archive_mode = on`,
 `archive_command` delegue a pgBackRest, `archive_timeout = 300`.
@@ -97,12 +97,12 @@ mise en donnees reelles. Apres, elle impose une fenetre d'arret.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| `pg_dump` quotidien seul, conforme au SDD | Ne satisfait pas NFR-C2-04 : facteur 24 d'ecart. |
-| `pg_dump` horaire | Charge I/O horaire sur la base de production et fenetre de verrouillage repetee. Ne fournit pas de PITR. |
+| Alternative                                      | Raison du rejet                                                                                                                                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pg_dump` quotidien seul, conforme au SDD        | Ne satisfait pas NFR-C2-04 : facteur 24 d'ecart.                                                                                                                                   |
+| `pg_dump` horaire                                | Charge I/O horaire sur la base de production et fenetre de verrouillage repetee. Ne fournit pas de PITR.                                                                           |
 | Replication en flux vers une instance secondaire | Repond a NFR-C2-06 (tolerance N-1) mais **pas** au besoin de sauvegarde : une suppression erronee se replique instantanement. Complementaire, a envisager en P3, pas substituable. |
-| Snapshots du systeme de fichiers | Non transactionnels sur une base active. Risque de sauvegarde incoherente. |
+| Snapshots du systeme de fichiers                 | Non transactionnels sur une base active. Risque de sauvegarde incoherente.                                                                                                         |
 
 ## Mise en oeuvre
 

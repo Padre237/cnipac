@@ -15,21 +15,44 @@
 // L'automate est strict : NOUVELLE -> QUARANTAINE -> VALIDEE -> (EDITEE)* -> ARCHIVEE.
 // Aucune transition arriere sans intervention tracee d'un super-administrateur.
 // ---------------------------------------------------------------------------
-export const STATUTS_FICHE = ['NOUVELLE', 'QUARANTAINE', 'VALIDEE', 'EDITEE', 'REJETEE', 'ARCHIVEE'] as const;
+// CASSE : minuscules, conformement au type statut_fiche_enum du SDD §12.2 —
+// c'est la valeur reellement stockee en base. Le SRS §12.9 (MT.03) les ecrit en
+// majuscules ; la divergence est signalee en A-07 de docs/ANOMALIES-DOCUMENTAIRES.md.
+// Comparer une valeur issue de la base a « VALIDEE » ne matcherait jamais.
+export const STATUTS_FICHE = [
+  'nouvelle',
+  'quarantaine',
+  'validee',
+  'editee',
+  'rejetee',
+  'archivee',
+] as const;
 export type StatutFiche = (typeof STATUTS_FICHE)[number];
 
 /** Transitions autorisees par RG-M1-05. Toute transition absente est interdite. */
-export const TRANSITIONS_AUTORISEES: Readonly<Record<StatutFiche, readonly StatutFiche[]>> = Object.freeze({
-  NOUVELLE:   ['QUARANTAINE'],
-  QUARANTAINE: ['VALIDEE', 'REJETEE'],
-  VALIDEE:    ['EDITEE', 'ARCHIVEE'],
-  EDITEE:     ['EDITEE', 'ARCHIVEE'],
-  REJETEE:    [],          // terminal — une correction passe par une nouvelle soumission
-  ARCHIVEE:   [],          // terminal — RG-M4-yy : archivage logique, jamais suppression
-});
+export const TRANSITIONS_AUTORISEES: Readonly<Record<StatutFiche, readonly StatutFiche[]>> =
+  Object.freeze({
+    nouvelle: ['quarantaine'],
+    quarantaine: ['validee', 'rejetee'],
+    validee: ['editee', 'archivee'],
+    editee: ['editee', 'archivee'],
+    rejetee: [], // terminal — une correction passe par une nouvelle soumission
+    archivee: [], // terminal — RG-M4-yy : archivage logique, jamais suppression
+  });
 
 /** RG-M2-01 : seules ces fiches apparaissent sur la carte publique. */
-export const STATUTS_VISIBLES_CARTE: readonly StatutFiche[] = Object.freeze(['VALIDEE', 'EDITEE']);
+export const STATUTS_VISIBLES_CARTE: readonly StatutFiche[] = Object.freeze(['validee', 'editee']);
+
+/** Libelles d'affichage. NFR-C8-01 : les deux langues officielles. */
+export const LIBELLES_STATUT_FICHE: Readonly<Record<StatutFiche, { fr: string; en: string }>> =
+  Object.freeze({
+    nouvelle: { fr: 'Nouvelle', en: 'New' },
+    quarantaine: { fr: 'En quarantaine', en: 'In quarantine' },
+    validee: { fr: 'Validée', en: 'Validated' },
+    editee: { fr: 'Éditée', en: 'Edited' },
+    rejetee: { fr: 'Rejetée', en: 'Rejected' },
+    archivee: { fr: 'Archivée', en: 'Archived' },
+  });
 
 // ---------------------------------------------------------------------------
 // Roles RBAC — SRS §6.2. Huit roles, ni plus ni moins (AC-P1-06).
@@ -60,11 +83,36 @@ export const RESEAUX_ARCHIVISTIQUES = [
   { code: 'AGR', numero: 2, libelle: 'Agro-industrie', libelleEn: 'Agro-industry' },
   { code: 'NUM', numero: 3, libelle: 'Numerique', libelleEn: 'Digital' },
   { code: 'FOR', numero: 4, libelle: 'Foret-Bois', libelleEn: 'Forestry and Timber' },
-  { code: 'TEX', numero: 5, libelle: 'Textile-Confection-Cuir', libelleEn: 'Textile, Clothing and Leather' },
-  { code: 'MIN', numero: 6, libelle: 'Mines-Metallurgie-Siderurgie', libelleEn: 'Mining, Metallurgy and Steel' },
-  { code: 'HYD', numero: 7, libelle: 'Hydrocarbures-Petrochimie-Raffinage', libelleEn: 'Hydrocarbons, Petrochemicals and Refining' },
-  { code: 'CHI', numero: 8, libelle: 'Chimie-Pharmacie', libelleEn: 'Chemicals and Pharmaceuticals' },
-  { code: 'CST', numero: 9, libelle: 'Construction-Services professionnels, scientifiques et techniques', libelleEn: 'Construction and Professional, Scientific and Technical Services' },
+  {
+    code: 'TEX',
+    numero: 5,
+    libelle: 'Textile-Confection-Cuir',
+    libelleEn: 'Textile, Clothing and Leather',
+  },
+  {
+    code: 'MIN',
+    numero: 6,
+    libelle: 'Mines-Metallurgie-Siderurgie',
+    libelleEn: 'Mining, Metallurgy and Steel',
+  },
+  {
+    code: 'HYD',
+    numero: 7,
+    libelle: 'Hydrocarbures-Petrochimie-Raffinage',
+    libelleEn: 'Hydrocarbons, Petrochemicals and Refining',
+  },
+  {
+    code: 'CHI',
+    numero: 8,
+    libelle: 'Chimie-Pharmacie',
+    libelleEn: 'Chemicals and Pharmaceuticals',
+  },
+  {
+    code: 'CST',
+    numero: 9,
+    libelle: 'Construction-Services professionnels, scientifiques et techniques',
+    libelleEn: 'Construction and Professional, Scientific and Technical Services',
+  },
 ] as const;
 export type CodeReseau = (typeof RESEAUX_ARCHIVISTIQUES)[number]['code'];
 
@@ -72,16 +120,16 @@ export type CodeReseau = (typeof RESEAUX_ARCHIVISTIQUES)[number]['code'];
 // Regions du Cameroun — dix regions. Codes ISO 3166-2:CM.
 // ---------------------------------------------------------------------------
 export const REGIONS = [
-  { code: 'AD', libelle: 'Adamaoua',      libelleEn: 'Adamawa',    chefLieu: 'Ngaoundere' },
-  { code: 'CE', libelle: 'Centre',        libelleEn: 'Centre',     chefLieu: 'Yaounde' },
-  { code: 'ES', libelle: 'Est',           libelleEn: 'East',       chefLieu: 'Bertoua' },
-  { code: 'EN', libelle: 'Extreme-Nord',  libelleEn: 'Far North',  chefLieu: 'Maroua' },
-  { code: 'LT', libelle: 'Littoral',      libelleEn: 'Littoral',   chefLieu: 'Douala' },
-  { code: 'NO', libelle: 'Nord',          libelleEn: 'North',      chefLieu: 'Garoua' },
-  { code: 'NW', libelle: 'Nord-Ouest',    libelleEn: 'North-West', chefLieu: 'Bamenda' },
-  { code: 'OU', libelle: 'Ouest',         libelleEn: 'West',       chefLieu: 'Bafoussam' },
-  { code: 'SU', libelle: 'Sud',           libelleEn: 'South',      chefLieu: 'Ebolowa' },
-  { code: 'SW', libelle: 'Sud-Ouest',     libelleEn: 'South-West', chefLieu: 'Buea' },
+  { code: 'AD', libelle: 'Adamaoua', libelleEn: 'Adamawa', chefLieu: 'Ngaoundere' },
+  { code: 'CE', libelle: 'Centre', libelleEn: 'Centre', chefLieu: 'Yaounde' },
+  { code: 'ES', libelle: 'Est', libelleEn: 'East', chefLieu: 'Bertoua' },
+  { code: 'EN', libelle: 'Extreme-Nord', libelleEn: 'Far North', chefLieu: 'Maroua' },
+  { code: 'LT', libelle: 'Littoral', libelleEn: 'Littoral', chefLieu: 'Douala' },
+  { code: 'NO', libelle: 'Nord', libelleEn: 'North', chefLieu: 'Garoua' },
+  { code: 'NW', libelle: 'Nord-Ouest', libelleEn: 'North-West', chefLieu: 'Bamenda' },
+  { code: 'OU', libelle: 'Ouest', libelleEn: 'West', chefLieu: 'Bafoussam' },
+  { code: 'SU', libelle: 'Sud', libelleEn: 'South', chefLieu: 'Ebolowa' },
+  { code: 'SW', libelle: 'Sud-Ouest', libelleEn: 'South-West', chefLieu: 'Buea' },
 ] as const;
 export type CodeRegion = (typeof REGIONS)[number]['code'];
 
@@ -144,10 +192,10 @@ export const SEUILS = Object.freeze({
 export const PONDERATION_MATURITE = Object.freeze({
   serviceArchivesDedie: 0.25,
   personnelForme: 0.15,
-  locauxAdaptes: 0.20,
-  planDeClassement: 0.20,
-  calendrierConservation: 0.10,
-  instrumentsRecherche: 0.10,
+  locauxAdaptes: 0.2,
+  planDeClassement: 0.2,
+  calendrierConservation: 0.1,
+  instrumentsRecherche: 0.1,
 });
 
 // ---------------------------------------------------------------------------
@@ -156,4 +204,7 @@ export const PONDERATION_MATURITE = Object.freeze({
 // Genere automatiquement a la validation, JAMAIS modifiable. Il fonde la
 // perennite des URI de l'API publique (FR-M7-04, ADR-037).
 // ---------------------------------------------------------------------------
-export const MOTIF_CODE_PRODUCTEUR = /^CMR-[A-Z]{3}-[A-Z0-9]{2,8}-[A-Z0-9]{2,12}-\d{4}$/;
+// Expression IDENTIQUE a la contrainte chk_producteur_code_producteur_format
+// du SDD §12.3. Aucune longueur de segment n'y est plafonnee — et c'est
+// necessaire : MINPOSTEL fait 9 caracteres, MINCOMMERCE 11.
+export const MOTIF_CODE_PRODUCTEUR = /^CMR-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[0-9]+$/;

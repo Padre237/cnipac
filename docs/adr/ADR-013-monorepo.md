@@ -69,11 +69,11 @@ par les deux applications.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Deux depots + package npm partage publie | Impose une chaine de publication de package pour une equipe de 4 personnes. Cout d'exploitation sans contrepartie. |
-| Deux depots + duplication manuelle des types | Divergence garantie a moyen terme. Incompatible avec la coherence exigee du referentiel national. |
-| Monorepo avec git submodules | Complexite operationnelle notoire, mauvaise ergonomie pour les nouveaux arrivants (critere C-04 du SDD §4.1). |
+| Alternative                                  | Raison du rejet                                                                                                    |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Deux depots + package npm partage publie     | Impose une chaine de publication de package pour une equipe de 4 personnes. Cout d'exploitation sans contrepartie. |
+| Deux depots + duplication manuelle des types | Divergence garantie a moyen terme. Incompatible avec la coherence exigee du referentiel national.                  |
+| Monorepo avec git submodules                 | Complexite operationnelle notoire, mauvaise ergonomie pour les nouveaux arrivants (critere C-04 du SDD §4.1).      |
 
 ## Mise en oeuvre
 

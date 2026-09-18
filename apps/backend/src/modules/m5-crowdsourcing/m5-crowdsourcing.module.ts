@@ -19,4 +19,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class Um5UcrowdsourcingModule {}
+export class M5CrowdsourcingModule {}

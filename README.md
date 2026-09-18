@@ -21,13 +21,13 @@ de livrer**. Le pipeline, l'infrastructure, les portes de qualité, la
 traçabilité des exigences et les conventions sont en place. Les sept modules
 fonctionnels sont câblés et vides.
 
-| | |
-|---|---|
-| Exigences au registre | **241** (82 FR, 47 NFR, 34 RG, 36 UC, 30 AC, 12 articles de loi) |
-| Décisions d'architecture | **26 ADR** (013 à 038), prolongeant les 012 du SDD |
-| Workflows CI/CD | **12** |
-| Portes de qualité bloquantes | **13** |
-| Dérogations en vigueur | **aucune** — conformité SRS V2.0 et SDD V4.0 à la lettre |
+|                              |                                                                  |
+| ---------------------------- | ---------------------------------------------------------------- |
+| Exigences au registre        | **241** (82 FR, 47 NFR, 34 RG, 36 UC, 30 AC, 12 articles de loi) |
+| Décisions d'architecture     | **26 ADR** (013 à 038), prolongeant les 012 du SDD               |
+| Workflows CI/CD              | **12**                                                           |
+| Portes de qualité bloquantes | **13**                                                           |
+| Dérogations en vigueur       | **aucune** — conformité SRS V2.0 et SDD V4.0 à la lettre         |
 
 ## Démarrage
 
@@ -61,30 +61,30 @@ tests/                E2E Playwright, charge k6, sécurité ZAP
 Chaque exigence chiffrée du SRS a un mécanisme qui l'applique. Ce n'est pas de
 la documentation : ce sont des contrôles qui font échouer une pull request.
 
-| Exigence | Contrôle | Effet |
-|---|---|---|
-| **Art. 32 Loi 2024/001** — journal d'audit immuable | `gate-migrations.mjs` | Migration destructive refusée |
-| **NFR-C1-07** — bundle ≤ 2 Mo gzip | `gate-bundle-budget.mjs` | Budget 1,6 Mo, marge 20 % |
-| **NFR-C6-01** — couverture ≥ 70 % | Seuils Jest/Vitest | M1/M4/M6 à 85–90 % |
-| **NFR-C7-01** — WCAG 2.1 AA | `vitest-axe`, Playwright | Violation = fusion bloquée |
-| **NFR-C9-02** — pas de sortie de territoire | `gate-affectation-runners.mjs` | Runner self-hosted imposé |
-| **NFR-C9-03/04** — souveraineté, propriété | `gate-licences.mjs`, SBOM | Copyleft fort refusé |
-| **NFR-C3-04** — 0 CVE HIGH/CRITICAL | `pnpm audit`, Trivy, ZAP | Build rouge |
-| **NFR-C3-07** — en-têtes durcis | `gate-entetes-securite.mjs` | < 60 s, en PR |
-| **NFR-C2-04** — RPO ≤ 1 h | Archivage WAL + exercice hebdo | RPO réel ~5 min |
-| **FR-M7-08** — API versionnée | `gate-api-contrat.mjs` | Rupture sans version = refus |
-| **SRS chap. 15** — traçabilité | `gate-tracabilite.mjs` | Matrice dérivée du code |
+| Exigence                                            | Contrôle                       | Effet                         |
+| --------------------------------------------------- | ------------------------------ | ----------------------------- |
+| **Art. 32 Loi 2024/001** — journal d'audit immuable | `gate-migrations.mjs`          | Migration destructive refusée |
+| **NFR-C1-07** — bundle ≤ 2 Mo gzip                  | `gate-bundle-budget.mjs`       | Budget 1,6 Mo, marge 20 %     |
+| **NFR-C6-01** — couverture ≥ 70 %                   | Seuils Jest/Vitest             | M1/M4/M6 à 85–90 %            |
+| **NFR-C7-01** — WCAG 2.1 AA                         | `vitest-axe`, Playwright       | Violation = fusion bloquée    |
+| **NFR-C9-02** — pas de sortie de territoire         | `gate-affectation-runners.mjs` | Runner self-hosted imposé     |
+| **NFR-C9-03/04** — souveraineté, propriété          | `gate-licences.mjs`, SBOM      | Copyleft fort refusé          |
+| **NFR-C3-04** — 0 CVE HIGH/CRITICAL                 | `pnpm audit`, Trivy, ZAP       | Build rouge                   |
+| **NFR-C3-07** — en-têtes durcis                     | `gate-entetes-securite.mjs`    | < 60 s, en PR                 |
+| **NFR-C2-04** — RPO ≤ 1 h                           | Archivage WAL + exercice hebdo | RPO réel ~5 min               |
+| **FR-M7-08** — API versionnée                       | `gate-api-contrat.mjs`         | Rupture sans version = refus  |
+| **SRS chap. 15** — traçabilité                      | `gate-tracabilite.mjs`         | Matrice dérivée du code       |
 
 ## Déploiement
 
 Trois environnements, isolation stricte (SDD §8.1). **Aucune donnée réelle hors
 production** (ADR-034).
 
-| | Déclencheur | Approbation | Stratégie |
-|---|---|---|---|
-| DEV | push sur `main` | — | remplacement direct |
-| PREPROD | CI verte sur `main` | — | Blue-Green automatique |
-| **PROD** | tag `vX.Y.Z` signé | **2 approbateurs** | Blue-Green + observation 10 min |
+|          | Déclencheur         | Approbation        | Stratégie                       |
+| -------- | ------------------- | ------------------ | ------------------------------- |
+| DEV      | push sur `main`     | —                  | remplacement direct             |
+| PREPROD  | CI verte sur `main` | —                  | Blue-Green automatique          |
+| **PROD** | tag `vX.Y.Z` signé  | **2 approbateurs** | Blue-Green + observation 10 min |
 
 La **décision** de déployer reste humaine ; l'**exécution** des huit étapes du
 SDD §26.5 est automatisée, toujours à l'identique. Runbook :
@@ -111,14 +111,14 @@ Pile intégralement conforme au SDD chapitre 4.
 
 ## Documents de référence
 
-| Document | Emplacement |
-|---|---|
-| TDR — Termes de référence | [docs/reference/](docs/reference/) |
-| Livrable 1.2 — Cahier d'analyse (SRS V2.0) | [docs/reference/](docs/reference/) |
-| Livrable 1.3 — Cahier de conception (SDD V4.0) | [docs/reference/](docs/reference/) |
-| Maquettes Stitch | [docs/design/stitch/](docs/design/stitch/) |
-| Registre des décisions | [docs/adr/README.md](docs/adr/README.md) |
-| Dérogations COPIL | [docs/DEROGATIONS.md](docs/DEROGATIONS.md) |
+| Document                                       | Emplacement                                |
+| ---------------------------------------------- | ------------------------------------------ |
+| TDR — Termes de référence                      | [docs/reference/](docs/reference/)         |
+| Livrable 1.2 — Cahier d'analyse (SRS V2.0)     | [docs/reference/](docs/reference/)         |
+| Livrable 1.3 — Cahier de conception (SDD V4.0) | [docs/reference/](docs/reference/)         |
+| Maquettes Stitch                               | [docs/design/stitch/](docs/design/stitch/) |
+| Registre des décisions                         | [docs/adr/README.md](docs/adr/README.md)   |
+| Dérogations COPIL                              | [docs/DEROGATIONS.md](docs/DEROGATIONS.md) |
 
 ## Licence
 

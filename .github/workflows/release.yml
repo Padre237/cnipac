@@ -117,7 +117,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.PREFIXE_IMAGE }}-${{ matrix.composant }}:${{ needs.verifier-tag.outputs.version }}
             ${{ env.REGISTRY }}/${{ env.PREFIXE_IMAGE }}-${{ matrix.composant }}:sha-${{ github.sha }}
           provenance: true
-          sbom: false   # SBOM produit explicitement ci-dessous, format CycloneDX
+          sbom: false # SBOM produit explicitement ci-dessous, format CycloneDX
 
       - name: SBOM CycloneDX (NFR-C9-03 — ADR-024)
         uses: anchore/sbom-action@v0

@@ -24,25 +24,33 @@ import {
   ROLES,
   STATUTS_FICHE,
   TRANSITIONS_AUTORISEES,
+  type StatutFiche,
 } from './enumerations.js';
 
 describe('Module M1 — ingestion', () => {
   it("[RG-M1-05] l'automate de statuts autorise la sequence nominale", () => {
-    expect(transitionAutorisee('NOUVELLE', 'QUARANTAINE')).toBe(true);
-    expect(transitionAutorisee('QUARANTAINE', 'VALIDEE')).toBe(true);
-    expect(transitionAutorisee('VALIDEE', 'EDITEE')).toBe(true);
-    expect(transitionAutorisee('EDITEE', 'ARCHIVEE')).toBe(true);
+    expect(transitionAutorisee('nouvelle', 'quarantaine')).toBe(true);
+    expect(transitionAutorisee('quarantaine', 'validee')).toBe(true);
+    expect(transitionAutorisee('validee', 'editee')).toBe(true);
+    expect(transitionAutorisee('editee', 'archivee')).toBe(true);
   });
 
   it("[RG-M1-05] aucune transition arriere n'est autorisee", () => {
-    expect(transitionAutorisee('VALIDEE', 'QUARANTAINE')).toBe(false);
-    expect(transitionAutorisee('ARCHIVEE', 'VALIDEE')).toBe(false);
-    expect(transitionAutorisee('REJETEE', 'VALIDEE')).toBe(false);
+    expect(transitionAutorisee('validee', 'quarantaine')).toBe(false);
+    expect(transitionAutorisee('archivee', 'validee')).toBe(false);
+    expect(transitionAutorisee('rejetee', 'validee')).toBe(false);
   });
 
-  it("[RG-M1-05] une soumission ne peut pas etre publiee sans passer par la quarantaine", () => {
+  it('[RG-M1-05] un statut inconnu ne debloque aucune transition', () => {
+    // Branche defensive : si un statut etait ajoute a l'enumeration sans etre
+    // declare dans la table des transitions, le cycle de vie doit se fermer,
+    // et non s'ouvrir. C'est le comportement sur : refuser par defaut.
+    expect(transitionAutorisee('INEXISTANT' as StatutFiche, 'validee')).toBe(false);
+  });
+
+  it('[RG-M1-05] une soumission ne peut pas etre publiee sans passer par la quarantaine', () => {
     // C'est la garantie de qualite des donnees exigee par RG-M1-01.
-    expect(transitionAutorisee('NOUVELLE', 'VALIDEE')).toBe(false);
+    expect(transitionAutorisee('nouvelle', 'validee')).toBe(false);
   });
 
   it('[RG-M1-02] le code unique respecte le format CMR-<RESEAU>-<MIN>-<STRUCT>-<SEQ>', () => {
@@ -51,48 +59,70 @@ describe('Module M1 — ingestion', () => {
   });
 
   it('[RG-M1-02] un code mal forme est rejete', () => {
-    expect(codeProducteurValide('CMR-NUM-MINPOSTEL')).toBe(false);
-    expect(codeProducteurValide('cmr-num-minpostel-antic-0001')).toBe(false);
-    expect(codeProducteurValide('CMR-NUM-MINPOSTEL-ANTIC-1')).toBe(false);
+    expect(codeProducteurValide('CMR-NUM-MINPOSTEL')).toBe(false); // segment manquant
+    expect(codeProducteurValide('cmr-num-minpostel-antic-0001')).toBe(false); // minuscules
+    expect(codeProducteurValide('CMR-NUM-MINPOSTEL-ANTIC-ABCD')).toBe(false); // sequence non numerique
+    expect(codeProducteurValide('CMR-NUM-MINPOSTEL-ANTIC-0001-X')).toBe(false); // segment surnumeraire
+    expect(codeProducteurValide('XXX-NUM-MINPOSTEL-ANTIC-0001')).toBe(false); // prefixe pays incorrect
+    expect(codeProducteurValide('CMR-NUM-MIN_POSTEL-ANTIC-0001')).toBe(false); // caractere interdit
     expect(codeProducteurValide('')).toBe(false);
   });
 
+  it('[RG-M1-02] les sigles ministeriels longs sont acceptes', () => {
+    // MINPOSTEL fait 9 caracteres, MINCOMMERCE 11. Le SDD §12.3 ne plafonne
+    // aucun segment ; toute limite de longueur rejetterait des codes legitimes.
+    expect(codeProducteurValide('CMR-CST-MINCOMMERCE-MIRAP-0007')).toBe(true);
+    expect(codeProducteurValide('CMR-CST-MINPMEESA-APME-0012')).toBe(true);
+  });
+
+  it('[RG-M1-02] une sequence courte reste valide, conformement au SDD', () => {
+    // Le SDD §12.3 ecrit [0-9]+ : la longueur de la sequence n'est pas imposee.
+    // generer_code_producteur() complete a quatre chiffres, mais la validation
+    // doit accepter la forme du document — notamment pour des codes importes.
+    expect(codeProducteurValide('CMR-NUM-MINPOSTEL-ANTIC-1')).toBe(true);
+  });
+
   it('[RG-M1-03] deux fiches au meme triplet sigle/ministere/commune sont des doublons potentiels', () => {
-    expect(cleDeDoublon('ANTIC', 'MINPOSTEL', 'Yaounde')).toBe(cleDeDoublon('antic', 'minpostel', 'YAOUNDE'));
+    expect(cleDeDoublon('ANTIC', 'MINPOSTEL', 'Yaounde')).toBe(
+      cleDeDoublon('antic', 'minpostel', 'YAOUNDE'),
+    );
   });
 
   it('[RG-M1-03] les accents et espaces multiples ne creent pas de faux negatifs', () => {
-    expect(cleDeDoublon('SODECAO', 'MINADER', 'Ebolowa')).toBe(cleDeDoublon('SODECAO', 'MINADER', 'Ébolowa'));
+    expect(cleDeDoublon('SODECAO', 'MINADER', 'Ebolowa')).toBe(
+      cleDeDoublon('SODECAO', 'MINADER', 'Ébolowa'),
+    );
     expect(cleDeDoublon('CDC', 'MINADER', 'Buea')).toBe(cleDeDoublon('CDC', 'MINADER', 'Buea  '));
   });
 
-  it("[RG-M1-03] deux services deconcentres de communes differentes ne sont PAS des doublons", () => {
+  it('[RG-M1-03] deux services deconcentres de communes differentes ne sont PAS des doublons', () => {
     // Le cas metier que la regle doit explicitement preserver.
-    expect(cleDeDoublon('DRMINADER', 'MINADER', 'Bertoua'))
-      .not.toBe(cleDeDoublon('DRMINADER', 'MINADER', 'Maroua'));
+    expect(cleDeDoublon('DRMINADER', 'MINADER', 'Bertoua')).not.toBe(
+      cleDeDoublon('DRMINADER', 'MINADER', 'Maroua'),
+    );
   });
 });
 
 describe('Module M2 — visualisation cartographique', () => {
   it('[RG-M2-01] seules les fiches VALIDEE ou EDITEE sont visibles sur la carte publique', () => {
-    expect(visibleSurCartePublique('VALIDEE')).toBe(true);
-    expect(visibleSurCartePublique('EDITEE')).toBe(true);
-    expect(visibleSurCartePublique('QUARANTAINE')).toBe(false);
-    expect(visibleSurCartePublique('REJETEE')).toBe(false);
-    expect(visibleSurCartePublique('ARCHIVEE')).toBe(false);
-    expect(visibleSurCartePublique('NOUVELLE')).toBe(false);
+    expect(visibleSurCartePublique('validee')).toBe(true);
+    expect(visibleSurCartePublique('editee')).toBe(true);
+    expect(visibleSurCartePublique('quarantaine')).toBe(false);
+    expect(visibleSurCartePublique('rejetee')).toBe(false);
+    expect(visibleSurCartePublique('archivee')).toBe(false);
+    expect(visibleSurCartePublique('nouvelle')).toBe(false);
   });
 
   it("[RG-M2-03] des coordonnees reelles du Cameroun sont dans l'enveloppe", () => {
-    expect(coordonneesDansEnveloppeCameroun(3.8592, 11.5180)).toBe(true);   // Archives Nationales, Yaounde
-    expect(coordonneesDansEnveloppeCameroun(4.0417, 9.6852)).toBe(true);    // Conseil regional du Littoral
-    expect(coordonneesDansEnveloppeCameroun(10.5882, 14.2972)).toBe(true);  // Conseil regional Extreme-Nord
+    expect(coordonneesDansEnveloppeCameroun(3.8592, 11.518)).toBe(true); // Archives Nationales, Yaounde
+    expect(coordonneesDansEnveloppeCameroun(4.0417, 9.6852)).toBe(true); // Conseil regional du Littoral
+    expect(coordonneesDansEnveloppeCameroun(10.5882, 14.2972)).toBe(true); // Conseil regional Extreme-Nord
   });
 
-  it("[RG-M2-03] des coordonnees hors du territoire sont exclues de la carte", () => {
-    expect(coordonneesDansEnveloppeCameroun(48.8566, 2.3522)).toBe(false);  // Paris
-    expect(coordonneesDansEnveloppeCameroun(0, 0)).toBe(false);             // ile nulle
-    expect(coordonneesDansEnveloppeCameroun(6.5244, 3.3792)).toBe(false);   // Lagos
+  it('[RG-M2-03] des coordonnees hors du territoire sont exclues de la carte', () => {
+    expect(coordonneesDansEnveloppeCameroun(48.8566, 2.3522)).toBe(false); // Paris
+    expect(coordonneesDansEnveloppeCameroun(0, 0)).toBe(false); // ile nulle
+    expect(coordonneesDansEnveloppeCameroun(6.5244, 3.3792)).toBe(false); // Lagos
   });
 
   it('[RG-M2-03] des coordonnees absentes ou non numeriques sont exclues', () => {
@@ -109,25 +139,43 @@ describe('Module M3 — tableaux de bord', () => {
   });
 
   it('[RG-M3-01] un producteur remplissant tous les criteres obtient un indice de 100', () => {
-    expect(indiceMaturiteArchivistique({
-      serviceArchivesDedie: true, personnelForme: true, locauxAdaptes: true,
-      planDeClassement: true, calendrierConservation: true, instrumentsRecherche: true,
-    })).toBe(100);
+    expect(
+      indiceMaturiteArchivistique({
+        serviceArchivesDedie: true,
+        personnelForme: true,
+        locauxAdaptes: true,
+        planDeClassement: true,
+        calendrierConservation: true,
+        instrumentsRecherche: true,
+      }),
+    ).toBe(100);
   });
 
-  it("[RG-M3-01] un producteur ne remplissant aucun critere obtient un indice de 0", () => {
-    expect(indiceMaturiteArchivistique({
-      serviceArchivesDedie: false, personnelForme: false, locauxAdaptes: false,
-      planDeClassement: false, calendrierConservation: false, instrumentsRecherche: false,
-    })).toBe(0);
+  it('[RG-M3-01] un producteur ne remplissant aucun critere obtient un indice de 0', () => {
+    expect(
+      indiceMaturiteArchivistique({
+        serviceArchivesDedie: false,
+        personnelForme: false,
+        locauxAdaptes: false,
+        planDeClassement: false,
+        calendrierConservation: false,
+        instrumentsRecherche: false,
+      }),
+    ).toBe(0);
   });
 
   it("[RG-M3-01] la ponderation respecte l'annexe F", () => {
     // 25 % service + 20 % locaux = 45.
-    expect(indiceMaturiteArchivistique({
-      serviceArchivesDedie: true, personnelForme: false, locauxAdaptes: true,
-      planDeClassement: false, calendrierConservation: false, instrumentsRecherche: false,
-    })).toBe(45);
+    expect(
+      indiceMaturiteArchivistique({
+        serviceArchivesDedie: true,
+        personnelForme: false,
+        locauxAdaptes: true,
+        planDeClassement: false,
+        calendrierConservation: false,
+        instrumentsRecherche: false,
+      }),
+    ).toBe(45);
   });
 
   it('[RG-M3-01] la somme des ponderations vaut exactement 1', () => {

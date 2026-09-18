@@ -31,16 +31,16 @@ nouveau composant sans test d'accessibilite n'est pas approuve.
 **Niveau 2 — page, bloquant.** `@axe-core/playwright` sur les huit ecrans structurants,
 dans la suite E2E marquee `@a11y` :
 
-| Ecran | Reference maquette |
-|---|---|
-| Carte publique | IHM-PUB-01 |
-| Fiche synthetique producteur | IHM-PUB-02 |
-| Recherche | IHM-PUB-03 |
-| Connexion | IHM-AUTH-01 |
-| Saisie TOTP | IHM-AUTH-02 |
-| Console de quarantaine | IHM-ADM-01 |
-| Detail fiche quarantaine | IHM-ADM-02 |
-| Tableau de bord national | M3 |
+| Ecran                        | Reference maquette |
+| ---------------------------- | ------------------ |
+| Carte publique               | IHM-PUB-01         |
+| Fiche synthetique producteur | IHM-PUB-02         |
+| Recherche                    | IHM-PUB-03         |
+| Connexion                    | IHM-AUTH-01        |
+| Saisie TOTP                  | IHM-AUTH-02        |
+| Console de quarantaine       | IHM-ADM-01         |
+| Detail fiche quarantaine     | IHM-ADM-02         |
+| Tableau de bord national     | M3                 |
 
 Verifications complementaires **non couvrables par axe-core**, scriptees explicitement :
 parcours complet au clavier de chaque ecran sans piege de focus (NFR-C7-02), ordre de
@@ -75,11 +75,11 @@ indispensable et ne doit pas etre considere comme redondant.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                            | Raison du rejet                                                                                                     |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Audit d'accessibilite en fin de projet | Mode de defaillance classique : les defauts sont structurels et leur correction impose de reprendre les composants. |
-| Lighthouse seul | Audit par page, sans granularite composant. Ne detecte pas les pieges de focus ni l'ordre de tabulation. |
-| Non bloquant, simple signalement | Un avertissement non bloquant est ignore. Le SDD §25.7 prescrit explicitement le blocage. |
+| Lighthouse seul                        | Audit par page, sans granularite composant. Ne detecte pas les pieges de focus ni l'ordre de tabulation.            |
+| Non bloquant, simple signalement       | Un avertissement non bloquant est ignore. Le SDD §25.7 prescrit explicitement le blocage.                           |
 
 ## Mise en oeuvre
 

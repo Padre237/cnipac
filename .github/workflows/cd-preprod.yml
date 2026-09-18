@@ -13,12 +13,12 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version a deployer (defaut : sha du dernier commit de main)"
+        description: 'Version a deployer (defaut : sha du dernier commit de main)'
         required: false
 
 concurrency:
   group: deploiement-preprod
-  cancel-in-progress: false   # on n'interrompt jamais un deploiement en cours
+  cancel-in-progress: false # on n'interrompt jamais un deploiement en cours
 
 permissions:
   contents: read

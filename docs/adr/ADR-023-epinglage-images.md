@@ -35,13 +35,13 @@ chemin normal : CI, scan Trivy, revue, fusion. Le changement devient une decisio
 
 **3. Regroupement et cadence** — configuration dans `renovate.json` :
 
-| Categorie | Cadence | Fusion automatique |
-|---|---|---|
-| Correctifs de securite (alertes CVE) | immediate | non |
-| Dependances npm, correctifs et mineures | hebdomadaire, regroupees | oui si CI verte et couverture maintenue |
-| Dependances npm, majeures | a l'unite | non |
-| Images de base Docker | hebdomadaire | non |
-| Actions GitHub | mensuelle, epinglees par SHA | non |
+| Categorie                               | Cadence                      | Fusion automatique                      |
+| --------------------------------------- | ---------------------------- | --------------------------------------- |
+| Correctifs de securite (alertes CVE)    | immediate                    | non                                     |
+| Dependances npm, correctifs et mineures | hebdomadaire, regroupees     | oui si CI verte et couverture maintenue |
+| Dependances npm, majeures               | a l'unite                    | non                                     |
+| Images de base Docker                   | hebdomadaire                 | non                                     |
+| Actions GitHub                          | mensuelle, epinglees par SHA | non                                     |
 
 **4. Actions GitHub epinglees par SHA de commit** et non par tag : `actions/checkout@v4`
 designe une reference mobile controlee par un tiers, qui s'execute avec les secrets du
@@ -66,11 +66,11 @@ la charge. Les digests rendent les fichiers Compose moins lisibles.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Tags mobiles conformes au SDD | Rend NFR-C5-05 et la parite environnementale invérifiables. |
+| Alternative                              | Raison du rejet                                                                                                                    |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Tags mobiles conformes au SDD            | Rend NFR-C5-05 et la parite environnementale invérifiables.                                                                        |
 | Epinglage par version exacte sans digest | Meilleur, mais les images officielles republient la meme version avec des correctifs de base. Seul le digest identifie le contenu. |
-| Dependabot | Equivalent sur npm, nettement moins configurable sur le regroupement et la cadence. |
+| Dependabot                               | Equivalent sur npm, nettement moins configurable sur le regroupement et la cadence.                                                |
 
 ## Mise en oeuvre
 

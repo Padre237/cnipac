@@ -11,11 +11,11 @@ automatiquement.
 
 ## Trois niveaux d'application
 
-| Niveau | Mécanisme | Exemples |
-|---|---|---|
-| **Code partagé** | `packages/shared-types/src/regles-metier.ts` — fonctions pures, 100 % de couverture | RG-M1-02, RG-M1-03, RG-M1-05, RG-M2-01, RG-M2-03, RG-M3-01, RG-M3-02 |
-| **Base de données** | Contraintes, types ENUM, tables protégées | RG-M1-04, RG-TR-02 |
-| **Pipeline** | Portes de qualité bloquantes | art. 32 via ADR-027, NFR-C4-04 via ADR-038 |
+| Niveau              | Mécanisme                                                                           | Exemples                                                             |
+| ------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Code partagé**    | `packages/shared-types/src/regles-metier.ts` — fonctions pures, 100 % de couverture | RG-M1-02, RG-M1-03, RG-M1-05, RG-M2-01, RG-M2-03, RG-M3-01, RG-M3-02 |
+| **Base de données** | Contraintes, types ENUM, tables protégées                                           | RG-M1-04, RG-TR-02                                                   |
+| **Pipeline**        | Portes de qualité bloquantes                                                        | art. 32 via ADR-027, NFR-C4-04 via ADR-038                           |
 
 ## Les règles que le pipeline protège directement
 
@@ -23,18 +23,18 @@ C'est la partie qui distingue ce dépôt d'un dépôt ordinaire : certaines règ
 métier ne sont pas seulement implémentées, elles sont **rendues impossibles à
 violer par inadvertance**.
 
-| Règle ou article | Protection | Mécanisme |
-|---|---|---|
-| **Art. 32 Loi 2024/001** — journal d'audit immuable | `gate-migrations.mjs` | Toute migration destructive sur `evenement_audit` échoue en PR |
-| **RG-M1-04** — référence Kobo conservée à vie | `gate-migrations.mjs` | Idem sur `soumission_kobo` |
-| **UC-M4-07/08** — historique des versions | `gate-migrations.mjs` | Idem sur `version_fiche` |
-| **NFR-C4-01** — données nominatives non exposées | `gate-donnees-test.mjs` | Aucune donnée réelle dans les jeux versionnés |
-| **NFR-C9-04** — propriété du code par l'État | `gate-licences.mjs` | Aucune dépendance copyleft fort liée au code livré |
-| **NFR-C9-02** — pas de sortie de territoire | `gate-affectation-runners.mjs` | Aucun job manipulant des données réelles sur un runner hébergé |
-| **FR-M7-04/08** — URI pérennes, API versionnée | `gate-api-contrat.mjs` | Aucune rupture de contrat sans changement de version |
-| **NFR-C1-07** — poids sur connexion 3G | `gate-bundle-budget.mjs` | Budget dépassé = fusion refusée |
-| **NFR-C7-01** — WCAG 2.1 AA | `vitest-axe` + Playwright | Violation `critical`/`serious` = test rouge |
-| **NFR-C6-01** — couverture de tests | seuils Jest/Vitest | Seuil non atteint = build rouge |
+| Règle ou article                                    | Protection                     | Mécanisme                                                      |
+| --------------------------------------------------- | ------------------------------ | -------------------------------------------------------------- |
+| **Art. 32 Loi 2024/001** — journal d'audit immuable | `gate-migrations.mjs`          | Toute migration destructive sur `evenement_audit` échoue en PR |
+| **RG-M1-04** — référence Kobo conservée à vie       | `gate-migrations.mjs`          | Idem sur `soumission_kobo`                                     |
+| **UC-M4-07/08** — historique des versions           | `gate-migrations.mjs`          | Idem sur `version_fiche`                                       |
+| **NFR-C4-01** — données nominatives non exposées    | `gate-donnees-test.mjs`        | Aucune donnée réelle dans les jeux versionnés                  |
+| **NFR-C9-04** — propriété du code par l'État        | `gate-licences.mjs`            | Aucune dépendance copyleft fort liée au code livré             |
+| **NFR-C9-02** — pas de sortie de territoire         | `gate-affectation-runners.mjs` | Aucun job manipulant des données réelles sur un runner hébergé |
+| **FR-M7-04/08** — URI pérennes, API versionnée      | `gate-api-contrat.mjs`         | Aucune rupture de contrat sans changement de version           |
+| **NFR-C1-07** — poids sur connexion 3G              | `gate-bundle-budget.mjs`       | Budget dépassé = fusion refusée                                |
+| **NFR-C7-01** — WCAG 2.1 AA                         | `vitest-axe` + Playwright      | Violation `critical`/`serious` = test rouge                    |
+| **NFR-C6-01** — couverture de tests                 | seuils Jest/Vitest             | Seuil non atteint = build rouge                                |
 
 ## Modifier une règle
 

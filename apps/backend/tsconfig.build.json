@@ -1,0 +1,7 @@
+{
+  "_commentaire": "Construction de l'image : seules les sources applicatives. Le script de seed et les tests n'entrent pas dans le livrable.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "rootDir": "./src" },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "prisma", "**/*.spec.ts"]
+}

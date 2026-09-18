@@ -15,7 +15,7 @@ export default defineConfig({
   resolve: { alias: { '@': resolve(__dirname, 'src') } },
   build: {
     target: 'es2022',
-    sourcemap: true,          // indispensable au diagnostic d'erreurs en production
+    sourcemap: true, // indispensable au diagnostic d'erreurs en production
     chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
@@ -32,7 +32,10 @@ export default defineConfig({
       },
     },
   },
-  server: { port: 5173, proxy: { '/api': { target: 'http://localhost:3000', changeOrigin: true } } },
+  server: {
+    port: 5173,
+    proxy: { '/api': { target: 'http://localhost:3000', changeOrigin: true } },
+  },
   test: {
     environment: 'jsdom',
     globals: true,

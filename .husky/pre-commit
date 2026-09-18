@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
-# Hooks locaux — SDD §4.5. Garde-fous RAPIDES uniquement : la barriere reelle
-# est la CI (un hook local se contourne avec --no-verify).
+# Garde-fous RAPIDES uniquement (SDD §4.5) : la barrière réelle est la CI,
+# un hook local se contournant avec --no-verify.
+. "$(dirname "$0")/_prelude.sh"
 npx lint-staged

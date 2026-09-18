@@ -26,7 +26,7 @@ Ce qui est decide, en une a trois phrases, sans conditionnel.
 ## Alternatives ecartees
 
 | Alternative | Raison du rejet |
-|---|---|
+| ----------- | --------------- |
 
 ## Mise en oeuvre
 

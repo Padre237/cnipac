@@ -25,7 +25,12 @@ import {
  * auditable de bout en bout.
  */
 export function transitionAutorisee(depuis: StatutFiche, vers: StatutFiche): boolean {
-  return TRANSITIONS_AUTORISEES[depuis]?.includes(vers) ?? false;
+  // Le typage garantit la cle A LA COMPILATION, mais un statut parvient souvent
+  // de la base ou d'une API sous forme de chaine non validee. La recherche reste
+  // donc defensive a l'execution : un statut inconnu ferme le cycle de vie
+  // plutot que de l'ouvrir.
+  const transitions: Partial<Record<StatutFiche, readonly StatutFiche[]>> = TRANSITIONS_AUTORISEES;
+  return transitions[depuis]?.includes(vers) ?? false;
 }
 
 /**

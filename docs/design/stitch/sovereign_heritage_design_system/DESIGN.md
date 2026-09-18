@@ -103,6 +103,7 @@ This design system is built to reflect the prestige, stability, and historical s
 The aesthetic follows a **Corporate / Modern** direction with **Heritage Accents**. It utilizes high-quality typography and a disciplined layout to evoke a sense of permanence and trust. The visual narrative is "The Custodian": a secure, organized, and authoritative environment that treats information with the highest level of professional care.
 
 **Key Brand Pillars:**
+
 - **Sovereign Authority:** Drawing direct inspiration from the national seal to establish immediate legitimacy.
 - **Institutional Clarity:** A minimalist structural approach that ensures complex archival data remains accessible.
 - **Prestigious Reliability:** A high-contrast palette and refined serif treatments that communicate a legacy of service.
@@ -120,16 +121,18 @@ The palette is derived directly from the National Archives seal, representing th
 ## Typography
 
 The typography strategy employs a "Dual-Tone" approach:
+
 1. **Source Serif 4 (The Authority):** Used for headlines and titles. Its traditional proportions mirror the circular text of the national seal, providing a scholarly and institutional weight.
 2. **Public Sans (The Utility):** Used for UI elements, data tables, and body copy. It is an "institutional" sans-serif designed for clarity and neutrality, ensuring that dense archival information is easy to consume.
 
 **Formatting Rules:**
+
 - Use **Sentence case** for headlines to maintain a modern, approachable tone within an authoritative framework.
 - Use **All-caps with tracking** for small labels and category tags to differentiate metadata from content.
 
 ## Layout & Spacing
 
-The layout philosophy uses a **Fixed Grid** model for desktop to evoke the feeling of a well-bound ledger or a formal document. 
+The layout philosophy uses a **Fixed Grid** model for desktop to evoke the feeling of a well-bound ledger or a formal document.
 
 - **Grid:** A 12-column grid system with 24px gutters.
 - **Margins:** Large 64px margins on desktop to allow the content "room to breathe," reflecting the luxury of space found in prestigious libraries.
@@ -156,22 +159,27 @@ The shape language is defined as **Rounded**, providing a bridge between traditi
 ## Components
 
 ### Buttons
+
 - **Primary:** Solid Primary Blue background with white text. High contrast, 8px corner radius.
 - **Secondary:** Emerald Green border with Emerald Green text. Used for "Create" or "Submit" actions.
 - **Ghost:** No border, Primary Blue text. Used for secondary navigation actions.
 
 ### Input Fields
-- Understated design with a subtle light gray border. 
+
+- Understated design with a subtle light gray border.
 - On focus, the border transitions to Primary Blue with a 1px thickness.
 - Labels always use the **label-sm** token (Public Sans, Bold, All-caps).
 
 ### Cards
+
 - Pure white background with a 1px border. No shadow.
 - Header of the card may use a subtle top-border accent in Primary Blue or Emerald Green to categorize the content type.
 
 ### Chips/Tags
+
 - Used for metadata (e.g., "Manuscript", "19th Century").
 - High-saturation backgrounds (Primary Blue or National Gold) with small, bold text.
 
 ### Information Banners
+
 - Institutional alerts use the National Red for "Urgent/Critical" and National Gold for "Notice/Maintenance." These span the full width of the content container.

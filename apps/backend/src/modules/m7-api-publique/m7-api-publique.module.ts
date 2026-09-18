@@ -19,4 +19,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class Um7UapiUpubliqueModule {}
+export class M7ApiPubliqueModule {}

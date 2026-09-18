@@ -12,7 +12,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 3 * * 1'     # lundi 03h00 UTC — scan complet hebdomadaire
+    - cron: '0 3 * * 1' # lundi 03h00 UTC — scan complet hebdomadaire
   workflow_dispatch:
 
 concurrency:

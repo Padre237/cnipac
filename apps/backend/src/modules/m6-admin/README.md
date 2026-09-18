@@ -1,11 +1,11 @@
 # M6 — Administration, securite et RBAC
 
-| | |
-|---|---|
-| **Exigences fonctionnelles** | FR-M6-01 a FR-M6-14 |
-| **Regles de gestion** | RG-M6-01 a RG-M6-04 |
-| **Conception** | SDD V4.0 |
-| **Etat** | Palier 0 — squelette |
+|                              |                      |
+| ---------------------------- | -------------------- |
+| **Exigences fonctionnelles** | FR-M6-01 a FR-M6-14  |
+| **Regles de gestion**        | RG-M6-01 a RG-M6-04  |
+| **Conception**               | SDD V4.0             |
+| **Etat**                     | Palier 0 — squelette |
 
 ## Regle de developpement
 

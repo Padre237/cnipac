@@ -28,11 +28,11 @@ d'archives publics, afficher une donnee obsolete sans avertissement est un defau
 **API — versionnage par chemin**, forme la plus lisible et la plus facilement mise en cache :
 `/api/v1/producteurs`.
 
-| Nature du changement | Traitement |
-|---|---|
-| Ajout d'un champ, d'un point d'entree, d'un filtre optionnel | Dans `v1`, sans rupture. Les clients ignorent ce qu'ils ne connaissent pas. |
-| Suppression ou renommage d'un champ, changement de type, modification de semantique | **Nouvelle version `v2`**. `v1` maintenue. |
-| Correction de securite | Immediate sur toutes les versions actives. |
+| Nature du changement                                                                | Traitement                                                                  |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Ajout d'un champ, d'un point d'entree, d'un filtre optionnel                        | Dans `v1`, sans rupture. Les clients ignorent ce qu'ils ne connaissent pas. |
+| Suppression ou renommage d'un champ, changement de type, modification de semantique | **Nouvelle version `v2`**. `v1` maintenue.                                  |
+| Correction de securite                                                              | Immediate sur toutes les versions actives.                                  |
 
 **Politique de depreciation** : une version depreciee reste servie **12 mois minimum** apres
 l'annonce, avec l'en-tete `Deprecation` (RFC 8594) et un lien `Sunset`. L'annonce est publiee
@@ -51,12 +51,12 @@ internes ne doivent apparaitre dans aucune reponse publique.
 
 **PWA — trois regimes de cache**, par nature de ressource :
 
-| Ressource | Strategie | Duree | Justification |
-|---|---|---|---|
-| Coque applicative (JS, CSS, polices) | `CacheFirst`, invalidee par le hachage de construction | version | Change a chaque release |
-| Tuiles cartographiques OSM | `CacheFirst` | 30 jours | Le fond de carte evolue lentement |
-| Donnees producteurs | `NetworkFirst`, repli sur cache | **24 h maximum** | Donnees de reference : la fraicheur prime |
-| Referentiels (reseaux, ministeres, regions) | `StaleWhileRevalidate` | 7 jours | Quasi statiques |
+| Ressource                                   | Strategie                                              | Duree            | Justification                             |
+| ------------------------------------------- | ------------------------------------------------------ | ---------------- | ----------------------------------------- |
+| Coque applicative (JS, CSS, polices)        | `CacheFirst`, invalidee par le hachage de construction | version          | Change a chaque release                   |
+| Tuiles cartographiques OSM                  | `CacheFirst`                                           | 30 jours         | Le fond de carte evolue lentement         |
+| Donnees producteurs                         | `NetworkFirst`, repli sur cache                        | **24 h maximum** | Donnees de reference : la fraicheur prime |
+| Referentiels (reseaux, ministeres, regions) | `StaleWhileRevalidate`                                 | 7 jours          | Quasi statiques                           |
 
 **Regle metier imperative** : lorsque l'application sert des donnees issues du cache, elle
 **affiche systematiquement la date de derniere synchronisation**. Cette obligation prolonge
@@ -85,11 +85,11 @@ on ne peut plus la retirer sans preavis.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Versionnage par en-tete `Accept` | Plus elegant en theorie, moins praticable pour des consommateurs institutionnels peu outilles. Complique la mise en cache HTTP. |
-| Aucun versionnage | Contraire a FR-M7-08. Casse les integrations tierces sans preavis. |
-| Cache PWA sans horodatage visible | Presente des donnees perimees comme courantes. Defaut metier sur un referentiel national. |
+| Alternative                       | Raison du rejet                                                                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Versionnage par en-tete `Accept`  | Plus elegant en theorie, moins praticable pour des consommateurs institutionnels peu outilles. Complique la mise en cache HTTP. |
+| Aucun versionnage                 | Contraire a FR-M7-08. Casse les integrations tierces sans preavis.                                                              |
+| Cache PWA sans horodatage visible | Presente des donnees perimees comme courantes. Defaut metier sur un referentiel national.                                       |
 
 ## Mise en oeuvre
 

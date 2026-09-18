@@ -24,7 +24,7 @@
 
 ---
 
-*Le texte qui suit est conserve a titre de trace de l'analyse initiale.*
+_Le texte qui suit est conserve a titre de trace de l'analyse initiale._
 
 ## Contexte
 
@@ -42,7 +42,7 @@ Trois objections :
 3. **Dependance operationnelle** : une indisponibilite de Codecov bloquerait la CI, donc les
    fusions, pour un service qui n'apporte que de la visualisation.
 
-Un precedent aggrave le point 3 : la compromission du *bash uploader* de Codecov en 2021 a
+Un precedent aggrave le point 3 : la compromission du _bash uploader_ de Codecov en 2021 a
 permis l'exfiltration de variables d'environnement, donc de secrets, depuis les CI de ses
 clients. Ce type d'incident est exactement ce que NFR-C9 cherche a prevenir.
 
@@ -80,11 +80,11 @@ Environ 150 lignes de script a maintenir.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Codecov, conforme au SDD §26.4 | Contredit NFR-C9-02 et NFR-C9-03. Dependance a un service dont l'historique de securite est charge. |
+| Alternative                      | Raison du rejet                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Codecov, conforme au SDD §26.4   | Contredit NFR-C9-02 et NFR-C9-03. Dependance a un service dont l'historique de securite est charge.                                 |
 | SonarQube Community auto-heberge | Apporte davantage (qualite, duplication, securite) mais ajoute un service critique a exploiter. A reevaluer en Phase 2 post-pilote. |
-| Aucun suivi de tendance | Laisse la couverture deriver sans signal. NFR-C6-01 impose un seuil, donc un suivi. |
+| Aucun suivi de tendance          | Laisse la couverture deriver sans signal. NFR-C6-01 impose un seuil, donc un suivi.                                                 |
 
 ## Mise en oeuvre
 

@@ -12,9 +12,9 @@ services:
     environment:
       POSTGRES_DB: cnipac_test
       POSTGRES_USER: cnipac_test
-      POSTGRES_PASSWORD: cnipac_test     # jetable, base ephemere, aucun enjeu
+      POSTGRES_PASSWORD: cnipac_test # jetable, base ephemere, aucun enjeu
       POSTGRES_INITDB_ARGS: '--encoding=UTF8'
-    tmpfs: ['/var/lib/postgresql/data']  # en memoire : tests plus rapides
+    tmpfs: ['/var/lib/postgresql/data'] # en memoire : tests plus rapides
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U cnipac_test']
       interval: 5s
@@ -47,7 +47,13 @@ services:
       redis: { condition: service_healthy }
     ports: ['3000:3000']
     healthcheck:
-      test: ['CMD', 'node', '-e', "require('http').get('http://localhost:3000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://localhost:3000/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
       interval: 5s
       retries: 20
 

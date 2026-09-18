@@ -16,13 +16,13 @@ qui peut contredire la maitrise souhaitee par l'Etat sur la diffusion de son sys
 
 Or la stack retenue par le SDD §4 contient **precisement** de telles licences :
 
-| Composant | Licence | Situation |
-|---|---|---|
-| PostGIS | GPL-2.0 | Processus separe, appele par le protocole PostgreSQL |
-| k6 | AGPL-3.0 | Outil de test, jamais distribue avec le systeme |
-| Grafana | AGPL-3.0 | Service separe, non modifie |
-| Loki | AGPL-3.0 | Service separe, non modifie |
-| axe-core | MPL-2.0 | Copyleft faible, par fichier |
+| Composant | Licence  | Situation                                            |
+| --------- | -------- | ---------------------------------------------------- |
+| PostGIS   | GPL-2.0  | Processus separe, appele par le protocole PostgreSQL |
+| k6        | AGPL-3.0 | Outil de test, jamais distribue avec le systeme      |
+| Grafana   | AGPL-3.0 | Service separe, non modifie                          |
+| Loki      | AGPL-3.0 | Service separe, non modifie                          |
+| axe-core  | MPL-2.0  | Copyleft faible, par fichier                         |
 
 Le SDD ne dit pas comment ces composants se concilient avec NFR-C9-04. **Le critere
 juridique pertinent n'est pas la licence en elle-meme, mais le mode de liaison.**
@@ -49,7 +49,7 @@ licence libre est acceptee, AGPL comprise. Documente pour couper court au faux p
 PostGIS, Redis, Nginx, Grafana, Loki, Prometheus). Communication par protocole reseau, images
 non modifiees, aucune liaison au sens du droit d'auteur. Toute licence libre est acceptee.
 **Condition impérative** : toute modification du code source de l'un de ces composants
-declencherait les obligations de sa licence. Le projet s'interdit donc de les *forker* ; toute
+declencherait les obligations de sa licence. Le projet s'interdit donc de les _forker_ ; toute
 adaptation passe par la configuration.
 
 **Application** : le controle `scripts/gate-licences.mjs` s'execute a chaque PR sur le seul
@@ -74,11 +74,11 @@ juridiquement difficile a retirer. D'ou le controle **a la PR**, pas a la releas
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                              | Raison du rejet                                                                                                                     |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | Interdire toute licence copyleft partout | Eliminerait PostGIS, donc le coeur geospatial du systeme. Juridiquement infonde : un processus separe ne cree pas d'oeuvre derivee. |
-| N'appliquer aucun controle | Laisse NFR-C9-03 et NFR-C9-04 invérifiables. Le SDD §4.1 prescrit explicitement le refus des licences non conformes. |
-| Controle a la release seulement | Trop tard : la dependance est deja integree et peut-etre deja diffusee. |
+| N'appliquer aucun controle               | Laisse NFR-C9-03 et NFR-C9-04 invérifiables. Le SDD §4.1 prescrit explicitement le refus des licences non conformes.                |
+| Controle a la release seulement          | Trop tard : la dependance est deja integree et peut-etre deja diffusee.                                                             |
 
 ## Mise en oeuvre
 

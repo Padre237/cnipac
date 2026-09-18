@@ -31,19 +31,19 @@ rouge.** Modèle : [docs/adr/_TEMPLATE.md](docs/adr/_TEMPLATE.md).
 
 ## Ce qui bloquera votre pull request
 
-| Contrôle | Motif |
-|---|---|
-| Lint ou typage | NFR-C6-04 — zéro erreur tolérée |
-| Couverture sous le seuil du palier | NFR-C6-01, ADR-028 |
-| Règle de gestion sans test dédié | ADR-035 |
-| Migration destructive sur une table protégée | Art. 32 Loi 2024/001, ADR-027 |
-| Migration non rétrocompatible | Prérequis du Blue-Green, ADR-032 |
-| Budget de bundle dépassé | NFR-C1-07, ADR-029 |
-| Violation d'accessibilité `critical`/`serious` | NFR-C7-01, ADR-030 |
-| Licence hors allowlist | NFR-C9-03, ADR-025 |
-| Secret détecté, ou lu depuis une variable d'environnement | ADR-033 |
-| Donnée réelle dans un jeu de test | NFR-C4-01, ADR-034 |
-| Rupture du contrat d'API sans versionnement | FR-M7-08, ADR-037 |
+| Contrôle                                                  | Motif                            |
+| --------------------------------------------------------- | -------------------------------- |
+| Lint ou typage                                            | NFR-C6-04 — zéro erreur tolérée  |
+| Couverture sous le seuil du palier                        | NFR-C6-01, ADR-028               |
+| Règle de gestion sans test dédié                          | ADR-035                          |
+| Migration destructive sur une table protégée              | Art. 32 Loi 2024/001, ADR-027    |
+| Migration non rétrocompatible                             | Prérequis du Blue-Green, ADR-032 |
+| Budget de bundle dépassé                                  | NFR-C1-07, ADR-029               |
+| Violation d'accessibilité `critical`/`serious`            | NFR-C7-01, ADR-030               |
+| Licence hors allowlist                                    | NFR-C9-03, ADR-025               |
+| Secret détecté, ou lu depuis une variable d'environnement | ADR-033                          |
+| Donnée réelle dans un jeu de test                         | NFR-C4-01, ADR-034               |
+| Rupture du contrat d'API sans versionnement               | FR-M7-08, ADR-037                |
 
 Aucun de ces contrôles n'est arbitraire : chacun protège une exigence
 contractuelle nommée. En cas de désaccord sur un contrôle, le débat porte sur

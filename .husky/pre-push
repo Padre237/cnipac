@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
-# Deux controles instantanes, qui evitent la plupart des CI rouges.
+# Deux contrôles instantanés, qui évitent la plupart des CI rouges.
+. "$(dirname "$0")/_prelude.sh"
 npm run typecheck && node scripts/gate-tracabilite.mjs

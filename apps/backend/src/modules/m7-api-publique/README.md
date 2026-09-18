@@ -1,11 +1,11 @@
 # M7 — Interoperabilite et API ouverte
 
-| | |
-|---|---|
-| **Exigences fonctionnelles** | FR-M7-01 a FR-M7-08 |
-| **Regles de gestion** | RG-M7-01 a RG-M7-04 |
-| **Conception** | SDD V4.0 |
-| **Etat** | Palier 0 — squelette |
+|                              |                      |
+| ---------------------------- | -------------------- |
+| **Exigences fonctionnelles** | FR-M7-01 a FR-M7-08  |
+| **Regles de gestion**        | RG-M7-01 a RG-M7-04  |
+| **Conception**               | SDD V4.0             |
+| **Etat**                     | Palier 0 — squelette |
 
 ## Regle de developpement
 

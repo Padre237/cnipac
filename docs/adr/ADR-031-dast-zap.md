@@ -24,11 +24,11 @@ request, aucun environnement de ce type n'existe.
 
 Trois niveaux, calibres sur leur duree.
 
-| Niveau | Declencheur | Type de scan | Duree | Effet |
-|---|---|---|---|---|
-| **1** | Chaque PR | Controles statiques d'en-tetes sur l'application demarree en conteneur ephemere : CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy | < 60 s | **Bloquant** |
-| **2** | Apres chaque deploiement PREPROD | `zap-baseline` authentifie, actif passif | 5 a 8 min | **Bloquant** en HIGH/CRITICAL |
-| **3** | Hebdomadaire (dimanche) et avant chaque jalon P1/P2/P3 | `zap-full-scan` avec definition OpenAPI et regles d'authentification | 30 a 45 min | Rapport au RSSI ; bloquant pour la promotion de jalon |
+| Niveau | Declencheur                                            | Type de scan                                                                                                                                                              | Duree       | Effet                                                 |
+| ------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------- |
+| **1**  | Chaque PR                                              | Controles statiques d'en-tetes sur l'application demarree en conteneur ephemere : CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy | < 60 s      | **Bloquant**                                          |
+| **2**  | Apres chaque deploiement PREPROD                       | `zap-baseline` authentifie, actif passif                                                                                                                                  | 5 a 8 min   | **Bloquant** en HIGH/CRITICAL                         |
+| **3**  | Hebdomadaire (dimanche) et avant chaque jalon P1/P2/P3 | `zap-full-scan` avec definition OpenAPI et regles d'authentification                                                                                                      | 30 a 45 min | Rapport au RSSI ; bloquant pour la promotion de jalon |
 
 **Le niveau 1** couvre NFR-C3-07 (durcissement des en-tetes) et s'execute en moins d'une
 minute parce qu'il ne teste que la configuration, sans exploration du site.
@@ -65,11 +65,11 @@ ZAP produit des faux positifs qui demandent un arbitrage humain regulier.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Scan complet a chaque PR | Cycle de retour porte a plus de 30 minutes. La regle serait contournee. |
-| Scan uniquement avant les jalons | Laisse passer des mois entre deux verifications. Contraire a NFR-C3-04. |
-| Outil DAST commercial | Contraire a NFR-C9-03. ZAP est explicitement nomme par le SRS et le SDD. |
+| Alternative                      | Raison du rejet                                                          |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| Scan complet a chaque PR         | Cycle de retour porte a plus de 30 minutes. La regle serait contournee.  |
+| Scan uniquement avant les jalons | Laisse passer des mois entre deux verifications. Contraire a NFR-C3-04.  |
+| Outil DAST commercial            | Contraire a NFR-C9-03. ZAP est explicitement nomme par le SRS et le SDD. |
 
 ## Mise en oeuvre
 

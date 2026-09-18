@@ -17,10 +17,16 @@ async function amorcer(): Promise<void> {
   console.log(`[seed] Jeu demande : ${jeu}`);
   console.log('[seed] Palier 0 — generateur a implementer au Sprint 2 (SDD §29.2).');
   console.log('[seed] Le jeu produit devra couvrir les cas limites des regles de gestion :');
-  console.log('       - 5 % de fiches sans coordonnees valides        (RG-M2-03, branche d exclusion)');
-  console.log('       - des doublons deliberes sur le triplet          (RG-M1-03, parcours E2E P-B)');
+  console.log(
+    '       - 5 % de fiches sans coordonnees valides        (RG-M2-03, branche d exclusion)',
+  );
+  console.log(
+    '       - des doublons deliberes sur le triplet          (RG-M1-03, parcours E2E P-B)',
+  );
   console.log('       - tous les statuts de l automate                 (RG-M1-05)');
-  console.log('       - au moins une region a moins de 5 producteurs   (RG-M3-02, seuil d agregation)');
+  console.log(
+    '       - au moins une region a moins de 5 producteurs   (RG-M3-02, seuil d agregation)',
+  );
   console.log('       - un indice de maturite reparti sur l echelle    (RG-M3-01)');
 }
 

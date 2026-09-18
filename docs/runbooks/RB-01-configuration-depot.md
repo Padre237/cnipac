@@ -13,15 +13,15 @@ un ADR décrit une règle, GitHub l'applique.
 
 Créer les équipes référencées par `.github/CODEOWNERS` :
 
-| Équipe | Membres | Zones dont elle est propriétaire |
-|---|---|---|
-| `cnipac-tech-leads` | Tech lead | Défaut sur tout le dépôt |
-| `cnipac-architectes` | Architecte CENADI | ADR, infra, workflows, M6, M7, schéma |
-| `cnipac-rssi` | RSSI CENADI | M6, conformité, secrets |
-| `cnipac-dba` | Référent base de données | `apps/backend/prisma/` |
-| `cnipac-metier-anc` | Référent métier ANC | Règles métier, registre des exigences |
-| `cnipac-exploitation` | Exploitation CENADI | `infra/` |
-| `cnipac-chef-de-projet` | Chef de projet | Licence, dérogations |
+| Équipe                  | Membres                  | Zones dont elle est propriétaire      |
+| ----------------------- | ------------------------ | ------------------------------------- |
+| `cnipac-tech-leads`     | Tech lead                | Défaut sur tout le dépôt              |
+| `cnipac-architectes`    | Architecte CENADI        | ADR, infra, workflows, M6, M7, schéma |
+| `cnipac-rssi`           | RSSI CENADI              | M6, conformité, secrets               |
+| `cnipac-dba`            | Référent base de données | `apps/backend/prisma/`                |
+| `cnipac-metier-anc`     | Référent métier ANC      | Règles métier, registre des exigences |
+| `cnipac-exploitation`   | Exploitation CENADI      | `infra/`                              |
+| `cnipac-chef-de-projet` | Chef de projet           | Licence, dérogations                  |
 
 **Le dépôt reste privé** (ADR-014). Si le COPIL décide un jour de le publier,
 réexaminer d'abord la configuration des runners self-hosted : un runner
@@ -53,19 +53,19 @@ Settings → General → Pull Requests : **Allow squash merging uniquement**
 
 **Variables** (Settings → Secrets and variables → Actions → Variables) :
 
-| Nom | Valeur initiale | ADR |
-|---|---|---|
-| `CNIPAC_REGISTRY` | `ghcr.io` | 015 |
-| `CNIPAC_IMAGE_PREFIX` | `cenadi-cm/cnipac` | 015 |
+| Nom                          | Valeur initiale           | ADR |
+| ---------------------------- | ------------------------- | --- |
+| `CNIPAC_REGISTRY`            | `ghcr.io`                 | 015 |
+| `CNIPAC_IMAGE_PREFIX`        | `cenadi-cm/cnipac`        | 015 |
 | `CNIPAC_A11Y_PAGES_BLOQUANT` | `false` jusqu'au Sprint 8 | 030 |
 
 **Secrets** :
 
-| Nom | Origine |
-|---|---|
+| Nom                                     | Origine                                                                     |
+| --------------------------------------- | --------------------------------------------------------------------------- |
 | `COSIGN_PRIVATE_KEY`, `COSIGN_PASSWORD` | `cosign generate-key-pair` — clé publique committée dans `infra/cosign.pub` |
-| `CNIPAC_REGISTRY_TOKEN` | Jeton du registre |
-| `CNIPAC_SSH_PREPROD`, `CNIPAC_SSH_PROD` | Clés de déploiement |
+| `CNIPAC_REGISTRY_TOKEN`                 | Jeton du registre                                                           |
+| `CNIPAC_SSH_PREPROD`, `CNIPAC_SSH_PROD` | Clés de déploiement                                                         |
 
 La clé privée cosign est **sauvegardée hors ligne par le RSSI**. Sa perte
 empêcherait de signer toute nouvelle release.
@@ -77,6 +77,7 @@ Settings → Environments.
 **`preprod`** : aucun approbateur, branche `main` uniquement.
 
 **`production`** :
+
 - [x] **Required reviewers : 2** — c'est la porte d'approbation d'ADR-032
 - [x] Wait timer : 0
 - [x] Deployment branches : **tags uniquement**, motif `v*`
@@ -86,6 +87,7 @@ Settings → Environments.
 Suivre [`infra/host/runner-hardening.md`](../../infra/host/runner-hardening.md).
 
 Deux runners distincts, étiquetés :
+
 - `self-hosted, cnipac, cenadi, preprod`
 - `self-hosted, cnipac, cenadi, prod`
 
@@ -149,10 +151,10 @@ n'est pas une protection vérifiée.
 
 ## Ce qui reste à décider
 
-| Point | Décideur | Échéance |
-|---|---|---|
-| Les 5 dérogations de [DEROGATIONS.md](../DEROGATIONS.md) | COPIL | Clôture Palier 0 ; D-04 et D-05 **avant Sprint 2** |
-| Existence et calendrier de `registry.cenadi.cm` | Architecte + exploitation | P3 |
-| Noms de domaine et autorité de certification | Chef de projet | Sprint 3 |
-| Canal de notification (Slack, Mattermost) | Tech lead | Sprint 2 |
-| Instance KoboToolbox et jeton (projet de **test** distinct) | Métier ANC | Sprint 5 |
+| Point                                                       | Décideur                  | Échéance                                           |
+| ----------------------------------------------------------- | ------------------------- | -------------------------------------------------- |
+| Les 5 dérogations de [DEROGATIONS.md](../DEROGATIONS.md)    | COPIL                     | Clôture Palier 0 ; D-04 et D-05 **avant Sprint 2** |
+| Existence et calendrier de `registry.cenadi.cm`             | Architecte + exploitation | P3                                                 |
+| Noms de domaine et autorité de certification                | Chef de projet            | Sprint 3                                           |
+| Canal de notification (Slack, Mattermost)                   | Tech lead                 | Sprint 2                                           |
+| Instance KoboToolbox et jeton (projet de **test** distinct) | Métier ANC                | Sprint 5                                           |

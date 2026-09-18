@@ -50,11 +50,11 @@ environ 1 vCPU / 2 Go / 200 Go sur l'hote H3.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Attendre `registry.cenadi.cm` | Bloque le Palier 0 sur une dependance externe non maitrisee (risque de planning §29.7.3). |
-| `docker save` / `scp` des images | Rompt la tracabilite par digest exigee par ADR-023 et interdit toute verification de signature. |
-| Registre local sur H1 | H1 est l'hote applicatif de production. Y heberger le registre cree une dependance circulaire au deploiement. |
+| Alternative                      | Raison du rejet                                                                                               |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Attendre `registry.cenadi.cm`    | Bloque le Palier 0 sur une dependance externe non maitrisee (risque de planning §29.7.3).                     |
+| `docker save` / `scp` des images | Rompt la tracabilite par digest exigee par ADR-023 et interdit toute verification de signature.               |
+| Registre local sur H1            | H1 est l'hote applicatif de production. Y heberger le registre cree une dependance circulaire au deploiement. |
 
 ## Mise en oeuvre
 

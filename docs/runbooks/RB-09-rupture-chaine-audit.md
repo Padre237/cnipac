@@ -42,12 +42,12 @@ rapport d'incident.
 
 ## 4. Qualifier — corruption ou altération ?
 
-| Indice | Lecture probable |
-|---|---|
-| Rupture sur une plage **contiguë** d'identifiants, après un incident matériel ou un arrêt brutal | Corruption technique |
-| Rupture sur **un ou quelques** événements isolés, sans incident concomitant | **Altération — suspicion d'acte délibéré** |
-| Événements **manquants** (identifiants non contigus) | **Suppression — suspicion d'acte délibéré** |
-| Somme de contrôle PostgreSQL en erreur (`data-checksums` est activé) | Corruption disque |
+| Indice                                                                                           | Lecture probable                            |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| Rupture sur une plage **contiguë** d'identifiants, après un incident matériel ou un arrêt brutal | Corruption technique                        |
+| Rupture sur **un ou quelques** événements isolés, sans incident concomitant                      | **Altération — suspicion d'acte délibéré**  |
+| Événements **manquants** (identifiants non contigus)                                             | **Suppression — suspicion d'acte délibéré** |
+| Somme de contrôle PostgreSQL en erreur (`data-checksums` est activé)                             | Corruption disque                           |
 
 Croiser avec : les journaux système de la période, les accès SSH, les connexions
 PostgreSQL (`log_connections` est activé), l'historique des déploiements.

@@ -1,11 +1,11 @@
 # M2 — Visualisation cartographique
 
-| | |
-|---|---|
-| **Exigences fonctionnelles** | FR-M2-01 a FR-M2-14 |
-| **Regles de gestion** | RG-M2-01 a RG-M2-04 |
-| **Conception** | SDD V4.0 |
-| **Etat** | Palier 0 — squelette |
+|                              |                      |
+| ---------------------------- | -------------------- |
+| **Exigences fonctionnelles** | FR-M2-01 a FR-M2-14  |
+| **Regles de gestion**        | RG-M2-01 a RG-M2-04  |
+| **Conception**               | SDD V4.0             |
+| **Etat**                     | Palier 0 — squelette |
 
 ## Regle de developpement
 

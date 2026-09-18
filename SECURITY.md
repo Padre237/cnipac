@@ -11,28 +11,28 @@ Accusé de réception sous **48 heures ouvrées**. Évaluation initiale sous
 
 ## Délais de correction
 
-| Criticité (CVSS) | Correction | Fondement |
-|---|---|---|
-| Critique (9,0–10,0) | **24 heures** | NFR-C3-04 |
-| Haute (7,0–8,9) | **7 jours** | NFR-C3-04 |
-| Moyenne (4,0–6,9) | 30 jours | — |
-| Basse (0,1–3,9) | Prochaine release planifiée | — |
+| Criticité (CVSS)    | Correction                  | Fondement |
+| ------------------- | --------------------------- | --------- |
+| Critique (9,0–10,0) | **24 heures**               | NFR-C3-04 |
+| Haute (7,0–8,9)     | **7 jours**                 | NFR-C3-04 |
+| Moyenne (4,0–6,9)   | 30 jours                    | —         |
+| Basse (0,1–3,9)     | Prochaine release planifiée | —         |
 
 **NFR-C3-04 : aucune vulnérabilité CVSS ≥ 7 ne doit subsister à la mise en
 production.** L'exigence est vérifiée automatiquement et bloque la release.
 
 ## Dispositif en place
 
-| Niveau | Outil | Fréquence |
-|---|---|---|
-| Dépendances | `npm audit`, Trivy, Renovate | Chaque PR + alertes immédiates |
-| Code (SAST) | CodeQL `security-extended` | Chaque PR |
-| Secrets | gitleaks (diff + historique complet) | Chaque PR + hebdomadaire |
-| En-têtes HTTP | Contrôle dédié | Chaque PR, < 60 s |
-| Application (DAST) | OWASP ZAP baseline | Chaque déploiement PREPROD |
-| Application (DAST complet) | OWASP ZAP full scan | Hebdomadaire + avant chaque jalon |
-| **Pentest externe** | Prestataire tiers | Avant P1, P2, P3, puis annuel (NFR-C3-03) |
-| Intégrité du journal d'audit | Vérification de chaîne | Continue + exercice hebdomadaire |
+| Niveau                       | Outil                                | Fréquence                                 |
+| ---------------------------- | ------------------------------------ | ----------------------------------------- |
+| Dépendances                  | `npm audit`, Trivy, Renovate         | Chaque PR + alertes immédiates            |
+| Code (SAST)                  | CodeQL `security-extended`           | Chaque PR                                 |
+| Secrets                      | gitleaks (diff + historique complet) | Chaque PR + hebdomadaire                  |
+| En-têtes HTTP                | Contrôle dédié                       | Chaque PR, < 60 s                         |
+| Application (DAST)           | OWASP ZAP baseline                   | Chaque déploiement PREPROD                |
+| Application (DAST complet)   | OWASP ZAP full scan                  | Hebdomadaire + avant chaque jalon         |
+| **Pentest externe**          | Prestataire tiers                    | Avant P1, P2, P3, puis annuel (NFR-C3-03) |
+| Intégrité du journal d'audit | Vérification de chaîne               | Continue + exercice hebdomadaire          |
 
 ## Périmètre
 

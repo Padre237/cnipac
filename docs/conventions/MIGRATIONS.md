@@ -22,26 +22,26 @@ qui casse l'ancienne version provoque des erreurs pendant tout le déploiement.
 
 Le schéma ci-dessous s'applique à tout changement destructif.
 
-| Release | Base de données | Code applicatif |
-|---|---|---|
-| **N** | Ajouter la nouvelle colonne, **nullable** | Écrire dans les deux colonnes, lire l'ancienne |
-| **N+1** | Remplir la nouvelle colonne (script de données) | Lire la nouvelle, écrire dans les deux |
-| **N+2** | Supprimer l'ancienne colonne | Ne connaît plus que la nouvelle |
+| Release | Base de données                                 | Code applicatif                                |
+| ------- | ----------------------------------------------- | ---------------------------------------------- |
+| **N**   | Ajouter la nouvelle colonne, **nullable**       | Écrire dans les deux colonnes, lire l'ancienne |
+| **N+1** | Remplir la nouvelle colonne (script de données) | Lire la nouvelle, écrire dans les deux         |
+| **N+2** | Supprimer l'ancienne colonne                    | Ne connaît plus que la nouvelle                |
 
 Trois releases pour renommer une colonne. C'est le prix d'un déploiement sans
 interruption — et c'est moins cher qu'une indisponibilité en production.
 
 ## Ce qui est interdit, et pourquoi
 
-| Opération | Motif |
-|---|---|
-| `DROP COLUMN` en une seule release | L'ancienne version applicative référence encore la colonne |
-| `RENAME COLUMN` | Équivaut à un DROP + ADD pour l'ancienne version |
-| `ALTER COLUMN … TYPE` | Réécriture de table sous verrou exclusif, et rupture de contrat |
-| `SET NOT NULL` sans valeur par défaut | L'ancienne version insère des `NULL` |
+| Opération                                         | Motif                                                                              |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `DROP COLUMN` en une seule release                | L'ancienne version applicative référence encore la colonne                         |
+| `RENAME COLUMN`                                   | Équivaut à un DROP + ADD pour l'ancienne version                                   |
+| `ALTER COLUMN … TYPE`                             | Réécriture de table sous verrou exclusif, et rupture de contrat                    |
+| `SET NOT NULL` sans valeur par défaut             | L'ancienne version insère des `NULL`                                               |
 | Toute opération destructive sur `evenement_audit` | **Article 32 de la Loi 2024/001** — la chaîne de hachage n'est pas reconstructible |
-| Toute suppression dans `soumission_kobo` | **RG-M1-04** — la chaîne de preuve depuis la collecte terrain |
-| Toute suppression dans `version_fiche` | UC-M4-07 et UC-M4-08 — historique et restauration de version |
+| Toute suppression dans `soumission_kobo`          | **RG-M1-04** — la chaîne de preuve depuis la collecte terrain                      |
+| Toute suppression dans `version_fiche`            | UC-M4-07 et UC-M4-08 — historique et restauration de version                       |
 
 ## Verrous — la partie qu'on oublie
 

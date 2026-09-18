@@ -51,9 +51,9 @@ sudo ./svc.sh start
 
 ## Vérifications périodiques
 
-| Fréquence | Contrôle |
-|---|---|
-| Hebdomadaire | Version du runner à jour (Renovate ne la couvre pas) |
-| Mensuelle | Revue des jobs exécutés ; aucun job inattendu |
-| Trimestrielle | Rotation du jeton d'enregistrement |
+| Fréquence       | Contrôle                                                     |
+| --------------- | ------------------------------------------------------------ |
+| Hebdomadaire    | Version du runner à jour (Renovate ne la couvre pas)         |
+| Mensuelle       | Revue des jobs exécutés ; aucun job inattendu                |
+| Trimestrielle   | Rotation du jeton d'enregistrement                           |
 | À chaque départ | Retrait de l'accès de la personne sortante de l'organisation |

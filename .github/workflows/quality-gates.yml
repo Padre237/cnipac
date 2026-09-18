@@ -79,7 +79,7 @@ jobs:
     name: Performance percue (NFR-C1-01)
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    continue-on-error: true   # indicatif en PR ; la mesure contractuelle est k6 en PREPROD
+    continue-on-error: true # indicatif en PR ; la mesure contractuelle est k6 en PREPROD
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node

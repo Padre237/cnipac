@@ -41,8 +41,12 @@ let nb = 0;
 
 for (const [licence, paquets] of Object.entries(parLicence)) {
   for (const p of paquets) {
-    nb++;
     const nom = p.name ?? 'inconnu';
+    // Les paquets du monorepo lui-meme ne sont pas des dependances tierces :
+    // leur licence est celle du projet (LICENSE, propriete de l'Etat, NFR-C9-04),
+    // et npm les declare « UNLICENSED » faute de champ SPDX.
+    if (nom === 'cnipac' || nom.startsWith('@cnipac/')) continue;
+    nb++;
     inventaire.push({ paquet: nom, version: p.versions?.join(', ') ?? '', licence });
     if (exemptes.has(nom.toLowerCase())) continue;
 

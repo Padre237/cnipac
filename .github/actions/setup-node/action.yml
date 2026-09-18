@@ -1,6 +1,6 @@
 # Installation reproductible de la chaine Node — SDD §4.2 et §26.4.
 name: 'Setup Node'
-description: "Installe la version de Node declaree dans .nvmrc et les dependances du lockfile"
+description: 'Installe la version de Node declaree dans .nvmrc et les dependances du lockfile'
 
 runs:
   using: composite

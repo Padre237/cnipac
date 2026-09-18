@@ -4,15 +4,15 @@
 
 ## Avant de commencer
 
-| Condition | Vérification |
-|---|---|
+| Condition                                            | Vérification                                             |
+| ---------------------------------------------------- | -------------------------------------------------------- |
 | Version déployée en PREPROD et tests de fumée passés | `./scripts/verifier-passage-preprod.sh --version=vX.Y.Z` |
-| Tag signé | `git tag -v vX.Y.Z` |
-| Images signées cosign | vérifié automatiquement par le workflow |
-| Budget d'erreur mensuel < 75 % consommé | tableau de bord Grafana « Conformité SRS » |
-| Migrations rétrocompatibles | vérifié en CI (ADR-027) |
-| Fenêtre de maintenance annoncée 72 h à l'avance | courriel + bandeau applicatif |
-| Deux approbateurs disponibles | environnement GitHub `production` |
+| Tag signé                                            | `git tag -v vX.Y.Z`                                      |
+| Images signées cosign                                | vérifié automatiquement par le workflow                  |
+| Budget d'erreur mensuel < 75 % consommé              | tableau de bord Grafana « Conformité SRS »               |
+| Migrations rétrocompatibles                          | vérifié en CI (ADR-027)                                  |
+| Fenêtre de maintenance annoncée 72 h à l'avance      | courriel + bandeau applicatif                            |
+| Deux approbateurs disponibles                        | environnement GitHub `production`                        |
 
 **Ne pas déployer** : un vendredi après 15 h, la veille d'un jour férié, ou
 pendant les 10 jours précédant un atelier de restitution.
@@ -39,13 +39,13 @@ Durée typique : 20 à 30 minutes, dont 10 d'observation.
 
 ## Si quelque chose se passe mal
 
-| Symptôme | Action |
-|---|---|
-| Échec des tests de fumée sur Green | Aucune bascule n'a eu lieu. Le trafic est toujours sur Blue. Analyser les journaux de Green, corriger, recommencer. **Aucun utilisateur n'a été affecté.** |
-| Seuils dépassés pendant l'observation | Bascule arrière automatique. Vérifier que le trafic est revenu sur Blue : `./scripts/deploy.sh --env=prod --etape=etat` |
-| Problème découvert après les 10 minutes | RB-03, mécanisme 1 (bascule arrière) — quelques secondes. |
-| Problème découvert après 24 h | RB-03, mécanisme 2 (redéploiement d'image) — quelques minutes. |
-| Données corrompues par une migration | RB-03, mécanisme 3 (restauration) — **dernière extrémité**. |
+| Symptôme                                | Action                                                                                                                                                     |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Échec des tests de fumée sur Green      | Aucune bascule n'a eu lieu. Le trafic est toujours sur Blue. Analyser les journaux de Green, corriger, recommencer. **Aucun utilisateur n'a été affecté.** |
+| Seuils dépassés pendant l'observation   | Bascule arrière automatique. Vérifier que le trafic est revenu sur Blue : `./scripts/deploy.sh --env=prod --etape=etat`                                    |
+| Problème découvert après les 10 minutes | RB-03, mécanisme 1 (bascule arrière) — quelques secondes.                                                                                                  |
+| Problème découvert après 24 h           | RB-03, mécanisme 2 (redéploiement d'image) — quelques minutes.                                                                                             |
+| Données corrompues par une migration    | RB-03, mécanisme 3 (restauration) — **dernière extrémité**.                                                                                                |
 
 ## Mode dégradé — déploiement manuel
 

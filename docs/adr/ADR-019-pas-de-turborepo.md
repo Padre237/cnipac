@@ -45,10 +45,10 @@ Le jour ou il ne le sera plus, le seuil declenche la reouverture.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Turborepo | Gain negligeable a 4 paquets. Le cache distribue implique un service externe supplementaire ou un stockage a exploiter. |
-| Nx | Beaucoup plus intrusif (generateurs, plugins, conventions imposees). Contraire au principe de simplicite maitrisee. |
+| Alternative | Raison du rejet                                                                                                         |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Turborepo   | Gain negligeable a 4 paquets. Le cache distribue implique un service externe supplementaire ou un stockage a exploiter. |
+| Nx          | Beaucoup plus intrusif (generateurs, plugins, conventions imposees). Contraire au principe de simplicite maitrisee.     |
 
 ## Mise en oeuvre
 

@@ -14,13 +14,13 @@ dépôt met en œuvre le Cahier d'Analyse V2.0 et le Cahier de Conception V4.0
 **retirées** ; les ADR correspondants sont marqués comme révisés et conservent
 la trace de l'analyse.
 
-| Réf | Objet | Décision |
-|---|---|---|
-| ~~D-01~~ | Node.js 24 | **Retirée.** Node **22 LTS**, expressément prévu par le SDD §4.2 |
-| ~~D-02~~ | pnpm | **Retirée.** `npm ci` et workspaces npm, conformément au SDD §26.4 |
-| ~~D-03~~ | Abandon de Codecov | **Retirée.** `codecov/codecov-action@v4`, conformément au SDD §26.4 |
+| Réf      | Objet                     | Décision                                                                                   |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------ |
+| ~~D-01~~ | Node.js 24                | **Retirée.** Node **22 LTS**, expressément prévu par le SDD §4.2                           |
+| ~~D-02~~ | pnpm                      | **Retirée.** `npm ci` et workspaces npm, conformément au SDD §26.4                         |
+| ~~D-03~~ | Abandon de Codecov        | **Retirée.** `codecov/codecov-action@v4`, conformément au SDD §26.4                        |
 | ~~D-04~~ | Isolation du tier données | **Retirée.** `docker-compose.yml` + 3 overrides, volumes nommés, conformément au SDD §26.3 |
-| ~~D-05~~ | Archivage WAL continu | **Retirée.** `pg_dump` + `age` + `rsync` quotidien, conformément au SDD §4.4 et §27.4 |
+| ~~D-05~~ | Archivage WAL continu     | **Retirée.** `pg_dump` + `age` + `rsync` quotidien, conformément au SDD §4.4 et §27.4      |
 
 ---
 
@@ -32,10 +32,10 @@ Ce point n'est pas une demande de dérogation. C'est une **incohérence entre de
 passages des documents contractuels**, qui ne peut pas être levée par
 l'implémentation.
 
-| Source | Énoncé |
-|---|---|
+| Source                   | Énoncé                                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | **SRS §10.3, NFR-C2-04** | « Le système DOIT garantir une perte de données maximale de **1 heure** en cas d'incident majeur (RPO). » Cible mesurable : **RPO ≤ 1 h**. |
-| **SDD §4.4 et §27.4** | Sauvegardes par `pg_dump`, chiffrement `age`, transfert `rsync`, **fréquence quotidienne**. |
+| **SDD §4.4 et §27.4**    | Sauvegardes par `pg_dump`, chiffrement `age`, transfert `rsync`, **fréquence quotidienne**.                                                |
 
 Une sauvegarde quotidienne produit mécaniquement un RPO de **24 heures**.
 L'écart avec l'exigence est d'un **facteur 24**.
@@ -69,11 +69,11 @@ contractuel sans être tenue.
 Ces trois points n'appellent aucune décision. Ils sont consignés pour que
 l'équipe et le COPIL en aient connaissance.
 
-| Point | Constat |
-|---|---|
-| **Codecov** | Service SaaS étranger recevant les chemins de fichiers et la structure interne du système. En tension avec NFR-C9-02 et NFR-C9-03. Retenu conformément au SDD §26.4. |
+| Point                     | Constat                                                                                                                                                                                      |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Codecov**               | Service SaaS étranger recevant les chemins de fichiers et la structure interne du système. En tension avec NFR-C9-02 et NFR-C9-03. Retenu conformément au SDD §26.4.                         |
 | **Volumes Docker nommés** | Sensibles à `docker compose down -v` et `docker system prune --volumes`. La protection est procédurale (runbook RB-05) et non technique. `scripts/deploy.sh` refuse néanmoins l'option `-v`. |
-| **Dépendances fantômes** | Les workspaces npm autorisent l'import d'un paquet non déclaré. Traité par la revue de code, non par l'outillage. |
+| **Dépendances fantômes**  | Les workspaces npm autorisent l'import d'un paquet non déclaré. Traité par la revue de code, non par l'outillage.                                                                            |
 
 ---
 
@@ -81,7 +81,7 @@ l'équipe et le COPIL en aient connaissance.
 
 Ils ne modifient aucune décision de conception : le SDD ne les aborde pas.
 
-| Paramètre | Motif |
-|---|---|
-| `shm_size: 1gb` sur PostgreSQL | Le défaut Docker (64 Mo) provoque des `could not resize shared memory segment` intermittents sur les vues matérialisées du module M3 (SDD §12.10). |
+| Paramètre                                          | Motif                                                                                                                                                                  |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shm_size: 1gb` sur PostgreSQL                     | Le défaut Docker (64 Mo) provoque des `could not resize shared memory segment` intermittents sur les vues matérialisées du module M3 (SDD §12.10).                     |
 | Persistance Redis (`appendonly yes`, `noeviction`) | Redis porte la liste de révocation des JWT (SDD §4.2). Sans persistance, un redémarrage réactive les jetons révoqués, y compris ceux de comptes désactivés (UC-M6-02). |

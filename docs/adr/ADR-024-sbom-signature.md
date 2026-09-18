@@ -20,11 +20,11 @@ deploie verifie-t-il que l'image qu'il tire est bien celle que la CI a construit
 
 **1. SBOM CycloneDX 1.5 en JSON**, genere par Syft a chaque release, pour trois perimetres :
 
-| Perimetre | Contenu |
-|---|---|
-| `sbom-backend.cdx.json` | Image backend complete, systeme de base Alpine inclus |
-| `sbom-frontend.cdx.json` | Image frontend, Nginx inclus |
-| `sbom-source.cdx.json` | Arbre de dependances du depot (pnpm) |
+| Perimetre                | Contenu                                               |
+| ------------------------ | ----------------------------------------------------- |
+| `sbom-backend.cdx.json`  | Image backend complete, systeme de base Alpine inclus |
+| `sbom-frontend.cdx.json` | Image frontend, Nginx inclus                          |
+| `sbom-source.cdx.json`   | Arbre de dependances du depot (pnpm)                  |
 
 Les SBOM sont **joints a la release GitHub** et **archives dans le depot** sous
 `docs/conformite/sbom/vX.Y.Z/`. Ils constituent la piece justificative opposable lors de
@@ -62,11 +62,11 @@ kilo-octets dans le depot ; volume negligeable, valeur probatoire elevee.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Aucun SBOM, inventaire manuel a la demande | Ne satisfait pas le mode d'evaluation prescrit par le SDD §4.1. Ingérable a 900+ dependances transitives. |
-| cosign keyless (Fulcio / Rekor) | Dependance a une infrastructure publique etrangere et flux sortants permanents. Incompatible avec NFR-C9-01. |
-| SPDX plutot que CycloneDX | Equivalent. CycloneDX est mieux outille cote npm et Docker et s'integre nativement a Syft, Grype et Trivy. |
+| Alternative                                | Raison du rejet                                                                                              |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Aucun SBOM, inventaire manuel a la demande | Ne satisfait pas le mode d'evaluation prescrit par le SDD §4.1. Ingérable a 900+ dependances transitives.    |
+| cosign keyless (Fulcio / Rekor)            | Dependance a une infrastructure publique etrangere et flux sortants permanents. Incompatible avec NFR-C9-01. |
+| SPDX plutot que CycloneDX                  | Equivalent. CycloneDX est mieux outille cote npm et Docker et s'integre nativement a Syft, Grype et Trivy.   |
 
 ## Mise en oeuvre
 

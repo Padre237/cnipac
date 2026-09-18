@@ -17,7 +17,7 @@ on:
         options: [preprod, prod]
         default: preprod
   schedule:
-    - cron: '0 2 * * 0'   # dimanche 02h00 UTC — scan complet hebdomadaire
+    - cron: '0 2 * * 0' # dimanche 02h00 UTC — scan complet hebdomadaire
 
 permissions:
   contents: read
@@ -81,7 +81,7 @@ jobs:
         with:
           name: rapport-zap-${{ inputs.niveau || 'full' }}-${{ github.run_number }}
           path: reports/
-          retention-days: 365   # piece de conformite AC-P1-10 / AC-P2-08
+          retention-days: 365 # piece de conformite AC-P1-10 / AC-P2-08
 
       - name: Ouvrir un ticket en cas de vulnerabilite HIGH ou CRITICAL
         if: failure()

@@ -12,7 +12,7 @@ on:
         options: [p1-50-users, p2-200-users, p3-500-users, tous]
         default: p2-200-users
   schedule:
-    - cron: '0 1 * * 6'   # samedi 01h00 UTC, hors heures ouvrees Yaounde
+    - cron: '0 1 * * 6' # samedi 01h00 UTC, hors heures ouvrees Yaounde
 
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
         with:
           name: resultats-charge-${{ github.run_number }}
           path: reports/
-          retention-days: 365   # piece de conformite AC-P2-09 / AC-P3-06
+          retention-days: 365 # piece de conformite AC-P2-09 / AC-P3-06
 
       - name: Restaurer le jeu PREPROD nominal
         if: always()

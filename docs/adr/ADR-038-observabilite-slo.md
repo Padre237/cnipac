@@ -23,17 +23,17 @@ contractuelles.
 Chaque exigence chiffree du chapitre 10 du SRS devient **une regle Prometheus nommee d'apres
 son identifiant d'exigence**.
 
-| Regle | Exigence | Expression | Alerte |
-|---|---|---|---|
-| `cnipac:slo_api_p95` | NFR-C1-02 | P95 des requetes API authentifiees sur 7 jours glissants | > 800 ms pendant 15 min |
-| `cnipac:slo_carte_p95` | NFR-C1-01 | P95 du chargement initial de la carte | > 5 s pendant 15 min |
-| `cnipac:slo_dispo_ouvree` | NFR-C2-01 | Disponibilite lun-ven 07h-19h Africa/Douala | < 99,5 % sur 30 jours |
-| `cnipac:slo_dispo_globale` | NFR-C2-02 | Disponibilite 24/7 | < 99,0 % mensuel |
-| `cnipac:rpo_retard_wal` | NFR-C2-04 | Age du dernier WAL archive | > 15 min |
-| `cnipac:sauvegarde_fraicheur` | NFR-C2-05 | Age de la derniere sauvegarde reussie | > 26 h |
-| `cnipac:export_volumineux` | NFR-C4-04 | Exports de plus de 100 fiches | toute occurrence, notification a l'administrateur metier |
-| `cnipac:bruteforce` | NFR-C3-08 | Echecs d'authentification par IP et par compte | > 5 / 10 min |
-| `cnipac:audit_chaine` | NFR-C3-05 | Verification de la chaine de hachage du journal d'audit | toute rupture — **criticite maximale** |
+| Regle                         | Exigence  | Expression                                               | Alerte                                                   |
+| ----------------------------- | --------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `cnipac:slo_api_p95`          | NFR-C1-02 | P95 des requetes API authentifiees sur 7 jours glissants | > 800 ms pendant 15 min                                  |
+| `cnipac:slo_carte_p95`        | NFR-C1-01 | P95 du chargement initial de la carte                    | > 5 s pendant 15 min                                     |
+| `cnipac:slo_dispo_ouvree`     | NFR-C2-01 | Disponibilite lun-ven 07h-19h Africa/Douala              | < 99,5 % sur 30 jours                                    |
+| `cnipac:slo_dispo_globale`    | NFR-C2-02 | Disponibilite 24/7                                       | < 99,0 % mensuel                                         |
+| `cnipac:rpo_retard_wal`       | NFR-C2-04 | Age du dernier WAL archive                               | > 15 min                                                 |
+| `cnipac:sauvegarde_fraicheur` | NFR-C2-05 | Age de la derniere sauvegarde reussie                    | > 26 h                                                   |
+| `cnipac:export_volumineux`    | NFR-C4-04 | Exports de plus de 100 fiches                            | toute occurrence, notification a l'administrateur metier |
+| `cnipac:bruteforce`           | NFR-C3-08 | Echecs d'authentification par IP et par compte           | > 5 / 10 min                                             |
+| `cnipac:audit_chaine`         | NFR-C3-05 | Verification de la chaine de hachage du journal d'audit  | toute rupture — **criticite maximale**                   |
 
 **Nommage par identifiant d'exigence** : lorsqu'une alerte se declenche, le nom de la regle
 renvoie directement a l'exigence contractuelle concernee. L'exploitant n'a pas a chercher si
@@ -82,11 +82,11 @@ jour ouvre suivant.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Verification des NFR en recette uniquement | Ne detecte aucune derive en exploitation. Les exigences sont contractuelles pendant toute la duree du marche. |
-| Supervision technique sans lien aux exigences | Produit des alertes dont personne ne sait dire si elles sont contractuellement graves. |
-| Service de supervision externe | Contraire a NFR-C9-01 et NFR-C9-02 pour les metriques applicatives. Une sonde de disponibilite externe reste toutefois necessaire (NFR-C2-01 « sonde externe ») : elle ne transporte aucune donnee metier. |
+| Alternative                                   | Raison du rejet                                                                                                                                                                                            |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Verification des NFR en recette uniquement    | Ne detecte aucune derive en exploitation. Les exigences sont contractuelles pendant toute la duree du marche.                                                                                              |
+| Supervision technique sans lien aux exigences | Produit des alertes dont personne ne sait dire si elles sont contractuellement graves.                                                                                                                     |
+| Service de supervision externe                | Contraire a NFR-C9-01 et NFR-C9-02 pour les metriques applicatives. Une sonde de disponibilite externe reste toutefois necessaire (NFR-C2-01 « sonde externe ») : elle ne transporte aucune donnee metier. |
 
 ## Mise en oeuvre
 

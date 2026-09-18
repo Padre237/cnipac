@@ -20,7 +20,7 @@ on:
         options: [blue-green, canary, manuel]
         default: blue-green
       motif:
-        description: "Motif du deploiement (trace au journal de deploiement)"
+        description: 'Motif du deploiement (trace au journal de deploiement)'
         required: true
 
 concurrency:
@@ -74,7 +74,7 @@ jobs:
     needs: pre-vol
     runs-on: [self-hosted, cnipac, cenadi, prod]
     environment:
-      name: production           # <- exige 2 approbations (SRS §14.8, SDD §26.4)
+      name: production # <- exige 2 approbations (SRS §14.8, SDD §26.4)
       url: https://cnipac.cm
     timeout-minutes: 60
     steps:

@@ -19,11 +19,11 @@ PROD vers un environnement non-PROD.
 
 ## Les trois jeux
 
-| Jeu | Volume | Usage |
-|---|---|---|
-| `dev` | 50 producteurs | Développement local, tests d'intégration |
-| `preprod` | 1 000 producteurs | Recette, ateliers A1 et A2, démonstrations |
-| `charge` | 15 000 producteurs | Tests k6 (NFR-C1-04), extensibilité (NFR-C6-06) |
+| Jeu       | Volume             | Usage                                           |
+| --------- | ------------------ | ----------------------------------------------- |
+| `dev`     | 50 producteurs     | Développement local, tests d'intégration        |
+| `preprod` | 1 000 producteurs  | Recette, ateliers A1 et A2, démonstrations      |
+| `charge`  | 15 000 producteurs | Tests k6 (NFR-C1-04), extensibilité (NFR-C6-06) |
 
 ## Ce qui est légitime, ce qui ne l'est pas
 
@@ -37,11 +37,11 @@ archives, leurs téléphones et leurs courriels sont **intégralement synthétiq
 
 ## Plages réservées
 
-| Donnée | Plage de test | Vérification |
-|---|---|---|
-| Courriel | `prenom.nom@test.cnipac.cm` | `gate-donnees-test.mjs` |
-| Téléphone | `+237 699 00 XX XX` | `gate-donnees-test.mjs` |
-| Nom de personne | Généré, jamais repris d'une source réelle | revue |
+| Donnée          | Plage de test                             | Vérification            |
+| --------------- | ----------------------------------------- | ----------------------- |
+| Courriel        | `prenom.nom@test.cnipac.cm`               | `gate-donnees-test.mjs` |
+| Téléphone       | `+237 699 00 XX XX`                       | `gate-donnees-test.mjs` |
+| Nom de personne | Généré, jamais repris d'une source réelle | revue                   |
 
 ## Le générateur teste les règles de gestion
 
@@ -49,17 +49,17 @@ Un jeu de données aléatoire ne teste rien. Le générateur doit produire, par
 construction, les cas limites suivants — c'est ce qui en fait un instrument de
 test plutôt qu'un remplissage.
 
-| Caractéristique imposée | Règle testée |
-|---|---|
-| Coordonnées dans l'enveloppe du Cameroun | RG-M2-03, branche nominale |
-| **5 % de fiches sans coordonnées valides** | RG-M2-03, branche d'exclusion |
-| Répartition réaliste sur les 9 réseaux et 10 régions | RG-M2-04 |
+| Caractéristique imposée                                           | Règle testée                              |
+| ----------------------------------------------------------------- | ----------------------------------------- |
+| Coordonnées dans l'enveloppe du Cameroun                          | RG-M2-03, branche nominale                |
+| **5 % de fiches sans coordonnées valides**                        | RG-M2-03, branche d'exclusion             |
+| Répartition réaliste sur les 9 réseaux et 10 régions              | RG-M2-04                                  |
 | **Doublons délibérés** sur le triplet (sigle, ministère, commune) | RG-M1-03, parcours E2E P-B du SDD §25.9.2 |
-| Tous les statuts de l'automate, quarantaine comprise | RG-M1-05 |
-| Indice de maturité réparti sur toute l'échelle | RG-M3-01 |
-| **Au moins une région à moins de 5 producteurs** | RG-M3-02, seuil d'agrégation |
-| Fiches avec et sans pièces jointes | FR-M4-13 |
-| Comptes de test pour les 8 rôles RBAC | AC-P1-06 |
+| Tous les statuts de l'automate, quarantaine comprise              | RG-M1-05                                  |
+| Indice de maturité réparti sur toute l'échelle                    | RG-M3-01                                  |
+| **Au moins une région à moins de 5 producteurs**                  | RG-M3-02, seuil d'agrégation              |
+| Fiches avec et sans pièces jointes                                | FR-M4-13                                  |
+| Comptes de test pour les 8 rôles RBAC                             | AC-P1-06                                  |
 
 ## Déterminisme
 

@@ -21,7 +21,7 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: 3000
-      TZ: Africa/Douala                 # NFR-C8-03
+      TZ: Africa/Douala # NFR-C8-03
       REDIS_URL: redis://redis:6379
     depends_on:
       postgres: { condition: service_healthy }

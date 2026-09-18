@@ -1,11 +1,11 @@
 # M5 — Crowdsourcing securise
 
-| | |
-|---|---|
-| **Exigences fonctionnelles** | FR-M5-01 a FR-M5-10 |
-| **Regles de gestion** | RG-M5-01 a RG-M5-05 |
-| **Conception** | SDD V4.0 |
-| **Etat** | Palier 0 — squelette |
+|                              |                      |
+| ---------------------------- | -------------------- |
+| **Exigences fonctionnelles** | FR-M5-01 a FR-M5-10  |
+| **Regles de gestion**        | RG-M5-01 a RG-M5-05  |
+| **Conception**               | SDD V4.0             |
+| **Etat**                     | Palier 0 — squelette |
 
 ## Regle de developpement
 

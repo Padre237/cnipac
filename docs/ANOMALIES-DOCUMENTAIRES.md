@@ -15,12 +15,12 @@ soient tranchés, et non découverts en production.
 
 ## A-01 — `accepteee` : coquille dans un type ENUM
 
-| | |
-|---|---|
-| **Source** | SDD §12.2, type `statut_proposition_enum` |
-| **Constat** | La valeur s'écrit `accepteee`, avec **trois** « e » |
-| **Reproduit** | Oui, à l'identique, dans `01_types_enum.sql` |
-| **Criticité** | Faible techniquement, élevée en maintenance |
+|               |                                                     |
+| ------------- | --------------------------------------------------- |
+| **Source**    | SDD §12.2, type `statut_proposition_enum`           |
+| **Constat**   | La valeur s'écrit `accepteee`, avec **trois** « e » |
+| **Reproduit** | Oui, à l'identique, dans `01_types_enum.sql`        |
+| **Criticité** | Faible techniquement, élevée en maintenance         |
 
 Une valeur d'ENUM est un contrat : toute requête applicative, tout export et
 toute documentation devront employer cette graphie pendant toute la vie du
@@ -33,10 +33,10 @@ production. Le coût est nul aujourd'hui, réel dans six mois.
 
 ## A-02 — `ctd` : deux notions distinctes sous un même code
 
-| | |
-|---|---|
-| **Sources** | Formulaire Kobo I.2 (`choices.type_organisation`) et SRS §12.10 |
-| **Criticité** | Moyenne — affecte la qualité du référentiel |
+|               |                                                                 |
+| ------------- | --------------------------------------------------------------- |
+| **Sources**   | Formulaire Kobo I.2 (`choices.type_organisation`) et SRS §12.10 |
+| **Criticité** | Moyenne — affecte la qualité du référentiel                     |
 
 Le formulaire propose le code `ctd` avec le libellé « **Service déconcentré**
 (CTD) ». Or le SRS §12.10 distingue explicitement deux types d'entité :
@@ -62,10 +62,10 @@ ne seront pas rattrapables sans re-enquête.
 
 ## A-03 — Enveloppe géographique : 8.4 ou 8.5 ?
 
-| | |
-|---|---|
+|             |                                                      |
+| ----------- | ---------------------------------------------------- |
 | **Sources** | SRS §12.3 (II.2) et SDD §12.3 concordent sur **8.5** |
-| **Retenu** | 8.5 |
+| **Retenu**  | 8.5                                                  |
 
 La longitude minimale retenue est **8.5**, conformément aux deux documents.
 Signalé ici car la limite occidentale réelle du Cameroun est proche de 8,49° E
@@ -79,10 +79,10 @@ le faire avant la collecte — et dans les deux documents simultanément.
 
 ## A-04 — Communes : ~360 annoncées, 290 dans le formulaire
 
-| | |
-|---|---|
+|             |                                                                      |
+| ----------- | -------------------------------------------------------------------- |
 | **Sources** | SRS §12.10 annonce « ~360 communes » ; le XLSForm en recense **290** |
-| **Retenu** | Les 290 du formulaire |
+| **Retenu**  | Les 290 du formulaire                                                |
 
 C'est le formulaire qui fait foi pour l'ingestion : un arrondissement absent de
 sa liste ne peut pas être soumis depuis le terrain. Charger 360 entrées dont 70
@@ -96,22 +96,22 @@ manquent, les ajouter **au formulaire**, puis régénérer le référentiel par
 
 ## A-05 — Critères de maturité absents du formulaire
 
-| | |
-|---|---|
-| **Sources** | RG-M3-01 (annexe F) et formulaire Kobo section VI |
-| **Criticité** | Moyenne — affecte un indicateur national |
+|               |                                                   |
+| ------------- | ------------------------------------------------- |
+| **Sources**   | RG-M3-01 (annexe F) et formulaire Kobo section VI |
+| **Criticité** | Moyenne — affecte un indicateur national          |
 
 La formule de l'indice de maturité repose sur six critères. Le formulaire n'en
 collecte que trois directement :
 
-| Critère (pondération) | Collecté par le formulaire ? |
-|---|---|
-| Service d'archives dédié (25 %) | **Non** |
-| Personnel formé (15 %) | Indirectement — présence d'archivistes en III.2 |
-| Locaux adaptés (20 %) | Indirectement — type de bâtiment en III.4 |
-| Plan de classement (20 %) | Oui — `outils_gestion` |
-| Calendrier de conservation (10 %) | Oui — `outils_gestion` |
-| Instruments de recherche (10 %) | Oui — `instruments_recherche` |
+| Critère (pondération)             | Collecté par le formulaire ?                    |
+| --------------------------------- | ----------------------------------------------- |
+| Service d'archives dédié (25 %)   | **Non**                                         |
+| Personnel formé (15 %)            | Indirectement — présence d'archivistes en III.2 |
+| Locaux adaptés (20 %)             | Indirectement — type de bâtiment en III.4       |
+| Plan de classement (20 %)         | Oui — `outils_gestion`                          |
+| Calendrier de conservation (10 %) | Oui — `outils_gestion`                          |
+| Instruments de recherche (10 %)   | Oui — `instruments_recherche`                   |
 
 Le schéma prévoit trois colonnes `service_archives_dedie`, `personnel_forme` et
 `locaux_adaptes` dans `maturite_archivistique`, renseignées par l'archiviste
@@ -131,10 +131,10 @@ l'agent de terrain est mieux placé que l'archiviste pour l'observer.
 
 ## A-06 — Sections III à VII : pas de DDL dans le SDD
 
-| | |
-|---|---|
-| **Source** | SDD §12 : « le DDL exhaustif est reporté à l'**Annexe A** » |
-| **Constat** | L'annexe A n'a pas été fournie avec le document |
+|             |                                                             |
+| ----------- | ----------------------------------------------------------- |
+| **Source**  | SDD §12 : « le DDL exhaustif est reporté à l'**Annexe A** » |
+| **Constat** | L'annexe A n'a pas été fournie avec le document             |
 
 Le SDD détaille dans son corps les tables `producteur`, `version_fiche`,
 `soumission_kobo`, `utilisateur`, `evenement_audit` et les jonctions RBAC. Les
@@ -147,3 +147,33 @@ Ces tables ont donc été **conçues** à partir du formulaire Kobo et du SRS §
 **Recommandation** : faire valider `05_sections_metier.sql` par l'architecte
 CENADI, et l'annexer au SDD. C'est la seule partie du schéma qui ne soit pas
 adossée à un DDL existant.
+
+---
+
+## A-07 — Statuts de fiche : majuscules au SRS, minuscules au SDD
+
+|               |                                                      |
+| ------------- | ---------------------------------------------------- |
+| **Sources**   | SRS §12.9 (MT.03) et SDD §12.2 (`statut_fiche_enum`) |
+| **Retenu**    | **Minuscules**, conformément au SDD                  |
+| **Criticité** | **Élevée** — produit des bugs silencieux             |
+
+Les deux documents énumèrent les mêmes six statuts, mais pas dans la même casse :
+
+| Source                         | Écriture                                                                |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| SRS §12.9, MT.03               | `NOUVELLE / QUARANTAINE / VALIDÉE / ÉDITÉE / ARCHIVÉE / REJETÉE`        |
+| SDD §12.2, `statut_fiche_enum` | `'nouvelle', 'quarantaine', 'validee', 'editee', 'archivee', 'rejetee'` |
+
+Le SDD fournit le DDL : **la base stocke des minuscules, sans accents**. Un code
+applicatif écrit d'après le SRS comparerait `statut === 'VALIDEE'` à une valeur
+`'validee'` : la comparaison échouerait toujours, sans erreur ni exception.
+Une fiche validée n'apparaîtrait simplement jamais sur la carte.
+
+Ce défaut était présent dans `packages/shared-types` — écrit d'après le SRS — et
+n'a été détecté que par la vérification de types après la rédaction du schéma.
+Il est corrigé : les constantes partagées emploient désormais la casse du SDD, et
+`LIBELLES_STATUT_FICHE` porte les libellés d'affichage en français et en anglais.
+
+**Recommandation** : harmoniser le SRS §12.9 sur le SDD. La casse d'affichage
+relève de la couche de présentation, pas du modèle de données.

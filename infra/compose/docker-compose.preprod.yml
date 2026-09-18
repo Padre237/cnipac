@@ -24,7 +24,7 @@ services:
     secrets: [db_password]
 
 secrets:
-  db_url:         { file: ./secrets/db_url.txt }
-  db_password:    { file: ./secrets/db_password.txt }
-  jwt_secret:     { file: ./secrets/jwt_secret.txt }
-  kobo_token:     { file: ./secrets/kobo_token.txt }
+  db_url: { file: ./secrets/db_url.txt }
+  db_password: { file: ./secrets/db_password.txt }
+  jwt_secret: { file: ./secrets/jwt_secret.txt }
+  kobo_token: { file: ./secrets/kobo_token.txt }

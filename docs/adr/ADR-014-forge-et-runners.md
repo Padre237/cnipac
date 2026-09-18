@@ -32,19 +32,18 @@ entrant hors 443.
    `cenadi-cm`. Le depot porte la mention de propriete NFR-C9-04 (fichier `LICENSE`).
 2. **Runners** : deux categories, avec une regle d'affectation stricte.
 
-| Categorie | Ou | Ce qui y tourne | Donnees manipulees |
-|---|---|---|---|
-| `ubuntu-latest` (heberge GitHub) | Cloud GitHub | lint, typecheck, tests unitaires, tests d'integration sur base ephemere, build, SCA, SBOM | **Exclusivement synthetiques** (ADR-034) |
-| `[self-hosted, cnipac, cenadi]` | Datacenter CENADI | deploiement PREPROD et PROD, migrations, tests de charge k6, DAST ZAP, exercices de restauration | Donnees reelles autorisees |
+| Categorie                        | Ou                | Ce qui y tourne                                                                                  | Donnees manipulees                       |
+| -------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| `ubuntu-latest` (heberge GitHub) | Cloud GitHub      | lint, typecheck, tests unitaires, tests d'integration sur base ephemere, build, SCA, SBOM        | **Exclusivement synthetiques** (ADR-034) |
+| `[self-hosted, cnipac, cenadi]`  | Datacenter CENADI | deploiement PREPROD et PROD, migrations, tests de charge k6, DAST ZAP, exercices de restauration | Donnees reelles autorisees               |
 
 **Regle d'affectation, opposable en revue** : tout job qui touche une donnee reelle, un
 secret de production ou un hote CENADI s'execute sur un runner self-hosted. Aucune
 exception. Le workflow `security.yml` contient un controle automatique qui echoue si un
-job referencant un environnement `preprod` ou `production` declare un runner heberge.
-3. **Sortie de dependance** : la totalite de la logique CI est ecrite dans des **scripts
-   Node et shell** places dans `scripts/`, appeles par des workflows fins. Une migration
-   vers GitLab CI ou Forgejo Actions consiste alors a reecrire les fichiers YAML
-   d'orchestration, pas la logique. Cout de sortie borne a environ 3 jours.
+job referencant un environnement `preprod` ou `production` declare un runner heberge. 3. **Sortie de dependance** : la totalite de la logique CI est ecrite dans des **scripts
+Node et shell** places dans `scripts/`, appeles par des workflows fins. Une migration
+vers GitLab CI ou Forgejo Actions consiste alors a reecrire les fichiers YAML
+d'orchestration, pas la logique. Cout de sortie borne a environ 3 jours.
 
 ## Consequences
 
@@ -70,11 +69,11 @@ l'externalisation de la logique dans `scripts/`.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| GitLab CE auto-heberge au CENADI | Le plus souverain, mais ajoute un service critique a exploiter (sauvegardes, montees de version, haute disponibilite) a une equipe de 4 personnes qui doit deja livrer P1 en 22 semaines. A reevaluer en Phase 2 post-pilote. |
-| GitHub avec runners heberges uniquement | Techniquement impossible : aucun acces entrant au datacenter CENADI. |
-| Depot public des le pilote | La publication du code releve d'une decision COPIL non acquise. Un depot public exposerait la surface d'attaque du systeme avant le premier pentest. |
+| Alternative                             | Raison du rejet                                                                                                                                                                                                               |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitLab CE auto-heberge au CENADI        | Le plus souverain, mais ajoute un service critique a exploiter (sauvegardes, montees de version, haute disponibilite) a une equipe de 4 personnes qui doit deja livrer P1 en 22 semaines. A reevaluer en Phase 2 post-pilote. |
+| GitHub avec runners heberges uniquement | Techniquement impossible : aucun acces entrant au datacenter CENADI.                                                                                                                                                          |
+| Depot public des le pilote              | La publication du code releve d'une decision COPIL non acquise. Un depot public exposerait la surface d'attaque du systeme avant le premier pentest.                                                                          |
 
 ## Mise en oeuvre
 

@@ -1,5 +1,5 @@
 {
-  "genere_le": "2026-09-17T15:35:45.013Z",
+  "genere_le": "2026-09-18T13:34:35.778Z",
   "palier": "P0",
   "par_type": {
     "AC": {
@@ -29,107 +29,77 @@
   },
   "detail": {
     "RG-M1-05": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M1-01": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M1-02": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M1-03": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M2-01": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M2-03": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M3-02": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "RG-M3-01": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "NFR-C4-04": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "AC-P1-06": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "NFR-C8-01": {
-      "fichiers": [
-        "packages/shared-types/src/regles-metier.spec.ts"
-      ],
+      "fichiers": ["packages/shared-types/src/regles-metier.spec.ts"],
       "unitaire": true,
       "e2e": false
     },
     "NFR-C5-02": {
-      "fichiers": [
-        "tests/e2e/playwright.config.ts"
-      ],
+      "fichiers": ["tests/e2e/playwright.config.ts"],
       "unitaire": false,
       "e2e": true
     },
     "NFR-C8-03": {
-      "fichiers": [
-        "tests/e2e/playwright.config.ts"
-      ],
+      "fichiers": ["tests/e2e/playwright.config.ts"],
       "unitaire": false,
       "e2e": true
     },
     "NFR-C7-04": {
-      "fichiers": [
-        "tests/e2e/playwright.config.ts"
-      ],
+      "fichiers": ["tests/e2e/playwright.config.ts"],
       "unitaire": false,
       "e2e": true
     },
     "NFR-C1-01": {
-      "fichiers": [
-        "tests/e2e/playwright.config.ts"
-      ],
+      "fichiers": ["tests/e2e/playwright.config.ts"],
       "unitaire": false,
       "e2e": true
     },

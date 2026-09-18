@@ -30,11 +30,11 @@ gouvernance) et **qui execute les huit etapes** (question d'outillage).
 
 **La decision reste humaine. L'execution est automatisee.**
 
-| Environnement | Declencheur | Approbation | Strategie |
-|---|---|---|---|
-| **DEV** | push sur `main` | aucune | remplacement direct |
-| **PREPROD** | push sur `main`, apres CI verte | aucune | Blue-Green automatique |
-| **PROD** | tag `vX.Y.Z` signe | **2 approbateurs** via GitHub Environment `production` | Blue-Green automatique + tests de fumee + bascule |
+| Environnement | Declencheur                     | Approbation                                            | Strategie                                         |
+| ------------- | ------------------------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| **DEV**       | push sur `main`                 | aucune                                                 | remplacement direct                               |
+| **PREPROD**   | push sur `main`, apres CI verte | aucune                                                 | Blue-Green automatique                            |
+| **PROD**      | tag `vX.Y.Z` signe              | **2 approbateurs** via GitHub Environment `production` | Blue-Green automatique + tests de fumee + bascule |
 
 La porte d'approbation GitHub Environment materialise exactement l'exigence du SDD §26.4
 (« approbation explicite GitHub Actions ») et de §26.5 (« a charge d'un administrateur CENADI
@@ -81,11 +81,11 @@ procedure du SDD §26.5, etape par etape, en mode interactif.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                                   | Raison du rejet                                                                                     |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | Procedure 100 % manuelle, lettre du SDD §26.5 | Variabilite humaine sur huit etapes critiques, la nuit. Facteur de risque principal pour NFR-C2-03. |
-| Deploiement continu sans approbation | Contraire au SDD §26.4 et a la gouvernance attendue d'un systeme d'Etat. |
-| Deploiement Canary systematique | Le SDD §26.7 le reserve aux cas critiques. Complexite injustifiee pour une release ordinaire. |
+| Deploiement continu sans approbation          | Contraire au SDD §26.4 et a la gouvernance attendue d'un systeme d'Etat.                            |
+| Deploiement Canary systematique               | Le SDD §26.7 le reserve aux cas critiques. Complexite injustifiee pour une release ordinaire.       |
 
 ## Mise en oeuvre
 

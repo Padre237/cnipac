@@ -16,9 +16,10 @@
 >
 > Deux parametres d'execution, que le SDD ne specifie pas et qui ne modifient
 > donc aucune decision de conception, sont conserves :
+>
 > - `shm_size: 1gb` sur le service PostgreSQL — sans quoi les vues materialisees
 >   du module M3 (SDD §12.10) provoquent des `could not resize shared memory
->   segment` intermittents ;
+segment` intermittents ;
 > - `scripts/deploy.sh` refuse l'option `-v` / `--volumes`, qui detruirait les
 >   volumes nommes de production.
 >
@@ -28,7 +29,7 @@
 
 ---
 
-*Le texte qui suit est conserve a titre de trace de l'analyse initiale.*
+_Le texte qui suit est conserve a titre de trace de l'analyse initiale._
 
 ## Contexte
 
@@ -62,11 +63,11 @@ diagnostiquer.
 
 **1. Trois piles Compose distinctes, a cycles de vie independants :**
 
-| Fichier | Services | Frequence de redemarrage |
-|---|---|---|
-| `infra/compose/compose.data.yml` | `postgres`, `redis`, `pgbackrest` | Fenetre de maintenance planifiee uniquement |
-| `infra/compose/compose.app.yml` | `backend`, `frontend`, `nginx` | A chaque release |
-| `infra/compose/compose.obs.yml` | `prometheus`, `grafana`, `loki`, `*-exporter` | Independante |
+| Fichier                          | Services                                      | Frequence de redemarrage                    |
+| -------------------------------- | --------------------------------------------- | ------------------------------------------- |
+| `infra/compose/compose.data.yml` | `postgres`, `redis`, `pgbackrest`             | Fenetre de maintenance planifiee uniquement |
+| `infra/compose/compose.app.yml`  | `backend`, `frontend`, `nginx`                | A chaque release                            |
+| `infra/compose/compose.obs.yml`  | `prometheus`, `grafana`, `loki`, `*-exporter` | Independante                                |
 
 Le pipeline de deploiement continu ne pilote **que** `compose.app.yml`. Le tier donnees
 possede son propre runbook (`RB-05`) et n'est jamais touche par un deploiement applicatif.
@@ -107,11 +108,11 @@ suppose une fenetre d'arret et une copie des donnees.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                                    | Raison du rejet                                                                                                                                      |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | PostgreSQL installe sur l'hote, hors conteneur | Rompt la parite environnementale (SDD §8.1) et la reproductibilite NFR-C5-05. C'est precisement ce que la conteneurisation integrale vient corriger. |
-| Volume nomme conforme au SDD §26.3 | Expose les donnees de production aux commandes de maintenance Docker courantes. Risque juge inacceptable pour un referentiel national. |
-| Fichier Compose unique conforme au SDD §26.5 | Couple le cycle de vie de la base a celui des releases applicatives. |
+| Volume nomme conforme au SDD §26.3             | Expose les donnees de production aux commandes de maintenance Docker courantes. Risque juge inacceptable pour un referentiel national.               |
+| Fichier Compose unique conforme au SDD §26.5   | Couple le cycle de vie de la base a celui des releases applicatives.                                                                                 |
 
 ## Mise en oeuvre
 

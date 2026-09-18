@@ -30,11 +30,11 @@ Un controle bloquant `scripts/gate-migrations.mjs`, execute a **chaque pull requ
 
 **1. Tables protegees** — declarees dans `docs/regles-metier/tables-protegees.json` :
 
-| Table | Fondement | Operations interdites |
-|---|---|---|
+| Table             | Fondement                                    | Operations interdites                                                                     |
+| ----------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | `evenement_audit` | Art. 32 Loi 2024/001, NFR-C3-05, SDD ADR-009 | `DROP TABLE`, `DROP COLUMN`, `TRUNCATE`, `DELETE FROM`, `ALTER COLUMN ... TYPE`, `RENAME` |
-| `soumission_kobo` | RG-M1-04 | `DROP TABLE`, `TRUNCATE`, `DELETE FROM` |
-| `version_fiche` | SDD ADR-006, UC-M4-07, UC-M4-08 | `DROP TABLE`, `TRUNCATE`, `DELETE FROM` |
+| `soumission_kobo` | RG-M1-04                                     | `DROP TABLE`, `TRUNCATE`, `DELETE FROM`                                                   |
+| `version_fiche`   | SDD ADR-006, UC-M4-07, UC-M4-08              | `DROP TABLE`, `TRUNCATE`, `DELETE FROM`                                                   |
 
 L'ajout d'une colonne `NULL` reste autorise : il n'altere ni l'historique ni la chaine.
 
@@ -70,11 +70,11 @@ semantique : il est volontairement conservateur.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Revue humaine seule | Une revue humaine rate un `DROP COLUMN` noye dans une migration de 200 lignes. C'est exactement le mode de defaillance a couvrir. |
+| Alternative                                       | Raison du rejet                                                                                                                                                        |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Revue humaine seule                               | Une revue humaine rate un `DROP COLUMN` noye dans une migration de 200 lignes. C'est exactement le mode de defaillance a couvrir.                                      |
 | Droits PostgreSQL restreints sur la table d'audit | Complementaire et recommande en PROD, mais n'empeche pas la migration d'etre ecrite, fusionnee et de faire echouer le deploiement. Le defaut doit etre arrete a la PR. |
-| Declencheur (trigger) `BEFORE DELETE` en base | Egalement recommande en defense en profondeur, mais contournable par un `ALTER TABLE ... DISABLE TRIGGER` dans la meme migration. |
+| Declencheur (trigger) `BEFORE DELETE` en base     | Egalement recommande en defense en profondeur, mais contournable par un `ALTER TABLE ... DISABLE TRIGGER` dans la meme migration.                                      |
 
 ## Mise en oeuvre
 

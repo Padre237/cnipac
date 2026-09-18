@@ -19,13 +19,13 @@ contredisent.** Il faut trancher.
 Trunk-based strict. La contradiction est levee en faveur du SRS, document de rang
 superieur, et les branches `release/*` sont supprimees du modele.
 
-| Branche / ref | Duree de vie | Origine | Destination |
-|---|---|---|---|
-| `main` | permanente, **protegee** | — | — |
-| `feat/<ticket>-<slug>` | **72 h maximum** | `main` | `main` via PR |
-| `fix/<ticket>-<slug>` | 72 h maximum | `main` | `main` via PR |
-| `hotfix/<ticket>-<slug>` | < 24 h | tag de PROD | `main` via PR, deploiement accelere |
-| `vX.Y.Z` (tag annote signe) | permanente | `main` | declenche `release.yml` |
+| Branche / ref               | Duree de vie             | Origine     | Destination                         |
+| --------------------------- | ------------------------ | ----------- | ----------------------------------- |
+| `main`                      | permanente, **protegee** | —           | —                                   |
+| `feat/<ticket>-<slug>`      | **72 h maximum**         | `main`      | `main` via PR                       |
+| `fix/<ticket>-<slug>`       | 72 h maximum             | `main`      | `main` via PR                       |
+| `hotfix/<ticket>-<slug>`    | < 24 h                   | tag de PROD | `main` via PR, deploiement accelere |
+| `vX.Y.Z` (tag annote signe) | permanente               | `main`      | declenche `release.yml`             |
 
 **Protection de `main`** (a configurer dans GitHub, procedure dans
 `docs/runbooks/RB-01-configuration-depot.md`) :
@@ -62,11 +62,11 @@ acquerir. Impose des feature flags pour toute fonctionnalite dont le developpeme
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
+| Alternative                       | Raison du rejet                                                                                                                                    |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | GitFlow (`develop` + `release/*`) | Contraire au SRS §14.8. Produit des fusions longues et des correctifs a repercuter sur plusieurs branches — precisement ce que le SRS veut eviter. |
-| Fusion en merge commit | Historique illisible sur un projet a 20 sprints. Complique le `git bisect` lors des incidents. |
-| Rebase et fast-forward | Equivalent fonctionnel au squash mais plus exigeant pour une equipe qui decouvre le trunk-based. |
+| Fusion en merge commit            | Historique illisible sur un projet a 20 sprints. Complique le `git bisect` lors des incidents.                                                     |
+| Rebase et fast-forward            | Equivalent fonctionnel au squash mais plus exigeant pour une equipe qui decouvre le trunk-based.                                                   |
 
 ## Mise en oeuvre
 

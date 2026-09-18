@@ -23,7 +23,7 @@
 
 ---
 
-*Le texte qui suit est conserve a titre de trace de l'analyse initiale.*
+_Le texte qui suit est conserve a titre de trace de l'analyse initiale._
 
 ## Contexte
 
@@ -32,11 +32,11 @@ Le SDD §4.2 retient « Node.js LTS 20.x ou 22.x » et le Dockerfile du §26.2 e
 
 Le calendrier de support de Node.js impose de les reexaminer :
 
-| Version | Fin de support | Situation au terme du projet |
-|---|---|---|
-| Node 20 | **avril 2026** | **Deja hors support a la date du present ADR** |
-| Node 22 | avril 2027 | Hors support pendant le contrat de maintenance de 12 mois |
-| Node 24 | **avril 2028** | Couvre le pilote et l'integralite de la maintenance |
+| Version | Fin de support | Situation au terme du projet                              |
+| ------- | -------------- | --------------------------------------------------------- |
+| Node 20 | **avril 2026** | **Deja hors support a la date du present ADR**            |
+| Node 22 | avril 2027     | Hors support pendant le contrat de maintenance de 12 mois |
+| Node 24 | **avril 2028** | Couvre le pilote et l'integralite de la maintenance       |
 
 Le projet livre P3 en decembre 2026 et s'accompagne d'un plan de maintenance de 12 mois
 (TDR §5.6), soit un horizon minimal a decembre 2027.
@@ -76,10 +76,10 @@ Node 24, et aucune dependance de la stack ne plafonne a Node 22.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Node 20, conforme a la lettre du SDD | Runtime hors support. Rend NFR-C3-04 intenable. Le respect litteral d'un document ne peut primer sur une exigence de securite chiffree. |
-| Node 22 | Support jusqu'a avril 2027, insuffisant pour couvrir la maintenance jusqu'a decembre 2027. Imposerait une migration en cours de contrat. |
+| Alternative                          | Raison du rejet                                                                                                                          |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Node 20, conforme a la lettre du SDD | Runtime hors support. Rend NFR-C3-04 intenable. Le respect litteral d'un document ne peut primer sur une exigence de securite chiffree.  |
+| Node 22                              | Support jusqu'a avril 2027, insuffisant pour couvrir la maintenance jusqu'a decembre 2027. Imposerait une migration en cours de contrat. |
 
 ## Mise en oeuvre
 

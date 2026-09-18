@@ -4,11 +4,11 @@
 
 ## Trois niveaux
 
-| Niveau | Quand | Durée | Bloquant |
-|---|---|---|---|
-| 1 — En-têtes HTTP | Chaque PR | < 60 s | Oui |
-| 2 — ZAP baseline authentifié | Après chaque déploiement PREPROD | 5–8 min | Oui sur HIGH/CRITICAL |
-| 3 — ZAP full scan | Hebdomadaire + avant chaque jalon | 30–45 min | Bloquant pour la promotion de jalon |
+| Niveau                       | Quand                             | Durée     | Bloquant                            |
+| ---------------------------- | --------------------------------- | --------- | ----------------------------------- |
+| 1 — En-têtes HTTP            | Chaque PR                         | < 60 s    | Oui                                 |
+| 2 — ZAP baseline authentifié | Après chaque déploiement PREPROD  | 5–8 min   | Oui sur HIGH/CRITICAL               |
+| 3 — ZAP full scan            | Hebdomadaire + avant chaque jalon | 30–45 min | Bloquant pour la promotion de jalon |
 
 Le niveau 3 alimente l'exploration à partir de la **spécification OpenAPI** :
 couverture supérieure à une découverte par crawling, pour une durée moindre.

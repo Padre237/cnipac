@@ -17,12 +17,12 @@ comment la CI accede aux secrets de deploiement sans les exposer.
 
 **Quatre categories, quatre traitements.**
 
-| Categorie | Stockage | Acces | Rotation |
-|---|---|---|---|
-| Secrets applicatifs PROD (URL base, secret JWT, mot de passe Redis, jeton Kobo, cle de chiffrement des sauvegardes) | Fichiers `/srv/cnipac/secrets/*` sur l'hote, permissions `0400`, proprietaire `root`, montes en Docker secrets | Conteneur uniquement, via `*_FILE` | 90 jours |
-| Secrets de deploiement (cle SSH, jeton de registry, cle cosign) | **GitHub Environments** `preprod` / `production`, avec approbateurs requis | Jobs CI autorises uniquement | 180 jours |
-| Secrets de developpement | `.env` local, jamais versionne ; `.env.example` versionne avec valeurs factices | Poste developpeur | sans objet |
-| Secrets d'integration CI | Generes a la volee pour chaque execution, jetables | Job courant | par execution |
+| Categorie                                                                                                           | Stockage                                                                                                       | Acces                              | Rotation      |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------- |
+| Secrets applicatifs PROD (URL base, secret JWT, mot de passe Redis, jeton Kobo, cle de chiffrement des sauvegardes) | Fichiers `/srv/cnipac/secrets/*` sur l'hote, permissions `0400`, proprietaire `root`, montes en Docker secrets | Conteneur uniquement, via `*_FILE` | 90 jours      |
+| Secrets de deploiement (cle SSH, jeton de registry, cle cosign)                                                     | **GitHub Environments** `preprod` / `production`, avec approbateurs requis                                     | Jobs CI autorises uniquement       | 180 jours     |
+| Secrets de developpement                                                                                            | `.env` local, jamais versionne ; `.env.example` versionne avec valeurs factices                                | Poste developpeur                  | sans objet    |
+| Secrets d'integration CI                                                                                            | Generes a la volee pour chaque execution, jetables                                                             | Job courant                        | par execution |
 
 **Principe `*_FILE`** : le backend ne lit **jamais** un secret depuis une variable
 d'environnement. Une variable d'environnement apparait dans `docker inspect`, dans
@@ -66,11 +66,11 @@ secrets, contrairement a Vault — limite assumee du dispositif P1.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Variables d'environnement classiques | Exposees par `docker inspect`, `/proc`, et les traces d'erreur. Contraire a NFR-C3-02. |
-| Vault des P1 | Contraire au SDD ADR-010. Ajoute un service critique (a sauvegarder, a sceller, a desceller) a une equipe de 4 personnes. |
-| Fichier `.env` sur l'hote | Lu par tout processus du conteneur, present dans les images de sauvegarde. Les Docker secrets sont montes en `tmpfs`. |
+| Alternative                          | Raison du rejet                                                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Variables d'environnement classiques | Exposees par `docker inspect`, `/proc`, et les traces d'erreur. Contraire a NFR-C3-02.                                    |
+| Vault des P1                         | Contraire au SDD ADR-010. Ajoute un service critique (a sauvegarder, a sceller, a desceller) a une equipe de 4 personnes. |
+| Fichier `.env` sur l'hote            | Lu par tout processus du conteneur, present dans les images de sauvegarde. Les Docker secrets sont montes en `tmpfs`.     |
 
 ## Mise en oeuvre
 

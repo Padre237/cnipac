@@ -58,6 +58,22 @@ export default tseslint.config(
     },
   },
   {
+    // Outils en ligne de commande : seeds, generateurs, scripts d'exploitation.
+    // La sortie console y est la fonction meme du programme, et non une trace
+    // de debogage oubliee.
+    files: ['**/prisma/seed.ts', '**/src/outils/**', '**/scripts/**'],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/require-await': 'off',
+    },
+  },
+  {
+    // Un module NestJS est, par construction, une classe vide porteuse d'un
+    // decorateur @Module. La regle no-extraneous-class ne s'y applique pas.
+    files: ['**/*.module.ts'],
+    rules: { '@typescript-eslint/no-extraneous-class': 'off' },
+  },
+  {
     files: ['**/*.spec.ts', '**/*.spec.tsx', '**/*.test.ts', 'tests/**'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',

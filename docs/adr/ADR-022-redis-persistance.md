@@ -54,11 +54,11 @@ visible plutot que silencieux.
 **3. Separation des espaces de cles par base logique**, pour que la supervision distingue le
 jetable du critique :
 
-| Base | Usage | Criticite |
-|---|---|---|
-| `0` | Cache applicatif (agregats M3, tuiles) | Jetable |
-| `1` | Limitation de debit (NFR-C3-08) | Degradation acceptable |
-| `2` | **Liste de revocation JWT** | **Critique — perte = faille** |
+| Base | Usage                                  | Criticite                     |
+| ---- | -------------------------------------- | ----------------------------- |
+| `0`  | Cache applicatif (agregats M3, tuiles) | Jetable                       |
+| `1`  | Limitation de debit (NFR-C3-08)        | Degradation acceptable        |
+| `2`  | **Liste de revocation JWT**            | **Critique — perte = faille** |
 
 **4. Defense en profondeur.** La liste de revocation est **reconstructible depuis
 PostgreSQL** : au demarrage, le backend recharge dans la base 2 les jetons des comptes
@@ -84,12 +84,12 @@ du backend.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Redis sans persistance, conforme a la lettre du SDD §26.3 | Reintroduit silencieusement des jetons revoques. Faille de securite caracterisee. |
-| Persistance RDB (instantanes) | Fenetre de perte de plusieurs minutes entre deux instantanes. Insuffisant pour de la revocation. |
-| Liste de revocation en PostgreSQL uniquement | Ajoute une lecture en base a **chaque requete authentifiee**, en tension avec NFR-C1-02 (P95 <= 800 ms). |
-| Jetons non revocables, expiration courte seule | Contraire a FR-M6-02 et a UC-M6-02, qui exigent une desactivation a effet immediat. |
+| Alternative                                               | Raison du rejet                                                                                          |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Redis sans persistance, conforme a la lettre du SDD §26.3 | Reintroduit silencieusement des jetons revoques. Faille de securite caracterisee.                        |
+| Persistance RDB (instantanes)                             | Fenetre de perte de plusieurs minutes entre deux instantanes. Insuffisant pour de la revocation.         |
+| Liste de revocation en PostgreSQL uniquement              | Ajoute une lecture en base a **chaque requete authentifiee**, en tension avec NFR-C1-02 (P95 <= 800 ms). |
+| Jetons non revocables, expiration courte seule            | Contraire a FR-M6-02 et a UC-M6-02, qui exigent une desactivation a effet immediat.                      |
 
 ## Mise en oeuvre
 

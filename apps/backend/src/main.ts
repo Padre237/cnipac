@@ -18,7 +18,7 @@ async function amorcer() {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'"],                // pas d'unsafe-eval : la CI le refuse
+          scriptSrc: ["'self'"], // pas d'unsafe-eval : la CI le refuse
           styleSrc: ["'self'", "'unsafe-inline'"],
           imgSrc: ["'self'", 'data:', 'blob:', 'https://*.tile.openstreetmap.org'],
           connectSrc: ["'self'"],
@@ -29,7 +29,12 @@ async function amorcer() {
       referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     }),
   );
-  app.disable('x-powered-by');   // NFR-C3-07 : pas d'empreinte de pile technique
+  // NFR-C3-07 : pas d'empreinte de pile technique. `disable` appartient a
+  // l'instance Express sous-jacente, pas a l'abstraction NestJS.
+  const instanceHttp = app.getHttpAdapter().getInstance() as {
+    disable: (nom: string) => void;
+  };
+  instanceHttp.disable('x-powered-by');
 
   // Validation stricte des entrees (anti-injection, SDD §4.2).
   app.useGlobalPipes(
@@ -53,12 +58,12 @@ async function amorcer() {
     .setTitle('API CNIPAC')
     .setDescription(
       "Carte Numerique Interactive des Producteurs d'Archives au Cameroun. " +
-      "Mise en oeuvre de l'article 26 de la Loi n 2024/001 du 24 juillet 2024 " +
-      '(fichier unique et accessible des producteurs d\'archives publiques).',
+        "Mise en oeuvre de l'article 26 de la Loi n 2024/001 du 24 juillet 2024 " +
+        "(fichier unique et accessible des producteurs d'archives publiques).",
     )
     .setVersion(process.env.CNIPAC_VERSION ?? '0.1.0')
     .addBearerAuth()
-    .addTag('sante', 'Sondes d\'exploitation')
+    .addTag('sante', "Sondes d'exploitation")
     .addTag('m1-ingestion', 'Synchronisation KoboToolbox')
     .addTag('m2-cartographie', 'Visualisation cartographique')
     .addTag('m3-tableaux-de-bord', 'Tableaux de bord et analyse')
@@ -71,7 +76,9 @@ async function amorcer() {
 
   const port = Number(process.env.PORT ?? 3000);
   await app.listen(port, '0.0.0.0');
-  journal.log(`API CNIPAC a l'ecoute sur le port ${port} (fuseau ${process.env.TZ ?? 'systeme'})`);
+  journal.log(
+    `API CNIPAC a l'ecoute sur le port ${String(port)} (fuseau ${process.env.TZ ?? 'systeme'})`,
+  );
 }
 
 void amorcer();

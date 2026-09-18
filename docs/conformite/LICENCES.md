@@ -18,11 +18,11 @@ k6 (AGPL-3.0, outil de test jamais distribué avec le système).
 
 ## Trois périmètres, trois régimes
 
-| Périmètre | Contenu | Régime | Contrôle |
-|---|---|---|---|
-| **A** | Dépendances de production liées au code livré | Allowlist stricte | **Bloquant en PR** |
-| **B** | Outils de développement et de test | Toute licence libre | Inventaire SBOM |
-| **C** | Services d'infrastructure, processus séparés | Toute licence libre | Inventaire SBOM |
+| Périmètre | Contenu                                       | Régime              | Contrôle           |
+| --------- | --------------------------------------------- | ------------------- | ------------------ |
+| **A**     | Dépendances de production liées au code livré | Allowlist stricte   | **Bloquant en PR** |
+| **B**     | Outils de développement et de test            | Toute licence libre | Inventaire SBOM    |
+| **C**     | Services d'infrastructure, processus séparés  | Toute licence libre | Inventaire SBOM    |
 
 ## Périmètre A — allowlist
 

@@ -26,4 +26,4 @@ services:
     ports: ['6379:6379']
 
   nginx:
-    profiles: [complet]     # en DEV, on attaque le front et l'API directement
+    profiles: [complet] # en DEV, on attaque le front et l'API directement

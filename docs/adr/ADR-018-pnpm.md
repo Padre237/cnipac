@@ -19,7 +19,7 @@
 
 ---
 
-*Le texte qui suit est conserve a titre de trace de l'analyse initiale.*
+_Le texte qui suit est conserve a titre de trace de l'analyse initiale._
 
 ## Contexte
 
@@ -73,11 +73,11 @@ justement empeche d'apparaitre. Une demi-journee.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| npm workspaces | Hoisting par defaut, donc dependances fantomes possibles. Installations plus lentes. Aucun avantage compensatoire. |
+| Alternative      | Raison du rejet                                                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| npm workspaces   | Hoisting par defaut, donc dependances fantomes possibles. Installations plus lentes. Aucun avantage compensatoire.                    |
 | Yarn Berry (PnP) | Rupture de compatibilite plus forte avec l'outillage (debogueurs, editeurs). Delta d'apprentissage superieur pour un gain equivalent. |
-| Bun | Ne satisfait pas le critere C-02 du SDD §4.1 (maturite). Ecosysteme NestJS insuffisamment eprouve pour un systeme d'Etat. |
+| Bun              | Ne satisfait pas le critere C-02 du SDD §4.1 (maturite). Ecosysteme NestJS insuffisamment eprouve pour un systeme d'Etat.             |
 
 ## Mise en oeuvre
 

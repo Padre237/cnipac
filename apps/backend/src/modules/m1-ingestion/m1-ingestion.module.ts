@@ -19,4 +19,4 @@ import { Module } from '@nestjs/common';
   providers: [],
   exports: [],
 })
-export class Um1UingestionModule {}
+export class M1IngestionModule {}

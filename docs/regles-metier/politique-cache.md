@@ -15,12 +15,12 @@ imperfection technique : c'est un défaut métier.
 
 ## Trois régimes, par nature de ressource
 
-| Ressource | Stratégie | Durée | Justification |
-|---|---|---|---|
-| Coque applicative (JS, CSS, polices) | `CacheFirst`, invalidée par le hachage de build | version | Change à chaque release |
-| Tuiles OpenStreetMap | `CacheFirst` | 30 jours | Le fond de carte évolue lentement |
-| **Données producteurs** | `NetworkFirst`, repli sur cache | **24 h maximum** | Données de référence : la fraîcheur prime |
-| Référentiels (réseaux, ministères, régions) | `StaleWhileRevalidate` | 7 jours | Quasi statiques |
+| Ressource                                   | Stratégie                                       | Durée            | Justification                             |
+| ------------------------------------------- | ----------------------------------------------- | ---------------- | ----------------------------------------- |
+| Coque applicative (JS, CSS, polices)        | `CacheFirst`, invalidée par le hachage de build | version          | Change à chaque release                   |
+| Tuiles OpenStreetMap                        | `CacheFirst`                                    | 30 jours         | Le fond de carte évolue lentement         |
+| **Données producteurs**                     | `NetworkFirst`, repli sur cache                 | **24 h maximum** | Données de référence : la fraîcheur prime |
+| Référentiels (réseaux, ministères, régions) | `StaleWhileRevalidate`                          | 7 jours          | Quasi statiques                           |
 
 ## La règle non négociable
 

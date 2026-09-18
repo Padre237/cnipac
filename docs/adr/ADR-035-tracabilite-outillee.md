@@ -37,13 +37,13 @@ test('[AC-P1-03][FR-M2-01] la carte affiche 200 producteurs en clusters @e2e', .
 
 **3. Controle bloquant** `scripts/gate-tracabilite.mjs`, a chaque PR :
 
-| Verification | Effet |
-|---|---|
-| Un test reference un identifiant **inconnu** du registre | **Echec** — faute de frappe ou exigence non declaree |
-| Une exigence du **palier courant** n'a aucun test | **Echec** apres le sprint de cloture du palier ; avertissement avant |
-| Une exigence d'un palier **futur** n'a aucun test | Information seulement |
-| Une regle de gestion **RG-Mx-yy** n'a aucun test unitaire | **Echec** — exigence renforcee d'ADR-028 |
-| Un article de loi couvert n'a aucune exigence rattachee | **Echec** — c'est le lien de conformite legale |
+| Verification                                              | Effet                                                                |
+| --------------------------------------------------------- | -------------------------------------------------------------------- |
+| Un test reference un identifiant **inconnu** du registre  | **Echec** — faute de frappe ou exigence non declaree                 |
+| Une exigence du **palier courant** n'a aucun test         | **Echec** apres le sprint de cloture du palier ; avertissement avant |
+| Une exigence d'un palier **futur** n'a aucun test         | Information seulement                                                |
+| Une regle de gestion **RG-Mx-yy** n'a aucun test unitaire | **Echec** — exigence renforcee d'ADR-028                             |
+| Un article de loi couvert n'a aucune exigence rattachee   | **Echec** — c'est le lien de conformite legale                       |
 
 **4. Matrice generee, jamais ecrite a la main.**
 `docs/traceability/MATRICE.md` est reconstruite a chaque fusion sur `main` et committee
@@ -70,11 +70,11 @@ ou presque aucune exigence n'est encore couverte.
 
 ## Alternatives ecartees
 
-| Alternative | Raison du rejet |
-|---|---|
-| Matrice Word maintenue a la main | Obsolete des le troisieme sprint. Sans valeur probatoire. |
+| Alternative                                     | Raison du rejet                                                                                                         |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Matrice Word maintenue a la main                | Obsolete des le troisieme sprint. Sans valeur probatoire.                                                               |
 | Outil de gestion des exigences (Jira, Polarion) | Ajoute un systeme externe a synchroniser. Contraire a la sobriete du SDD §4. Les identifiants vivent deja dans le code. |
-| Aucune tracabilite outillee | Le SRS chapitre 15 et le SDD chapitre 30 en font une piece contractuelle. |
+| Aucune tracabilite outillee                     | Le SRS chapitre 15 et le SDD chapitre 30 en font une piece contractuelle.                                               |
 
 ## Mise en oeuvre
 
