@@ -1,0 +1,11 @@
+# Fichiers generes — ne pas formater.
+docs/traceability/MATRICE.md
+docs/traceability/couverture.json
+infra/postgres/seed/21_geographie.sql
+infra/postgres/seed/23_nomenclature.sql
+package-lock.json
+reports/
+coverage/
+dist/
+docs/design/
+docs/reference/

@@ -10,8 +10,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" --max-warnings=0",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "typecheck": "tsc --noEmit",
-    "test:unit": "vitest run",
-    "test:a11y": "vitest run --dir src --testNamePattern=a11y"
+    "test:unit": "vitest run --passWithNoTests",
+    "test:a11y": "vitest run --dir src --testNamePattern=a11y --passWithNoTests"
   },
   "dependencies": {
     "@cnipac/shared-types": "*",

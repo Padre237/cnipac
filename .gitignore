@@ -42,6 +42,7 @@ infra/postgres/data/
 dumps/
 
 # Artefacts generes
+docs/traceability/couverture.json
 sbom/
 reports/
 *.log

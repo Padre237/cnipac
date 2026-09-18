@@ -28,17 +28,28 @@ export default tseslint.config(
       'no-restricted-syntax': [
         'error',
         {
-          selector: "Literal[value=/^CMR-[A-Z]{3}-/]",
-          message: "Le format du code producteur est defini par MOTIF_CODE_PRODUCTEUR dans @cnipac/shared-types (RG-M1-02).",
+          selector: 'Literal[value=/^CMR-[A-Z]{3}-/]',
+          message:
+            'Le format du code producteur est defini par MOTIF_CODE_PRODUCTEUR dans @cnipac/shared-types (RG-M1-02).',
         },
         {
-          selector: "TSAsExpression > TSAnyKeyword",
+          selector: 'TSAsExpression > TSAnyKeyword',
           message: "Les conversions vers 'any' masquent des defauts de typage.",
         },
       ],
 
       // Une valeur de statut ecrite en clair contourne l'automate RG-M1-05.
-      'no-restricted-imports': ['error', { patterns: [{ group: ['../../*'], message: "Utiliser l'alias @/ plutot qu'une remontee de plus de deux niveaux." }] }],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../../*'],
+              message: "Utiliser l'alias @/ plutot qu'une remontee de plus de deux niveaux.",
+            },
+          ],
+        },
+      ],
 
       'no-console': ['error', { allow: ['warn', 'error'] }],
       eqeqeq: ['error', 'always'],
