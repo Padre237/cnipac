@@ -47,7 +47,7 @@ jobs:
       migrations_existent: ${{ steps.migrations.outputs.existent }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filtre
         with:
           filters: |
