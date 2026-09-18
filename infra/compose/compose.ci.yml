@@ -61,6 +61,6 @@ services:
     build:
       context: ..
       dockerfile: infra/docker/Dockerfile.frontend
-    ports: ['8080:80']
+    ports: ['8080:8080']
     depends_on:
       backend: { condition: service_healthy }
