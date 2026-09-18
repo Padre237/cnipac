@@ -75,7 +75,7 @@ jobs:
       - name: Installer Trivy
         run: |
           set -euo pipefail
-          VERSION=0.58.2
+          VERSION=0.74.0
           mkdir -p "$RUNNER_TEMP/trivy"
           curl -fsSL "https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz" \
             -o "$RUNNER_TEMP/trivy.tar.gz"
