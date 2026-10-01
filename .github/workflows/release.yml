@@ -169,7 +169,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - uses: ./.github/actions/setup-node
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with: { pattern: sbom-*, path: sbom/, merge-multiple: true }
 
       - name: Changelog groupe par module fonctionnel (ADR-036)
